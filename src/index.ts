@@ -64,6 +64,7 @@ import {
 import { startSchedulerLoop } from './task-scheduler.js';
 import { Channel, NewMessage, RegisteredGroup } from './types.js';
 import { logger } from './logger.js';
+import { startAnfModules } from './anf/start.js';
 
 // Re-export for backwards compatibility during refactor
 export { escapeXml, formatMessages } from './router.js';
@@ -688,11 +689,11 @@ async function main(): Promise<void> {
     await channel.connect();
   }
   if (channels.length === 0) {
-    logger.fatal('No channels connected');
-    process.exit(1);
+    logger.warn('No channels connected — running in ANF-only mode');
   }
 
-  // Start subsystems (independently of connection handler)
+  // Start NanoClaw subsystems (only if channels are connected)
+  if (channels.length > 0) {
   startSchedulerLoop({
     registeredGroups: () => registeredGroups,
     getSessions: () => sessions,
@@ -744,12 +745,22 @@ async function main(): Promise<void> {
       }
     },
   });
-  queue.setProcessMessagesFn(processGroupMessages);
-  recoverPendingMessages();
-  startMessageLoop().catch((err) => {
-    logger.fatal({ err }, 'Message loop crashed unexpectedly');
-    process.exit(1);
+  } // end if channels.length > 0
+  // Start ANF agent modules (Supabase Realtime, task executor, flow engine, chat, scheduler)
+  await startAnfModules().catch((err) => {
+    logger.error({ err }, 'ANF modules failed to start — continuing without agents');
   });
+
+  if (channels.length > 0) {
+    queue.setProcessMessagesFn(processGroupMessages);
+    recoverPendingMessages();
+    startMessageLoop().catch((err) => {
+      logger.fatal({ err }, 'Message loop crashed unexpectedly');
+      process.exit(1);
+    });
+  } else {
+    logger.info('No channels — ANF modules running standalone');
+  }
 }
 
 // Guard: only run when executed directly, not when imported by tests
