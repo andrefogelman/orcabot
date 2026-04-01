@@ -131,6 +131,35 @@ export function useUploadPdf() {
   });
 }
 
+export function useDeleteFile() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ fileId, storagePath, projectId }: { fileId: string; storagePath: string; projectId: string }) => {
+      // Delete related pdf_pages and pdf_jobs first (cascade should handle, but be explicit)
+      await supabase.from("ob_pdf_pages").delete().eq("file_id", fileId);
+      await supabase.from("ob_pdf_jobs").delete().eq("file_id", fileId);
+
+      // Delete the file record
+      const { error: fileError } = await supabase
+        .from("ob_project_files")
+        .delete()
+        .eq("id", fileId);
+      if (fileError) throw fileError;
+
+      // Delete from storage
+      await supabase.storage.from("project-pdfs").remove([storagePath]);
+
+      return { projectId };
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["project-files", data.projectId] });
+      queryClient.invalidateQueries({ queryKey: ["pdf-jobs", data.projectId] });
+      queryClient.invalidateQueries({ queryKey: ["review-items", data.projectId] });
+    },
+  });
+}
+
 export function useResolveReview() {
   const queryClient = useQueryClient();
 

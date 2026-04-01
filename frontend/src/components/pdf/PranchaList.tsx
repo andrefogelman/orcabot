@@ -7,7 +7,10 @@ import {
   CheckCircle2,
   AlertCircle,
   Clock,
+  Trash2,
 } from "lucide-react";
+import { useDeleteFile } from "@/hooks/usePdfJobs";
+import { toast } from "sonner";
 
 interface PranchaListProps {
   files: ProjectFile[];
@@ -31,6 +34,7 @@ const DISCIPLINA_LABELS: Record<string, string> = {
 };
 
 export function PranchaList({ files, activeFileId, onSelectFile }: PranchaListProps) {
+  const deleteFile = useDeleteFile();
   const grouped = files.reduce<Record<string, ProjectFile[]>>((acc, file) => {
     const key = file.disciplina ?? "sem-disciplina";
     if (!acc[key]) acc[key] = [];
@@ -57,7 +61,7 @@ export function PranchaList({ files, activeFileId, onSelectFile }: PranchaListPr
                   key={file.id}
                   onClick={() => onSelectFile(file.id)}
                   className={cn(
-                    "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors",
+                    "group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors",
                     isActive
                       ? "bg-accent text-accent-foreground"
                       : "hover:bg-accent/50"
@@ -74,6 +78,24 @@ export function PranchaList({ files, activeFileId, onSelectFile }: PranchaListPr
                       file.status === "uploaded" && "text-muted-foreground"
                     )}
                   />
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (confirm(`Excluir ${file.filename}?`)) {
+                        deleteFile.mutate(
+                          { fileId: file.id, storagePath: file.storage_path, projectId: file.project_id },
+                          {
+                            onSuccess: () => toast.success(`${file.filename} excluído`),
+                            onError: () => toast.error(`Erro ao excluir ${file.filename}`),
+                          }
+                        );
+                      }
+                    }}
+                    className="opacity-0 group-hover:opacity-100 hover:text-red-600 transition-opacity"
+                    title="Excluir arquivo"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
                 </button>
               );
             })}
