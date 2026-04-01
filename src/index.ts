@@ -139,7 +139,10 @@ async function getOrRecoverCursor(chatJid: string): Promise<string> {
 
 async function saveState(): Promise<void> {
   await setRouterState('last_timestamp', lastTimestamp);
-  await setRouterState('last_agent_timestamp', JSON.stringify(lastAgentTimestamp));
+  await setRouterState(
+    'last_agent_timestamp',
+    JSON.stringify(lastAgentTimestamp),
+  );
 }
 
 function registerGroup(jid: string, group: RegisteredGroup): void {
@@ -196,7 +199,9 @@ function registerGroup(jid: string, group: RegisteredGroup): void {
  * Get available groups list for the agent.
  * Returns groups ordered by most recent activity.
  */
-export async function getAvailableGroups(): Promise<import('./container-runner.js').AvailableGroup[]> {
+export async function getAvailableGroups(): Promise<
+  import('./container-runner.js').AvailableGroup[]
+> {
   const chats = await getAllChats();
   const registeredJids = new Set(Object.keys(registeredGroups));
 
@@ -579,6 +584,11 @@ async function main(): Promise<void> {
   logger.info('Database initialized');
   await loadState();
 
+  // Start LLM proxy (Claude Max session, no API key fallback)
+  const { startLlmProxy } = await import('./llm-proxy.js');
+  startLlmProxy();
+  logger.info('LLM proxy started');
+
   // Ensure OneCLI agents exist for all registered groups.
   // Recovers from missed creates (e.g. OneCLI was down at registration time).
   for (const [jid, group] of Object.entries(registeredGroups)) {
@@ -743,21 +753,25 @@ async function main(): Promise<void> {
       writeGroupsSnapshot: (gf, im, ag, rj) =>
         writeGroupsSnapshot(gf, im, ag, rj),
       onTasksChanged: () => {
-        getAllTasks().then((tasks) => {
-          const taskRows = tasks.map((t) => ({
-            id: t.id,
-            groupFolder: t.group_folder,
-            prompt: t.prompt,
-            script: t.script || undefined,
-            schedule_type: t.schedule_type,
-            schedule_value: t.schedule_value,
-            status: t.status,
-            next_run: t.next_run,
-          }));
-          for (const group of Object.values(registeredGroups)) {
-            writeTasksSnapshot(group.folder, group.isMain === true, taskRows);
-          }
-        }).catch((err) => logger.error({ err }, 'Failed to refresh task snapshots'));
+        getAllTasks()
+          .then((tasks) => {
+            const taskRows = tasks.map((t) => ({
+              id: t.id,
+              groupFolder: t.group_folder,
+              prompt: t.prompt,
+              script: t.script || undefined,
+              schedule_type: t.schedule_type,
+              schedule_value: t.schedule_value,
+              status: t.status,
+              next_run: t.next_run,
+            }));
+            for (const group of Object.values(registeredGroups)) {
+              writeTasksSnapshot(group.folder, group.isMain === true, taskRows);
+            }
+          })
+          .catch((err) =>
+            logger.error({ err }, 'Failed to refresh task snapshots'),
+          );
       },
     });
   } // end if channels.length > 0
