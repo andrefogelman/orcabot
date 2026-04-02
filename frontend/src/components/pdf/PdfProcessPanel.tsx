@@ -65,6 +65,7 @@ function RunCard({
   run,
   projectId,
   fileId,
+  defaultExpanded,
 }: {
   run: {
     id: string;
