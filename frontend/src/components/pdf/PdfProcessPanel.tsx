@@ -124,6 +124,15 @@ function RunCard({
 
     setSaving(true);
     try {
+      // Get the first pdf_page id for this file (origem_prancha is FK to ob_pdf_pages)
+      const { data: pageData } = await supabase
+        .from("ob_pdf_pages")
+        .select("id")
+        .eq("file_id", fileId)
+        .limit(1)
+        .single();
+      const pageId = pageData?.id || null;
+
       const rows = toSave.map((item, idx) => ({
         project_id: projectId,
         disciplina: DISC_MAP[(item.disciplina || "").toLowerCase()] || "geral",
@@ -132,7 +141,7 @@ function RunCard({
         unidade: item.unidade,
         quantidade: item.quantidade,
         calculo_memorial: item.memorial_calculo || "",
-        origem_prancha: fileId,
+        origem_prancha: pageId,
         origem_ambiente: item.ambiente || "",
         confidence: item.confidence ?? 0.7,
         needs_review: (item.confidence ?? 0.7) < 0.7,
