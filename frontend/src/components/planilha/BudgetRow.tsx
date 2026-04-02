@@ -38,7 +38,7 @@ export function BudgetRow({
       onClick={() => setActiveItemId(item.id)}
       onContextMenu={(e) => onContextMenu(e, item)}
     >
-      {/* Item code */}
+      {/* Item code (editable) */}
       <td className="w-20 border-r px-2 py-1">
         <div className="flex items-center gap-1">
           {hasChildren && (
@@ -50,18 +50,22 @@ export function BudgetRow({
               )}
             </button>
           )}
-          <span className={cn("text-sm", isLevel1 && "font-bold")}>{item.eap_code}</span>
+          <BudgetCell
+            value={item.eap_code}
+            type="text"
+            onChange={(v) => onUpdate("eap_code", v)}
+            className={cn("text-sm", isLevel1 && "font-bold")}
+          />
         </div>
       </td>
 
-      {/* Descricao */}
+      {/* Descricao (always editable, including etapas) */}
       <td className="min-w-[200px] border-r">
         <BudgetCell
           value={item.descricao}
           type="text"
           onChange={(v) => onUpdate("descricao", v)}
           className={cn(isLevel1 && "font-bold")}
-          readOnly={isLevel1}
         />
       </td>
 
