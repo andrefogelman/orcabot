@@ -81,7 +81,7 @@ function RunCard({
   fileId: string;
   defaultExpanded?: boolean;
 }) {
-  const [expanded, setExpanded] = useState(defaultExpanded ?? false);
+  const [expanded, setExpanded] = useState(true);
   const [items, setItems] = useState<ExtractedItem[]>(() => {
     const raw = Array.isArray(run.items) ? run.items : [];
     return raw.map((i: any) => ({
