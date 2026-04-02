@@ -82,9 +82,19 @@ function RunCard({
   defaultExpanded?: boolean;
 }) {
   const [expanded, setExpanded] = useState(defaultExpanded ?? false);
-  const [items, setItems] = useState<ExtractedItem[]>(() =>
-    (run.items || []).map((i: any) => ({ ...i, selected: true }))
-  );
+  const [items, setItems] = useState<ExtractedItem[]>(() => {
+    const raw = Array.isArray(run.items) ? run.items : [];
+    return raw.map((i: any) => ({
+      descricao: i?.descricao || "Item sem descrição",
+      quantidade: typeof i?.quantidade === "number" ? i.quantidade : 0,
+      unidade: i?.unidade || "un",
+      memorial_calculo: i?.memorial_calculo || "",
+      ambiente: i?.ambiente || "",
+      disciplina: i?.disciplina || "",
+      confidence: typeof i?.confidence === "number" ? i.confidence : 0.5,
+      selected: true,
+    }));
+  });
   const [saving, setSaving] = useState(false);
   const queryClient = useQueryClient();
 
@@ -148,7 +158,7 @@ function RunCard({
             {items.length} itens
           </Badge>
         )}
-        {run.needs_review?.length > 0 && (
+        {Array.isArray(run.needs_review) && run.needs_review.length > 0 && (
           <AlertTriangle className="h-3 w-3 text-orange-500" />
         )}
         <span className="flex-1 text-xs truncate text-muted-foreground italic">
@@ -181,7 +191,7 @@ function RunCard({
           )}
 
           {/* Needs review */}
-          {run.needs_review?.length > 0 && (
+          {Array.isArray(run.needs_review) && run.needs_review.length > 0 && (
             <div className="px-3 py-2 border-t bg-orange-50">
               <p className="text-xs font-medium text-orange-700 mb-1">
                 Itens para revisão ({run.needs_review.length}):
@@ -249,7 +259,7 @@ function RunCard({
                           )}
                         </td>
                         <td className="p-1 text-right font-mono">
-                          {item.quantidade?.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                          {(item.quantidade ?? 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                         </td>
                         <td className="p-1">{item.unidade}</td>
                       </tr>
