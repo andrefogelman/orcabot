@@ -5,7 +5,7 @@ import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
 import { PdfUploader } from "@/components/pdf/PdfUploader";
 import { PranchaList } from "@/components/pdf/PranchaList";
 import { PdfViewer } from "@/components/pdf/PdfViewer";
-import { ReviewPanel } from "@/components/pdf/ReviewPanel";
+import { PdfProcessPanel } from "@/components/pdf/PdfProcessPanel";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 export function PdfsTab() {
@@ -78,7 +78,7 @@ export function PdfsTab() {
           <ResizableHandle />
 
           <ResizablePanel defaultSize={25} minSize={20}>
-            <ReviewPanel projectId={project.id} />
+            <PdfProcessPanel file={activeFile ?? null} projectId={project.id} />
           </ResizablePanel>
         </ResizablePanelGroup>
       )}
