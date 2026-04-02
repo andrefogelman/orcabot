@@ -113,11 +113,20 @@ function RunCard({
   async function saveToSpreadsheet() {
     const toSave = items.filter((i) => i.selected);
     if (toSave.length === 0) { toast.error("Selecione ao menos um item"); return; }
+
+    const DISC_MAP: Record<string, string> = {
+      arquitetonico: "arq", arq: "arq",
+      estrutural: "est", est: "est",
+      hidraulico: "hid", hid: "hid",
+      eletrico: "ele", ele: "ele",
+      geral: "geral",
+    };
+
     setSaving(true);
     try {
       const rows = toSave.map((item, idx) => ({
         project_id: projectId,
-        disciplina: item.disciplina || "arquitetonico",
+        disciplina: DISC_MAP[(item.disciplina || "").toLowerCase()] || "geral",
         item_code: String(idx + 1).padStart(2, "0"),
         descricao: item.descricao,
         unidade: item.unidade,
