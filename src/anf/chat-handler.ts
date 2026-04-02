@@ -46,14 +46,16 @@ export async function processNewMessages(): Promise<void> {
       continue;
     }
 
-    console.log(`[chat] Admin message → ${agentSlug}: ${msg.content.slice(0, 80)}`);
+    console.log(
+      `[chat] Admin message → ${agentSlug}: ${msg.content.slice(0, 80)}`,
+    );
 
     try {
       const result = await runAgent(
         agentSlug,
         `Mensagem do admin: "${msg.content}"\n\nResponda de forma direta e objetiva.`,
         tools.definitions,
-        tools.handlers
+        tools.handlers,
       );
 
       // Save agent response
@@ -73,15 +75,29 @@ export async function processNewMessages(): Promise<void> {
       }
 
       // Send response via WhatsApp
-      const emoji = agentSlug === 'financeiro' ? '💰' :
-                    agentSlug === 'suprimentos' ? '📦' :
-                    agentSlug === 'engenharia' ? '🏗️' : '🎛️';
-      await notifyAdmin(`${emoji} ${agentSlug.charAt(0).toUpperCase() + agentSlug.slice(1)}:\n${result.response.slice(0, 1500)}`);
+      const emoji =
+        agentSlug === 'financeiro'
+          ? '💰'
+          : agentSlug === 'suprimentos'
+            ? '📦'
+            : agentSlug === 'engenharia'
+              ? '🏗️'
+              : '🎛️';
+      await notifyAdmin(
+        `${emoji} ${agentSlug.charAt(0).toUpperCase() + agentSlug.slice(1)}:\n${result.response.slice(0, 1500)}`,
+      );
 
-      console.log(`[chat] ${agentSlug} responded: ${result.response.slice(0, 80)}`);
+      console.log(
+        `[chat] ${agentSlug} responded: ${result.response.slice(0, 80)}`,
+      );
     } catch (err: any) {
-      console.error(`[chat] Error processing message for ${agentSlug}:`, err.message);
-      await notifyAdmin(`⚠️ Erro ao processar mensagem para ${agentSlug}: ${err.message}`);
+      console.error(
+        `[chat] Error processing message for ${agentSlug}:`,
+        err.message,
+      );
+      await notifyAdmin(
+        `⚠️ Erro ao processar mensagem para ${agentSlug}: ${err.message}`,
+      );
     }
   }
 }

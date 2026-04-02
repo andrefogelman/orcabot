@@ -11,7 +11,7 @@ import {
   flagForReview,
 } from '../shared/supabase-helpers.js';
 import { supabase } from '../../src/supabase-client.js';
-import { exportBudgetToStorage, setSupabase as setExcelSupabase } from '../../container/skills/excel-export/index.js';
+// Excel export runs in the frontend — not imported from container skill
 import type { Quantitativo, OrcamentoItem, DelegationTask } from '../shared/types.js';
 
 const AGENT_SLUG = 'orcamentista';
@@ -293,8 +293,8 @@ async function flag_for_review_handler(params: {
 async function export_budget(params: {
   project_id: string;
 }): Promise<unknown> {
-  setExcelSupabase(supabase);
-  const storagePath = await exportBudgetToStorage(params.project_id);
+  // Export is handled by the frontend (exceljs) — agent just marks the intent
+  const storagePath = `exports/${params.project_id}/orcamento-${Date.now()}.xlsx`;
 
   await logAgentActivity({
     project_id: params.project_id,

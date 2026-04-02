@@ -14,9 +14,10 @@ export class OneCLI {
     return false;
   }
 
-  async ensureAgent(
-    _opts: { name: string; identifier?: string },
-  ): Promise<{ created: boolean }> {
+  async ensureAgent(_opts: {
+    name: string;
+    identifier?: string;
+  }): Promise<{ created: boolean }> {
     return { created: false };
   }
 }

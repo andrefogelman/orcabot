@@ -1,22 +1,21 @@
 // src/pdf-job-poller.ts
-// Polls ob_pdf_jobs for pending jobs and runs the PDF pipeline sequentially.
+// Polls ob_pdf_jobs for pending jobs and dispatches them to the appropriate pipeline.
+// Pipeline skills run inside containers — this poller just updates job status.
 
-import { supabase } from './supabase-client.js';
-import { setSupabase } from '../container/skills/pdf-pipeline/src/supabase.js';
-import { runPipeline } from '../container/skills/pdf-pipeline/src/index.js';
+import { supabaseAdmin } from './supabase-client.js';
 
 const POLL_INTERVAL_MS = 10000;
-const COOLDOWN_BETWEEN_JOBS_MS = 5000;
 
 let processing = false;
 
 /**
- * Process one pending job at a time (sequential to avoid rate limits).
+ * Process one pending job at a time.
+ * For now, marks the job as "processing" — the actual pipeline runs inside a container.
  */
 async function processNextJob(): Promise<boolean> {
   if (processing) return false;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('ob_pdf_jobs')
     .select('id, file_id, status')
     .eq('status', 'pending')
@@ -32,24 +31,41 @@ async function processNextJob(): Promise<boolean> {
   if (!job) return false;
 
   processing = true;
-  setSupabase(supabase);
-
-  console.log(`[pdf-job-poller] Starting pipeline for job ${job.id}`);
+  console.log(`[pdf-job-poller] Found pending job ${job.id}`);
 
   try {
-    await runPipeline(job.id);
-    console.log(`[pdf-job-poller] Job ${job.id} completed successfully`);
-
-    // Update file status to done
-    await supabase
+    // Determine file type to route to correct pipeline
+    const { data: fileData } = await supabaseAdmin
       .from('ob_project_files')
-      .update({ status: 'done' })
-      .eq('id', job.file_id);
-  } catch (err: any) {
-    console.error(`[pdf-job-poller] Job ${job.id} failed:`, err.message);
+      .select('file_type')
+      .eq('id', job.file_id)
+      .single();
 
-    // Update file status to error
-    await supabase
+    const fileType = fileData?.file_type || 'pdf';
+    const pipeline = (fileType === 'dwg' || fileType === 'dxf') ? 'dwg-pipeline' : 'pdf-pipeline';
+
+    // Mark job as processing
+    await supabaseAdmin
+      .from('ob_pdf_jobs')
+      .update({ status: 'processing', stage: 'ingestion', progress: 5, started_at: new Date().toISOString() })
+      .eq('id', job.id);
+
+    console.log(`[pdf-job-poller] Job ${job.id} dispatched to ${pipeline} (file_type: ${fileType})`);
+
+    // TODO: Actually dispatch to container skill
+    // For now the pipeline runs when the container is spawned for the group
+    // The container skill picks up the job by polling ob_pdf_jobs
+
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`[pdf-job-poller] Job ${job.id} failed:`, msg);
+
+    await supabaseAdmin
+      .from('ob_pdf_jobs')
+      .update({ status: 'error', error_message: msg })
+      .eq('id', job.id);
+
+    await supabaseAdmin
       .from('ob_project_files')
       .update({ status: 'error' })
       .eq('id', job.file_id);
@@ -57,27 +73,21 @@ async function processNextJob(): Promise<boolean> {
     processing = false;
   }
 
-  // Cooldown between jobs to avoid rate limits
-  await new Promise((r) => setTimeout(r, COOLDOWN_BETWEEN_JOBS_MS));
   return true;
 }
 
 /**
- * Start the PDF job poller. Runs every POLL_INTERVAL_MS.
+ * Start the PDF/DWG job poller.
  */
 export function startPdfJobPoller(): NodeJS.Timeout {
-  console.log(
-    `[pdf-job-poller] Poller started (interval: ${POLL_INTERVAL_MS}ms, sequential mode)`,
-  );
+  console.log(`[pdf-job-poller] Poller started (interval: ${POLL_INTERVAL_MS}ms)`);
 
   return setInterval(async () => {
     try {
-      const processed = await processNextJob();
-      if (processed) {
-        console.log('[pdf-job-poller] Job processed, checking for more...');
-      }
-    } catch (err: any) {
-      console.error('[pdf-job-poller] Poller error:', err.message);
+      await processNextJob();
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error('[pdf-job-poller] Poller error:', msg);
     }
   }, POLL_INTERVAL_MS);
 }

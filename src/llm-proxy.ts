@@ -45,8 +45,7 @@ function forwardToAnthropic(
   if (isMax) {
     // Claude Max mode: use session token
     headers['cookie'] =
-      proxyConfig.maxCookies ||
-      `sessionKey=${proxyConfig.maxSessionToken}`;
+      proxyConfig.maxCookies || `sessionKey=${proxyConfig.maxSessionToken}`;
   } else {
     // API key mode: inject the real key
     headers['x-api-key'] = proxyConfig.apiKey;
@@ -67,9 +66,7 @@ function forwardToAnthropic(
 
   upstream.on('error', (err) => {
     res.writeHead(502, { 'content-type': 'application/json' });
-    res.end(
-      JSON.stringify({ error: 'upstream_error', message: err.message }),
-    );
+    res.end(JSON.stringify({ error: 'upstream_error', message: err.message }));
   });
 
   upstream.write(body);

@@ -10,8 +10,21 @@ const EVENT_ROUTES: Record<string, Record<string, string>> = {
 };
 
 const AGENT_KEYWORDS: Record<string, string[]> = {
-  financeiro: ['financeiro', 'financeira', 'finanças', 'caixa', 'boleto', 'pagamento'],
-  suprimentos: ['suprimentos', 'compras', 'requisição', 'cotação', 'fornecedor'],
+  financeiro: [
+    'financeiro',
+    'financeira',
+    'finanças',
+    'caixa',
+    'boleto',
+    'pagamento',
+  ],
+  suprimentos: [
+    'suprimentos',
+    'compras',
+    'requisição',
+    'cotação',
+    'fornecedor',
+  ],
   engenharia: ['engenharia', 'obra', 'medição', 'cronograma', 'orçamento'],
   orquestrador: ['orquestrador', 'geral', 'todos'],
 };

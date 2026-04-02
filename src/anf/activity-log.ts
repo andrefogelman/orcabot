@@ -17,6 +17,10 @@ export interface ActivityLogEntry {
 export async function logActivity(entry: ActivityLogEntry): Promise<void> {
   const { error } = await supabase.from('nano_activity_log').insert(entry);
   if (error) {
-    console.error('[activity-log] Failed to log:', error.message, entry.description);
+    console.error(
+      '[activity-log] Failed to log:',
+      error.message,
+      entry.description,
+    );
   }
 }

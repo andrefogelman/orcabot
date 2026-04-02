@@ -24,10 +24,9 @@ async function checkSupabase(): Promise<boolean> {
 
 async function checkLlmProxy(): Promise<boolean> {
   try {
-    const res = await fetch(
-      `http://localhost:${config.llmProxyPort}/health`,
-      { signal: AbortSignal.timeout(3000) },
-    );
+    const res = await fetch(`http://localhost:${config.llmProxyPort}/health`, {
+      signal: AbortSignal.timeout(3000),
+    });
     if (!res.ok) return false;
     const body = (await res.json()) as { status?: string };
     return body.status === 'ok';
@@ -38,10 +37,9 @@ async function checkLlmProxy(): Promise<boolean> {
 
 async function checkApiChannel(): Promise<boolean> {
   try {
-    const res = await fetch(
-      `http://localhost:${config.apiPort}/api/health`,
-      { signal: AbortSignal.timeout(3000) },
-    );
+    const res = await fetch(`http://localhost:${config.apiPort}/api/health`, {
+      signal: AbortSignal.timeout(3000),
+    });
     if (!res.ok) return false;
     const body = (await res.json()) as { status?: string };
     return body.status === 'ok';

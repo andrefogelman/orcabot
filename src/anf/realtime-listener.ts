@@ -41,12 +41,25 @@ export function startRealtimeListener(): void {
           return;
         }
 
-        const taskDescription = buildTaskDescription(sub.table, sub.event, payload.new);
-        console.log(`[realtime] ${sub.table}.${sub.event} → ${agentSlug}: ${taskDescription.slice(0, 80)}`);
+        const taskDescription = buildTaskDescription(
+          sub.table,
+          sub.event,
+          payload.new,
+        );
+        console.log(
+          `[realtime] ${sub.table}.${sub.event} → ${agentSlug}: ${taskDescription.slice(0, 80)}`,
+        );
 
         try {
-          const result = await runAgent(agentSlug, taskDescription, tools.definitions, tools.handlers);
-          console.log(`[realtime] ${agentSlug} done: ${result.response.slice(0, 100)}`);
+          const result = await runAgent(
+            agentSlug,
+            taskDescription,
+            tools.definitions,
+            tools.handlers,
+          );
+          console.log(
+            `[realtime] ${agentSlug} done: ${result.response.slice(0, 100)}`,
+          );
         } catch (err: any) {
           console.error(`[realtime] ${agentSlug} error:`, err.message);
           const { data: agent } = await supabase
@@ -74,7 +87,7 @@ export function startRealtimeListener(): void {
             console.error(`[realtime] Flow "${flow.name}" error:`, err.message);
           }
         }
-      }
+      },
     );
   }
 
@@ -82,13 +95,21 @@ export function startRealtimeListener(): void {
     console.log(`[realtime] Subscription status: ${status}`);
   });
 
-  console.log('[realtime] Listening on:', SUBSCRIPTIONS.map((s) => `${s.table}.${s.event}`).join(', '));
+  console.log(
+    '[realtime] Listening on:',
+    SUBSCRIPTIONS.map((s) => `${s.table}.${s.event}`).join(', '),
+  );
 }
 
-function buildTaskDescription(table: string, event: string, record: any): string {
+function buildTaskDescription(
+  table: string,
+  event: string,
+  record: any,
+): string {
   switch (table) {
     case 'requisicao':
-      if (event === 'INSERT') return `Nova requisição de compra recebida (ID: ${record.id}). Analise, identifique fornecedores, inicie cotação. Descrição: ${record.descricao || 'N/A'}`;
+      if (event === 'INSERT')
+        return `Nova requisição de compra recebida (ID: ${record.id}). Analise, identifique fornecedores, inicie cotação. Descrição: ${record.descricao || 'N/A'}`;
       return `Requisição ${record.id} atualizada (status: ${record.status}). Verifique se ação necessária.`;
     case 'proposta_analise':
       return `Nova proposta de fornecedor (ID: ${record.id}). Analise preço, prazo e condições.`;
@@ -97,10 +118,12 @@ function buildTaskDescription(table: string, event: string, record: any): string
     case 'email_document_scan':
       return `Novo email de compras (ID: ${record.id}). Verifique se é resposta de fornecedor.`;
     case 'lanca':
-      if (event === 'INSERT') return `Novo lançamento financeiro (ID: ${record.id}). Classifique, verifique vencimento. Descrição: ${record.descricao || 'N/A'}, Valor: R$${record.valor || '?'}`;
+      if (event === 'INSERT')
+        return `Novo lançamento financeiro (ID: ${record.id}). Classifique, verifique vencimento. Descrição: ${record.descricao || 'N/A'}, Valor: R$${record.valor || '?'}`;
       return `Lançamento ${record.id} atualizado (status: ${record.status}). Verifique impacto.`;
     case 'medicao':
-      if (event === 'INSERT') return `Nova medição registrada (ID: ${record.id}). Avalie e aprove/rejeite.`;
+      if (event === 'INSERT')
+        return `Nova medição registrada (ID: ${record.id}). Avalie e aprove/rejeite.`;
       return `Medição ${record.id} atualizada (status: ${record.status}). Verifique ação necessária.`;
     case 'obracada':
       return `Obra ${record.id} atualizada (status: ${record.status}). Verifique cronograma e orçamento.`;

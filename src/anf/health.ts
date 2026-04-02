@@ -14,7 +14,7 @@ export function startHealthServer(): void {
           status: 'ok',
           uptime_seconds: Math.floor((Date.now() - startedAt.getTime()) / 1000),
           started_at: startedAt.toISOString(),
-        })
+        }),
       );
       return;
     }

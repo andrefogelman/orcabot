@@ -10,13 +10,21 @@ export interface AgentContext {
   config: Record<string, unknown>;
   memories: Array<{ title: string; content: string; category: string }>;
   documents: Array<{ title: string; content: string; doc_type: string }>;
-  recent_activity: Array<{ action: string; description: string; created_at: string }>;
-  pending_messages: Array<{ role: string; content: string; created_at: string }>;
+  recent_activity: Array<{
+    action: string;
+    description: string;
+    created_at: string;
+  }>;
+  pending_messages: Array<{
+    role: string;
+    content: string;
+    created_at: string;
+  }>;
 }
 
 export async function buildAgentContext(
   slug: string,
-  taskDescription: string
+  taskDescription: string,
 ): Promise<AgentContext> {
   const { data: agent, error: agentErr } = await supabase
     .from('nano_agents')
@@ -25,7 +33,8 @@ export async function buildAgentContext(
     .eq('status', 'active')
     .single();
 
-  if (agentErr || !agent) throw new Error(`Agent ${slug} not found or inactive`);
+  if (agentErr || !agent)
+    throw new Error(`Agent ${slug} not found or inactive`);
 
   const memories = await searchMemories(agent.id, taskDescription);
   const documents = await searchDocuments(agent.id, taskDescription);

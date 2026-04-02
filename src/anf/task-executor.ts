@@ -21,13 +21,17 @@ export async function processPendingTasks(): Promise<void> {
   for (const task of tasks) {
     const agent = (task as any).nano_agents;
     if (!agent || agent.status !== 'active') {
-      console.log(`[task-executor] Skipping task ${task.id}: agent inactive or not found`);
+      console.log(
+        `[task-executor] Skipping task ${task.id}: agent inactive or not found`,
+      );
       continue;
     }
 
     const tools = getAgentTools(agent.slug);
     if (!tools) {
-      console.log(`[task-executor] Skipping task ${task.id}: no tools for ${agent.slug}`);
+      console.log(
+        `[task-executor] Skipping task ${task.id}: no tools for ${agent.slug}`,
+      );
       continue;
     }
 
@@ -54,9 +58,16 @@ export async function processPendingTasks(): Promise<void> {
           : '',
         '',
         'Execute a tarefa e reporte o resultado de forma clara e objetiva.',
-      ].filter(Boolean).join('\n');
+      ]
+        .filter(Boolean)
+        .join('\n');
 
-      const result = await runAgent(agent.slug, taskPrompt, tools.definitions, tools.handlers);
+      const result = await runAgent(
+        agent.slug,
+        taskPrompt,
+        tools.definitions,
+        tools.handlers,
+      );
 
       // Mark as completed
       await supabase
@@ -79,8 +90,9 @@ export async function processPendingTasks(): Promise<void> {
         output: { response: result.response.slice(0, 500) },
       });
 
-      console.log(`[task-executor] Task "${task.title}" completed by ${agent.slug}`);
-
+      console.log(
+        `[task-executor] Task "${task.title}" completed by ${agent.slug}`,
+      );
     } catch (err: any) {
       const newRetry = (task.retry_count || 0) + 1;
       const maxRetries = task.max_retries || 3;
@@ -103,10 +115,15 @@ export async function processPendingTasks(): Promise<void> {
       });
 
       if (newStatus === 'failed') {
-        await notifyAdmin(`❌ Tarefa "${task.title}" falhou após ${maxRetries} tentativas: ${err.message}`);
+        await notifyAdmin(
+          `❌ Tarefa "${task.title}" falhou após ${maxRetries} tentativas: ${err.message}`,
+        );
       }
 
-      console.error(`[task-executor] Task "${task.title}" failed (${newRetry}/${maxRetries}):`, err.message);
+      console.error(
+        `[task-executor] Task "${task.title}" failed (${newRetry}/${maxRetries}):`,
+        err.message,
+      );
     }
   }
 }
@@ -114,7 +131,9 @@ export async function processPendingTasks(): Promise<void> {
 export function startTaskExecutor(intervalMs: number = 15000): void {
   if (running) return;
   running = true;
-  console.log(`[task-executor] Polling every ${intervalMs / 1000}s for pending tasks`);
+  console.log(
+    `[task-executor] Polling every ${intervalMs / 1000}s for pending tasks`,
+  );
 
   async function poll() {
     if (!running) return;

@@ -13,7 +13,11 @@ interface DocumentChunk {
   metadata: Record<string, unknown>;
 }
 
-export function chunkText(text: string, chunkSize: number = CHUNK_SIZE, overlap: number = CHUNK_OVERLAP): string[] {
+export function chunkText(
+  text: string,
+  chunkSize: number = CHUNK_SIZE,
+  overlap: number = CHUNK_OVERLAP,
+): string[] {
   const words = text.split(/\s+/);
   if (words.length <= chunkSize) return [text];
 
@@ -39,14 +43,21 @@ export async function ingestDocument(params: {
   let inserted = 0;
 
   for (let i = 0; i < chunks.length; i++) {
-    const chunkTitle = chunks.length > 1 ? `${params.title} [parte ${i + 1}/${chunks.length}]` : params.title;
+    const chunkTitle =
+      chunks.length > 1
+        ? `${params.title} [parte ${i + 1}/${chunks.length}]`
+        : params.title;
     const { error } = await supabase.from('nano_documents').insert({
       agent_id: params.agent_id,
       title: chunkTitle,
       content: chunks[i],
       doc_type: params.doc_type,
       file_path: params.file_path,
-      metadata: { chunk_index: i, total_chunks: chunks.length, original_title: params.title },
+      metadata: {
+        chunk_index: i,
+        total_chunks: chunks.length,
+        original_title: params.title,
+      },
     });
     if (!error) inserted++;
   }
@@ -58,18 +69,26 @@ export async function ingestDocument(params: {
     description: `Documento ingerido: "${params.title}" (${inserted} chunks)`,
   });
 
-  console.log(`[embeddings] Ingested "${params.title}": ${inserted}/${chunks.length} chunks`);
+  console.log(
+    `[embeddings] Ingested "${params.title}": ${inserted}/${chunks.length} chunks`,
+  );
   return inserted;
 }
 
-export async function searchDocuments(agent_id: string, query: string, limit: number = 5): Promise<Array<{ title: string; content: string; doc_type: string; relevance: number }>> {
+export async function searchDocuments(
+  agent_id: string,
+  query: string,
+  limit: number = 5,
+): Promise<
+  Array<{ title: string; content: string; doc_type: string; relevance: number }>
+> {
   // Full-text search using PostgreSQL tsvector
   // Search across title and content
   const searchTerms = query
     .split(/\s+/)
-    .filter(w => w.length > 2)
+    .filter((w) => w.length > 2)
     .slice(0, 10)
-    .map(w => w.replace(/[^a-zA-ZÀ-ÿ0-9]/g, ''))
+    .map((w) => w.replace(/[^a-zA-ZÀ-ÿ0-9]/g, ''))
     .filter(Boolean)
     .join(' | ');
 
@@ -81,7 +100,7 @@ export async function searchDocuments(agent_id: string, query: string, limit: nu
       .eq('agent_id', agent_id)
       .order('created_at', { ascending: false })
       .limit(limit);
-    return (data || []).map(d => ({ ...d, relevance: 0.5 }));
+    return (data || []).map((d) => ({ ...d, relevance: 0.5 }));
   }
 
   // Try text search first
@@ -89,7 +108,9 @@ export async function searchDocuments(agent_id: string, query: string, limit: nu
     .from('nano_documents')
     .select('title, content, doc_type')
     .eq('agent_id', agent_id)
-    .or(`title.ilike.%${searchTerms.split(' | ')[0]}%,content.ilike.%${searchTerms.split(' | ')[0]}%`)
+    .or(
+      `title.ilike.%${searchTerms.split(' | ')[0]}%,content.ilike.%${searchTerms.split(' | ')[0]}%`,
+    )
     .limit(limit);
 
   if (error || !data?.length) {
@@ -100,13 +121,24 @@ export async function searchDocuments(agent_id: string, query: string, limit: nu
       .eq('agent_id', agent_id)
       .order('created_at', { ascending: false })
       .limit(limit);
-    return (fallback || []).map(d => ({ ...d, relevance: 0.3 }));
+    return (fallback || []).map((d) => ({ ...d, relevance: 0.3 }));
   }
 
-  return data.map(d => ({ ...d, relevance: 0.8 }));
+  return data.map((d) => ({ ...d, relevance: 0.8 }));
 }
 
-export async function searchMemories(agent_id: string, query: string, limit: number = 20): Promise<Array<{ title: string; content: string; category: string; relevance_score: number }>> {
+export async function searchMemories(
+  agent_id: string,
+  query: string,
+  limit: number = 20,
+): Promise<
+  Array<{
+    title: string;
+    content: string;
+    category: string;
+    relevance_score: number;
+  }>
+> {
   // First: get pinned memories (always included)
   const { data: pinned } = await supabase
     .from('nano_memory')
@@ -115,7 +147,10 @@ export async function searchMemories(agent_id: string, query: string, limit: num
     .eq('pinned', true);
 
   // Then: search by relevance score + text match
-  const searchTerms = query.split(/\s+/).filter(w => w.length > 2).slice(0, 5);
+  const searchTerms = query
+    .split(/\s+/)
+    .filter((w) => w.length > 2)
+    .slice(0, 5);
   let queryBuilder = supabase
     .from('nano_memory')
     .select('title, content, category, relevance_score')
@@ -142,10 +177,12 @@ export async function searchMemories(agent_id: string, query: string, limit: num
   // Merge pinned + scored, deduplicate
   const all = [...(pinned || []), ...(scored || [])];
   const seen = new Set<string>();
-  return all.filter(m => {
-    const key = m.title + m.content;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  }).slice(0, limit);
+  return all
+    .filter((m) => {
+      const key = m.title + m.content;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, limit);
 }

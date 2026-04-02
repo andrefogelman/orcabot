@@ -20,7 +20,7 @@ export async function runAgent(
   slug: string,
   taskDescription: string,
   toolDefinitions: Anthropic.Tool[],
-  toolHandlers: Record<string, (params: any) => Promise<unknown>>
+  toolHandlers: Record<string, (params: any) => Promise<unknown>>,
 ): Promise<AgentRunResult> {
   const startTime = Date.now();
   const ctx = await buildAgentContext(slug, taskDescription);
@@ -32,10 +32,14 @@ export async function runAgent(
     ...ctx.memories.map((m) => `- [${m.category}] ${m.title}: ${m.content}`),
     '',
     '## Documentos Relevantes',
-    ...ctx.documents.map((d) => `- [${d.doc_type}] ${d.title}: ${d.content.slice(0, 500)}`),
+    ...ctx.documents.map(
+      (d) => `- [${d.doc_type}] ${d.title}: ${d.content.slice(0, 500)}`,
+    ),
     '',
     '## Atividade Recente',
-    ...ctx.recent_activity.slice(0, 10).map((a) => `- ${a.created_at}: ${a.description}`),
+    ...ctx.recent_activity
+      .slice(0, 10)
+      .map((a) => `- ${a.created_at}: ${a.description}`),
     '',
     '## Mensagens Pendentes do Admin',
     ...ctx.pending_messages.map((m) => `- ${m.content}`),
@@ -67,7 +71,8 @@ export async function runAgent(
       const duration_ms = Date.now() - startTime;
       const tokens_used = totalInputTokens + totalOutputTokens;
       const cost_usd =
-        (totalInputTokens * 3) / 1_000_000 + (totalOutputTokens * 15) / 1_000_000;
+        (totalInputTokens * 3) / 1_000_000 +
+        (totalOutputTokens * 15) / 1_000_000;
 
       await logActivity({
         agent_id: ctx.agent_id,
@@ -110,14 +115,22 @@ export async function runAgent(
 
         try {
           const result = await handler(block.input as any);
-          toolCalls.push({ name: block.name, input: block.input, output: result });
+          toolCalls.push({
+            name: block.name,
+            input: block.input,
+            output: result,
+          });
           toolResults.push({
             type: 'tool_result',
             tool_use_id: block.id,
             content: JSON.stringify(result),
           });
         } catch (err: any) {
-          toolCalls.push({ name: block.name, input: block.input, output: { error: err.message } });
+          toolCalls.push({
+            name: block.name,
+            input: block.input,
+            output: { error: err.message },
+          });
           toolResults.push({
             type: 'tool_result',
             tool_use_id: block.id,

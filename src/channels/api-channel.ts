@@ -188,9 +188,10 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
       return;
     }
 
-    const pipeline = fileData.file_type === 'dwg' || fileData.file_type === 'dxf'
-      ? 'dwg-pipeline'
-      : 'pdf-pipeline';
+    const pipeline =
+      fileData.file_type === 'dwg' || fileData.file_type === 'dxf'
+        ? 'dwg-pipeline'
+        : 'pdf-pipeline';
 
     const jobId = crypto.randomUUID();
     const now = new Date().toISOString();

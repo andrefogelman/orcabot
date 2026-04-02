@@ -20,7 +20,7 @@ const supabaseServiceKey = env.SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error(
-    'ERROR: SUPABASE_URL and SUPABASE_SERVICE_KEY must be set in .env'
+    'ERROR: SUPABASE_URL and SUPABASE_SERVICE_KEY must be set in .env',
   );
   process.exit(1);
 }
@@ -82,15 +82,15 @@ async function runMigrations(): Promise<void> {
         console.error(`  FAIL  ${file}`);
         console.error(`        ${error.message}`);
         console.error(
-          '\n  NOTE: If exec_sql RPC does not exist, create it first:'
+          '\n  NOTE: If exec_sql RPC does not exist, create it first:',
         );
         console.error(
-          '        CREATE OR REPLACE FUNCTION exec_sql(query text)'
+          '        CREATE OR REPLACE FUNCTION exec_sql(query text)',
         );
         console.error('        RETURNS void LANGUAGE plpgsql SECURITY DEFINER');
-        console.error("        AS $$ BEGIN EXECUTE query; END; $$;");
+        console.error('        AS $$ BEGIN EXECUTE query; END; $$;');
         console.error(
-          '\n  Or run migrations manually via Supabase SQL Editor.'
+          '\n  Or run migrations manually via Supabase SQL Editor.',
         );
         process.exit(1);
       }

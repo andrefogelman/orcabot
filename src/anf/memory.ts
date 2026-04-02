@@ -30,7 +30,7 @@ export async function saveMemory(params: {
 
 export async function getRelevantMemories(
   agent_id: string,
-  limit: number = 20
+  limit: number = 20,
 ): Promise<Memory[]> {
   const { data, error } = await supabase
     .from('nano_memory')
@@ -42,7 +42,10 @@ export async function getRelevantMemories(
   return (data || []) as Memory[];
 }
 
-export async function reinforceMemory(memory_id: string, positive: boolean): Promise<void> {
+export async function reinforceMemory(
+  memory_id: string,
+  positive: boolean,
+): Promise<void> {
   const { data: current } = await supabase
     .from('nano_memory')
     .select('relevance_score, pinned')
@@ -59,7 +62,9 @@ export async function reinforceMemory(memory_id: string, positive: boolean): Pro
     .update({ relevance_score: newScore })
     .eq('id', memory_id);
 
-  console.log(`[memory] ${memory_id} score: ${current.relevance_score} → ${newScore}`);
+  console.log(
+    `[memory] ${memory_id} score: ${current.relevance_score} → ${newScore}`,
+  );
 }
 
 export async function decayMemories(): Promise<number> {

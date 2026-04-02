@@ -72,7 +72,9 @@ export function ensureContainerRuntimeRunning(): void {
     // In ANF-only mode (no channels), container runtime is optional
     // Agents run via Claude API directly, not via containers
     if (process.env.ANF_ONLY_MODE === '1') {
-      logger.warn('Container runtime unavailable — running in ANF-only mode (no container isolation)');
+      logger.warn(
+        'Container runtime unavailable — running in ANF-only mode (no container isolation)',
+      );
       return;
     }
     throw new Error('Container runtime is required but failed to start', {

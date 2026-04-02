@@ -44,11 +44,17 @@ export async function loadFlows(): Promise<void> {
 
 export function getFlowsForTrigger(table: string, event: string): Flow[] {
   return loadedFlows.filter(
-    (f) => f.trigger.type === 'realtime' && f.trigger.table === table && f.trigger.event === event
+    (f) =>
+      f.trigger.type === 'realtime' &&
+      f.trigger.table === table &&
+      f.trigger.event === event,
   );
 }
 
-export async function executeFlow(flow: Flow, triggerData: Record<string, any>): Promise<void> {
+export async function executeFlow(
+  flow: Flow,
+  triggerData: Record<string, any>,
+): Promise<void> {
   console.log(`[flow-engine] Executing flow: ${flow.name}`);
   const { nodes, edges } = flow.nodes;
   if (!nodes?.length) return;
@@ -70,9 +76,15 @@ export async function executeFlow(flow: Flow, triggerData: Record<string, any>):
     const currentNode = nodes.find((n) => n.id === currentNodeId);
 
     if (currentNode?.type === 'decision' && context.lastResult !== undefined) {
-      const yesEdge = outEdges.find((e) => e.sourceHandle === 'yes' || e.label === 'sim');
-      const noEdge = outEdges.find((e) => e.sourceHandle === 'no' || e.label === 'não');
-      nextEdge = context.lastResult ? (yesEdge || outEdges[0]) : (noEdge || outEdges[0]);
+      const yesEdge = outEdges.find(
+        (e) => e.sourceHandle === 'yes' || e.label === 'sim',
+      );
+      const noEdge = outEdges.find(
+        (e) => e.sourceHandle === 'no' || e.label === 'não',
+      );
+      nextEdge = context.lastResult
+        ? yesEdge || outEdges[0]
+        : noEdge || outEdges[0];
     }
 
     const nextNode = nodes.find((n) => n.id === nextEdge.target);
@@ -98,7 +110,10 @@ export async function executeFlow(flow: Flow, triggerData: Record<string, any>):
   console.log(`[flow-engine] Flow "${flow.name}" completed`);
 }
 
-async function executeNode(node: FlowNode, context: Record<string, any>): Promise<any> {
+async function executeNode(
+  node: FlowNode,
+  context: Record<string, any>,
+): Promise<any> {
   switch (node.type) {
     case 'agent': {
       const agentSlug = node.data.agent;
@@ -113,8 +128,14 @@ async function executeNode(node: FlowNode, context: Record<string, any>): Promis
       }
 
       // Full agent invocation
-      const taskDescription = node.data.task || `Execute flow step: ${JSON.stringify(node.data)}`;
-      const result = await runAgent(agentSlug, taskDescription, tools.definitions, tools.handlers);
+      const taskDescription =
+        node.data.task || `Execute flow step: ${JSON.stringify(node.data)}`;
+      const result = await runAgent(
+        agentSlug,
+        taskDescription,
+        tools.definitions,
+        tools.handlers,
+      );
       return result.response;
     }
 
@@ -122,15 +143,23 @@ async function executeNode(node: FlowNode, context: Record<string, any>): Promis
       const field = node.data.field || 'value';
       const operator = node.data.operator || '>';
       const threshold = node.data.threshold || 0;
-      const value = context.trigger[field] || context.results[Object.keys(context.results).pop() || ''];
+      const value =
+        context.trigger[field] ||
+        context.results[Object.keys(context.results).pop() || ''];
 
       switch (operator) {
-        case '>': return Number(value) > Number(threshold);
-        case '<': return Number(value) < Number(threshold);
-        case '==': return String(value) === String(threshold);
-        case '!=': return String(value) !== String(threshold);
-        case 'contains': return String(value).includes(String(threshold));
-        default: return false;
+        case '>':
+          return Number(value) > Number(threshold);
+        case '<':
+          return Number(value) < Number(threshold);
+        case '==':
+          return String(value) === String(threshold);
+        case '!=':
+          return String(value) !== String(threshold);
+        case 'contains':
+          return String(value).includes(String(threshold));
+        default:
+          return false;
       }
     }
 
@@ -138,7 +167,11 @@ async function executeNode(node: FlowNode, context: Record<string, any>): Promis
       const message = node.data.message || 'Escalação de fluxo automático';
       await notifyAdmin(`🚨 Escalação: ${message}`);
 
-      const { data: orq } = await supabase.from('nano_agents').select('id').eq('slug', 'orquestrador').single();
+      const { data: orq } = await supabase
+        .from('nano_agents')
+        .select('id')
+        .eq('slug', 'orquestrador')
+        .single();
       if (orq) {
         await logActivity({
           agent_id: orq.id,
@@ -158,7 +191,9 @@ async function executeNode(node: FlowNode, context: Record<string, any>): Promis
 
     case 'wait': {
       const delayMs = (node.data.minutes || 1) * 60 * 1000;
-      await new Promise((resolve) => setTimeout(resolve, Math.min(delayMs, 300000))); // max 5 min
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.min(delayMs, 300000)),
+      ); // max 5 min
       return { waited: true, minutes: node.data.minutes };
     }
 

@@ -17,7 +17,9 @@ let running = false;
 
 export function registerTask(task: ScheduledTask): void {
   tasks.push(task);
-  console.log(`[scheduler] Registered: ${task.agent}/${task.name} (${task.cron})`);
+  console.log(
+    `[scheduler] Registered: ${task.agent}/${task.name} (${task.cron})`,
+  );
 }
 
 export function startScheduler(): void {
@@ -39,9 +41,13 @@ async function tick(): Promise<void> {
       console.log(`[scheduler] Running: ${task.agent}/${task.name}`);
       try {
         const result = await task.handler();
-        console.log(`[scheduler] Done: ${task.agent}/${task.name} — ${result.slice(0, 80)}`);
+        console.log(
+          `[scheduler] Done: ${task.agent}/${task.name} — ${result.slice(0, 80)}`,
+        );
       } catch (err: any) {
-        console.error(`[scheduler] Error: ${task.agent}/${task.name} — ${err.message}`);
+        console.error(
+          `[scheduler] Error: ${task.agent}/${task.name} — ${err.message}`,
+        );
       }
     }
   }

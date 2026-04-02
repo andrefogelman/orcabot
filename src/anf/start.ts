@@ -9,13 +9,28 @@ import { getAgentTools, getAllAgentSlugs } from './agent-registry.js';
 import { notifyAdmin } from './whatsapp.js';
 import type Anthropic from '@anthropic-ai/sdk';
 
-function registerAgentTask(agent: string, name: string, cron: string, taskDescription: string) {
+function registerAgentTask(
+  agent: string,
+  name: string,
+  cron: string,
+  taskDescription: string,
+) {
   const tools = getAgentTools(agent);
   if (!tools) return;
-  registerTask({ agent, name, cron, handler: async () => {
-    const result = await runAgent(agent, taskDescription, tools.definitions, tools.handlers);
-    return result.response;
-  }});
+  registerTask({
+    agent,
+    name,
+    cron,
+    handler: async () => {
+      const result = await runAgent(
+        agent,
+        taskDescription,
+        tools.definitions,
+        tools.handlers,
+      );
+      return result.response;
+    },
+  });
 }
 
 export async function startAnfModules(): Promise<void> {
@@ -24,17 +39,72 @@ export async function startAnfModules(): Promise<void> {
   await loadFlows();
   startRealtimeListener();
 
-  registerAgentTask('suprimentos', 'verificar_respostas', '*/30 * * * *', 'Verifique novas respostas de fornecedores.');
-  registerAgentTask('suprimentos', 'followup_pendentes', '0 9 * * 1-5', 'Verifique requisições sem resposta há 2+ dias.');
-  registerAgentTask('suprimentos', 'relatorio_semanal', '0 8 * * 1', 'Gere relatório semanal de compras.');
-  registerAgentTask('financeiro', 'verificar_vencimentos', '0 8 * * 1-5', 'Verifique vencimentos do dia.');
-  registerAgentTask('financeiro', 'relatorio_fluxo_caixa', '0 9 * * 1', 'Relatório semanal fluxo de caixa.');
-  registerAgentTask('financeiro', 'fechamento_mensal', '0 7 L * *', 'Inicie fechamento mensal.');
-  registerAgentTask('financeiro', 'docs_contabilidade', '0 10 1 * *', 'Prepare docs para contabilidade.');
-  registerAgentTask('financeiro', 'emprestimos_vencendo', '0 14 * * 1-5', 'Verifique empréstimos vencendo.');
-  registerAgentTask('engenharia', 'verificar_prazos', '0 8 * * 1-5', 'Verifique prazos de obras.');
-  registerAgentTask('engenharia', 'orcado_vs_realizado', '0 10 * * 1', 'Comparativo orçado vs realizado.');
-  registerAgentTask('engenharia', 'medicoes_pendentes', '0 7 1,15 * *', 'Verifique medições pendentes.');
+  registerAgentTask(
+    'suprimentos',
+    'verificar_respostas',
+    '*/30 * * * *',
+    'Verifique novas respostas de fornecedores.',
+  );
+  registerAgentTask(
+    'suprimentos',
+    'followup_pendentes',
+    '0 9 * * 1-5',
+    'Verifique requisições sem resposta há 2+ dias.',
+  );
+  registerAgentTask(
+    'suprimentos',
+    'relatorio_semanal',
+    '0 8 * * 1',
+    'Gere relatório semanal de compras.',
+  );
+  registerAgentTask(
+    'financeiro',
+    'verificar_vencimentos',
+    '0 8 * * 1-5',
+    'Verifique vencimentos do dia.',
+  );
+  registerAgentTask(
+    'financeiro',
+    'relatorio_fluxo_caixa',
+    '0 9 * * 1',
+    'Relatório semanal fluxo de caixa.',
+  );
+  registerAgentTask(
+    'financeiro',
+    'fechamento_mensal',
+    '0 7 L * *',
+    'Inicie fechamento mensal.',
+  );
+  registerAgentTask(
+    'financeiro',
+    'docs_contabilidade',
+    '0 10 1 * *',
+    'Prepare docs para contabilidade.',
+  );
+  registerAgentTask(
+    'financeiro',
+    'emprestimos_vencendo',
+    '0 14 * * 1-5',
+    'Verifique empréstimos vencendo.',
+  );
+  registerAgentTask(
+    'engenharia',
+    'verificar_prazos',
+    '0 8 * * 1-5',
+    'Verifique prazos de obras.',
+  );
+  registerAgentTask(
+    'engenharia',
+    'orcado_vs_realizado',
+    '0 10 * * 1',
+    'Comparativo orçado vs realizado.',
+  );
+  registerAgentTask(
+    'engenharia',
+    'medicoes_pendentes',
+    '0 7 1,15 * *',
+    'Verifique medições pendentes.',
+  );
 
   startScheduler();
   startChatPolling();
