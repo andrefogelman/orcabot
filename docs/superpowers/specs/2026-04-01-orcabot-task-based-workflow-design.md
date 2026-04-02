@@ -200,6 +200,36 @@ A delegação é **explícita** (o usuário pede), não automática. O orçament
 - Remover lógica de processamento em lote
 - Adicionar context tracking (qual task ativa, qual arquivo, quais itens pendentes)
 
+## Planilha — Edição Completa
+
+A planilha não é só visualização — é editável como uma planilha real:
+
+### Editar linha
+- Double-click em qualquer célula → edição inline
+- Campos editáveis: descrição, unidade, quantidade, material, mão de obra, custo unitário, Adm%
+- Custo total recalcula automaticamente (qtd × unitário)
+- Subtotais da macro-etapa recalculam em tempo real
+
+### Inserir linha
+- Botão "+" no final de cada macro-etapa → insere subitem
+- Botão "+" no topo → insere nova macro-etapa (nível 1)
+- Right-click em uma linha → "Inserir acima" / "Inserir abaixo"
+- Ao inserir, o código EAP é gerado automaticamente (ex: se inserir entre 01.03 e 01.04, vira 01.03.1 ou renumera)
+- Nova linha começa em modo edição
+
+### Excluir linha
+- Botão lixeira no hover da linha (mesmo padrão do botão de excluir PDF)
+- Confirmação antes de excluir ("Excluir item 04.03 — Demolição de revestimentos?")
+- Se excluir macro-etapa (nível 1), pergunta se quer excluir todos os subitens também
+- Subtotais e rodapé recalculam após exclusão
+
+### Reordenar
+- Drag-and-drop para mover linhas dentro da mesma macro-etapa
+- Códigos EAP renumeram automaticamente
+
+### Undo
+- Ctrl+Z desfaz a última edição/inserção/exclusão (buffer de 10 ações)
+
 ## O Que NÃO Muda
 
 - PDF pipeline (continua processando, mas agora triggered por task)
