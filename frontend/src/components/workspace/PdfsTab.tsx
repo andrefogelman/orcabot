@@ -7,6 +7,7 @@ import { PranchaList } from "@/components/pdf/PranchaList";
 import { PdfViewer } from "@/components/pdf/PdfViewer";
 import { PdfProcessPanel } from "@/components/pdf/PdfProcessPanel";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { FileText } from "lucide-react";
 
 export function PdfsTab() {
   const { project, setActivePranchaId } = useProjectContext();
@@ -67,7 +68,32 @@ export function PdfsTab() {
 
           <ResizablePanel defaultSize={55}>
             {activeFile ? (
-              <PdfViewer storagePath={activeFile.storage_path} />
+              activeFile.file_type === "pdf" ? (
+                <PdfViewer storagePath={activeFile.storage_path} />
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center gap-3 text-muted-foreground p-8">
+                  <div className="rounded-lg bg-muted p-4">
+                    <FileText className="h-12 w-12" />
+                  </div>
+                  <p className="text-sm font-medium">
+                    {activeFile.filename}
+                  </p>
+                  <p className="text-xs text-center">
+                    Arquivo {activeFile.file_type?.toUpperCase()} — visualização não disponível no browser.
+                    <br />
+                    O pipeline de processamento extrai os dados automaticamente.
+                  </p>
+                  {activeFile.status === "done" && (
+                    <span className="text-xs text-green-600 font-medium">✓ Processado com sucesso</span>
+                  )}
+                  {activeFile.status === "processing" && (
+                    <span className="text-xs text-yellow-600 font-medium animate-pulse">⏳ Processando...</span>
+                  )}
+                  {activeFile.status === "error" && (
+                    <span className="text-xs text-red-600 font-medium">✗ Erro no processamento</span>
+                  )}
+                </div>
+              )
             ) : (
               <div className="flex h-full items-center justify-center text-muted-foreground">
                 Selecione uma prancha para visualizar
