@@ -3,9 +3,8 @@
 // The user tells the AI what to extract from this specific PDF.
 
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { getDocument, GlobalWorkerOptions } from "npm:pdfjs-dist@4.10.38/legacy/build/pdf.mjs";
-
-GlobalWorkerOptions.workerSrc = "";
+import { Buffer } from "node:buffer";
+import pdf from "npm:pdf-parse@1.1.1/lib/pdf-parse.js";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -68,20 +67,19 @@ function parseJsonSafe(text: string): Record<string, unknown> | null {
 }
 
 async function extractTextFromPdf(pdfBuffer: ArrayBuffer): Promise<Array<{ page: number; text: string }>> {
-  const doc = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
-  const pages: Array<{ page: number; text: string }> = [];
-
-  for (let i = 1; i <= doc.numPages; i++) {
-    const page = await doc.getPage(i);
-    const content = await page.getTextContent();
-    const text = content.items
-      .filter((item: any) => "str" in item)
-      .map((item: any) => item.str)
-      .join(" ");
-    pages.push({ page: i, text });
-    page.cleanup();
+  const buffer = Buffer.from(pdfBuffer);
+  const data = await pdf(buffer);
+  // pdf-parse returns all text combined; split by page markers or return as single page
+  const totalPages = data.numpages || 1;
+  if (totalPages === 1) {
+    return [{ page: 1, text: data.text || "" }];
   }
-  doc.destroy();
+  // Try to split by form feed or page boundaries
+  const rawPages = data.text.split(/\f/);
+  const pages: Array<{ page: number; text: string }> = [];
+  for (let i = 0; i < Math.max(rawPages.length, totalPages); i++) {
+    pages.push({ page: i + 1, text: rawPages[i]?.trim() || "" });
+  }
   return pages;
 }
 
