@@ -82,7 +82,7 @@ function RunCard({
   fileId: string;
   defaultExpanded?: boolean;
 }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [items, setItems] = useState<ExtractedItem[]>(() => {
     const raw = Array.isArray(run.items) ? run.items : [];
     return raw.map((i: any) => ({
@@ -163,7 +163,7 @@ function RunCard({
   const isError = run.status === "error";
 
   return (
-    <div className="rounded-lg border bg-card overflow-hidden">
+    <div className="rounded-lg border bg-card overflow-hidden" style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
       {/* Run header */}
       <div className="flex items-center gap-2 px-3 py-2 hover:bg-muted/30 transition-colors">
         <button
