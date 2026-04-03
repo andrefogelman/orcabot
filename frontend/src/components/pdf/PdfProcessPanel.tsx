@@ -311,7 +311,7 @@ export function PdfProcessPanel({ file, projectId }: PdfProcessPanelProps) {
       <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
         <FileText className="h-10 w-10 text-muted-foreground" />
         <p className="text-sm text-muted-foreground">
-          Selecione um PDF para processar
+          Selecione um arquivo para processar
         </p>
       </div>
     );
@@ -321,8 +321,11 @@ export function PdfProcessPanel({ file, projectId }: PdfProcessPanelProps) {
     if (!input.trim() || !file || processing) return;
     setProcessing(true);
     try {
-      const { data, error } = await supabase.functions.invoke("process-single-pdf", {
-        body: { project_id: projectId, file_id: file.id, prompt: input.trim() },
+      const fnName = file.file_type === "dwg" || file.file_type === "dxf"
+        ? "process-single-dwg"
+        : "process-single-pdf";
+      const { data, error } = await supabase.functions.invoke(fnName, {
+        body: { project_id: projectId, file_id: file.id, prompt: input.trim(), file_type: file.file_type },
       });
       if (error) throw error;
       toast.success(`${data.items_count} itens extraídos`);
@@ -361,7 +364,7 @@ export function PdfProcessPanel({ file, projectId }: PdfProcessPanelProps) {
           {processing && (
             <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-3 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              Processando PDF com IA...
+              Processando arquivo com IA...
             </div>
           )}
 
@@ -375,7 +378,7 @@ export function PdfProcessPanel({ file, projectId }: PdfProcessPanelProps) {
       <div className="border-t p-3">
         <div className="flex gap-2">
           <Textarea
-            placeholder="O que levantar deste PDF? Ex: Levantar áreas de demolição..."
+            placeholder="O que levantar deste arquivo? Ex: Levantar áreas de demolição..."
             className="min-h-[60px] text-sm resize-none"
             value={input}
             onChange={(e) => setInput(e.target.value)}
