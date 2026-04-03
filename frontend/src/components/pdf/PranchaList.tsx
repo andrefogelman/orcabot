@@ -53,22 +53,24 @@ function FileRow({ file, isActive, onSelect, onDelete }: { file: ProjectFile; is
         isActive ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
       )}
     >
-      <button onClick={onSelect} className="flex-1 flex items-center gap-1.5 text-left min-w-0">
-        <FileText className="h-3.5 w-3.5 flex-shrink-0" />
-        <span className="flex-1 truncate">{file.filename}</span>
+      <button onClick={onSelect} className="flex-1 flex items-start gap-1.5 text-left min-w-0">
+        <FileText className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
+        <span className="flex-1 text-xs break-all leading-tight">{file.filename}</span>
       </button>
-      <Badge variant="outline" className={cn("text-[10px] px-1 py-0 h-4 flex-shrink-0", badge.className)}>
-        {badge.label}
-      </Badge>
-      <StatusIcon
-        className={cn(
-          "h-3.5 w-3.5 flex-shrink-0",
-          file.status === "processing" && "animate-spin text-yellow-600",
-          file.status === "done" && "text-green-600",
-          file.status === "error" && "text-red-600",
-          file.status === "uploaded" && "text-muted-foreground"
-        )}
-      />
+      <div className="flex items-center gap-1 flex-shrink-0">
+        <Badge variant="outline" className={cn("text-[10px] px-1 py-0 h-4", badge.className)}>
+          {badge.label}
+        </Badge>
+        <StatusIcon
+          className={cn(
+            "h-3.5 w-3.5",
+            file.status === "processing" && "animate-spin text-yellow-600",
+            file.status === "done" && "text-green-600",
+            file.status === "error" && "text-red-600",
+            file.status === "uploaded" && "text-muted-foreground"
+          )}
+        />
+      </div>
       {confirming ? (
         <div className="flex items-center gap-0.5 flex-shrink-0">
           <button
