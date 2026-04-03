@@ -97,6 +97,7 @@ function RunCard({
     }));
   });
   const [saving, setSaving] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const deleteRun = useDeleteProcessingRun();
   const queryClient = useQueryClient();
 
@@ -187,17 +188,34 @@ function RunCard({
           </span>
           {expanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
         </button>
-        <button
-          className="h-6 w-6 flex items-center justify-center rounded hover:bg-destructive/10 transition-colors flex-shrink-0"
-          title="Excluir processamento"
-          onClick={() => {
-            if (confirm("Excluir este processamento?")) {
-              deleteRun.mutate({ runId: run.id, fileId });
-            }
-          }}
-        >
-          <Trash2 className="h-3.5 w-3.5 text-destructive" />
-        </button>
+        {confirmDelete ? (
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <button
+              className="h-6 px-2 text-[10px] font-medium rounded bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                deleteRun.mutate({ runId: run.id, fileId }, {
+                  onSuccess: () => setConfirmDelete(false),
+                });
+              }}
+            >
+              Sim
+            </button>
+            <button
+              className="h-6 px-2 text-[10px] font-medium rounded border hover:bg-muted"
+              onClick={() => setConfirmDelete(false)}
+            >
+              Não
+            </button>
+          </div>
+        ) : (
+          <button
+            className="h-6 w-6 flex items-center justify-center rounded hover:bg-destructive/10 transition-colors flex-shrink-0"
+            title="Excluir processamento"
+            onClick={() => setConfirmDelete(true)}
+          >
+            <Trash2 className="h-3.5 w-3.5 text-destructive" />
+          </button>
+        )}
       </div>
 
       {expanded && (
