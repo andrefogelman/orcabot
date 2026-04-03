@@ -165,40 +165,40 @@ function RunCard({
   return (
     <div className="rounded-lg border bg-card overflow-hidden">
       {/* Run header */}
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-muted/30 transition-colors"
-      >
-        <Clock className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-        <span className="text-xs text-muted-foreground">{formatDate(run.created_at)}</span>
-        {isError ? (
-          <Badge variant="destructive" className="text-[10px] px-1 py-0">erro</Badge>
-        ) : (
-          <Badge variant="outline" className="text-[10px] px-1 py-0">
-            {items.length} itens
-          </Badge>
-        )}
-        {Array.isArray(run.needs_review) && run.needs_review.length > 0 && (
-          <AlertTriangle className="h-3 w-3 text-orange-500" />
-        )}
-        <span className="flex-1 text-xs truncate text-muted-foreground italic">
-          {run.prompt.slice(0, 60)}...
-        </span>
-        <span
-          role="button"
-          className="h-5 w-5 flex items-center justify-center rounded hover:bg-destructive/10 transition-colors"
+      <div className="flex items-center gap-2 px-3 py-2 hover:bg-muted/30 transition-colors">
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex-1 flex items-center gap-2 text-left"
+        >
+          <Clock className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+          <span className="text-xs text-muted-foreground">{formatDate(run.created_at)}</span>
+          {isError ? (
+            <Badge variant="destructive" className="text-[10px] px-1 py-0">erro</Badge>
+          ) : (
+            <Badge variant="outline" className="text-[10px] px-1 py-0">
+              {items.length} itens
+            </Badge>
+          )}
+          {Array.isArray(run.needs_review) && run.needs_review.length > 0 && (
+            <AlertTriangle className="h-3 w-3 text-orange-500" />
+          )}
+          <span className="flex-1 text-xs truncate text-muted-foreground italic">
+            {run.prompt.slice(0, 60)}...
+          </span>
+          {expanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+        </button>
+        <button
+          className="h-6 w-6 flex items-center justify-center rounded hover:bg-destructive/10 transition-colors flex-shrink-0"
           title="Excluir processamento"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             if (confirm("Excluir este processamento?")) {
               deleteRun.mutate({ runId: run.id, fileId });
             }
           }}
         >
-          <Trash2 className="h-3 w-3 text-destructive" />
-        </span>
-        {expanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-      </button>
+          <Trash2 className="h-3.5 w-3.5 text-destructive" />
+        </button>
+      </div>
 
       {expanded && (
         <div className="border-t">
