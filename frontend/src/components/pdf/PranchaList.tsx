@@ -132,8 +132,7 @@ export function PranchaList({ files, activeFileId, onSelectFile }: PranchaListPr
                     );
                   }}
                 />
-              );
-            })}
+            ))}
           </div>
         ))}
 
