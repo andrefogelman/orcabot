@@ -321,13 +321,29 @@ export function PdfProcessPanel({ file, projectId }: PdfProcessPanelProps) {
     if (!input.trim() || !file || processing) return;
     setProcessing(true);
     try {
-      const fnName = file.file_type === "dwg" || file.file_type === "dxf"
-        ? "process-single-dwg"
-        : "process-single-pdf";
-      const { data, error } = await supabase.functions.invoke(fnName, {
-        body: { project_id: projectId, file_id: file.id, prompt: input.trim(), file_type: file.file_type },
+      const ORCABOT_API = import.meta.env.VITE_ORCABOT_API_URL || "http://100.66.83.22:8300";
+      const API_SECRET = import.meta.env.VITE_ORCABOT_API_SECRET || "";
+
+      const res = await fetch(`${ORCABOT_API}/api/process`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${API_SECRET}`,
+        },
+        body: JSON.stringify({
+          project_id: projectId,
+          file_id: file.id,
+          prompt: input.trim(),
+          file_type: file.file_type,
+        }),
       });
-      if (error) throw error;
+
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({ error: res.statusText }));
+        throw new Error(errBody.error || `HTTP ${res.status}`);
+      }
+
+      const data = await res.json();
       toast.success(`${data.items_count} itens extraídos`);
       setInput("");
       queryClient.invalidateQueries({ queryKey: ["processing-runs", file.id] });

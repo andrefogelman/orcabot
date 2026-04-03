@@ -255,6 +255,194 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
     json(res, 200, { project_id: projectId, jobs: jobs ?? [] });
   }
 
+  // ── Process file (PDF/DWG/DXF) with LLM ──────────────────────────────────
+
+  const LLM_BASE_URL = process.env.ANTHROPIC_BASE_URL || 'http://100.91.255.19:8100';
+  const LLM_AUTH_TOKEN = process.env.ANTHROPIC_AUTH_TOKEN || 'sk-proxy-passthrough';
+  const LLM_MODEL = process.env.LLM_MODEL || 'claude-haiku-4-5-20251001';
+
+  async function callLlm(system: string, userContent: string): Promise<string> {
+    const res = await fetch(`${LLM_BASE_URL}/v1/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': LLM_AUTH_TOKEN,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: LLM_MODEL,
+        max_tokens: 8192,
+        system,
+        messages: [{ role: 'user', content: userContent }],
+      }),
+    });
+    if (!res.ok) throw new Error(`LLM error: ${res.status} ${await res.text()}`);
+    const data = await res.json() as { content?: Array<{ text?: string }> };
+    return data.content?.[0]?.text ?? '';
+  }
+
+  function parseJsonFromLlm(text: string): Record<string, unknown> | null {
+    try { return JSON.parse(text); } catch { /* */ }
+    const m = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (m) { try { return JSON.parse(m[1]); } catch { /* */ } }
+    const b = text.match(/\{[\s\S]*\}/);
+    if (b) { try { return JSON.parse(b[0]); } catch { /* */ } }
+    return null;
+  }
+
+  async function handleProcess(req: IncomingMessage, res: ServerResponse) {
+    const raw = await readBody(req);
+    const body = parseJson(raw) as {
+      project_id?: string;
+      file_id?: string;
+      prompt?: string;
+      file_type?: string;
+    } | null;
+
+    if (!body?.project_id || !body?.file_id || !body?.prompt) {
+      json(res, 400, { error: 'project_id, file_id, and prompt are required' });
+      return;
+    }
+
+    let runId: string | null = null;
+
+    try {
+      // Create processing run
+      const { data: run } = await supabaseAdmin
+        .from('ob_processing_runs')
+        .insert({ project_id: body.project_id, file_id: body.file_id, prompt: body.prompt, status: 'processing' })
+        .select('id')
+        .single();
+      runId = run?.id ?? null;
+
+      // Get file info
+      const { data: fileData, error: fileErr } = await supabaseAdmin
+        .from('ob_project_files')
+        .select('storage_path, filename, disciplina, file_type')
+        .eq('id', body.file_id)
+        .single();
+      if (fileErr || !fileData) throw new Error(`File not found: ${fileErr?.message}`);
+
+      const fileType = body.file_type || fileData.file_type || 'pdf';
+
+      // Download file from storage
+      const { data: blob, error: dlErr } = await supabaseAdmin.storage
+        .from('project-pdfs')
+        .download(fileData.storage_path);
+      if (dlErr || !blob) throw new Error(`Download failed: ${dlErr?.message}`);
+
+      const buffer = await blob.arrayBuffer();
+      let extractedText = '';
+      let fileInfo = '';
+
+      if (fileType === 'pdf') {
+        // PDF: use pdf-parse
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          const pdfParseModule = await import('pdf-parse');
+          const pdfParse = (pdfParseModule as any).default || pdfParseModule;
+          const data = await pdfParse(Buffer.from(buffer));
+          extractedText = data.text || '';
+          fileInfo = `PDF: ${data.numpages} páginas, ${extractedText.length} chars`;
+        } catch (e: unknown) {
+          throw new Error(`Invalid PDF structure: ${(e as Error).message}`);
+        }
+      } else {
+        // DWG/DXF: extract text strings from binary or parse DXF text
+        const decoder = new TextDecoder('utf-8', { fatal: false });
+        const text = decoder.decode(buffer);
+
+        if (text.includes('SECTION') && text.includes('ENTITIES')) {
+          // It's a DXF (text-based) — extract useful content
+          const layers: string[] = [];
+          const texts: string[] = [];
+          const blocks: Map<string, number> = new Map();
+          const lines = text.split('\n');
+
+          let currentEntity = '';
+          let currentLayer = '0';
+
+          for (let i = 0; i < lines.length; i++) {
+            const code = lines[i].trim();
+            const value = (lines[i + 1] || '').trim();
+
+            if (code === '0') currentEntity = value;
+            if (code === '8') { currentLayer = value; if (!layers.includes(value)) layers.push(value); }
+            if (code === '1' && (currentEntity === 'TEXT' || currentEntity === 'MTEXT')) texts.push(`[${currentLayer}] ${value}`);
+            if (code === '42' && currentEntity === 'DIMENSION') texts.push(`[COTA] ${value}`);
+            if (code === '2' && currentEntity === 'INSERT') blocks.set(value, (blocks.get(value) || 0) + 1);
+          }
+
+          const blocksList = Array.from(blocks.entries()).sort((a, b) => b[1] - a[1]).map(([n, c]) => `${n}: ${c}x`);
+
+          extractedText = `LAYERS (${layers.length}): ${layers.join(', ')}\n\nTEXTOS (${texts.length}):\n${texts.slice(0, 100).join('\n')}\n\nBLOCOS (${blocksList.length}):\n${blocksList.slice(0, 50).join('\n')}`;
+          fileInfo = `DXF: ${layers.length} layers, ${texts.length} textos, ${blocksList.length} blocos`;
+        } else {
+          // Binary DWG — extract readable strings
+          const strings = text.match(/[\x20-\x7E]{4,}/g) || [];
+          const layerLike = strings.filter(s => s.match(/^(ARQ|EST|HID|ELE|COT|PAR|TUB|ILU)/i)).slice(0, 50);
+          const textLike = strings.filter(s => s.match(/[A-Za-z]{2,}/) && s.length > 3 && s.length < 100).slice(0, 100);
+          const dimLike = strings.filter(s => s.match(/^\d+[\.,]\d+$/)).slice(0, 50);
+
+          extractedText = `DWG BINÁRIO (extração parcial de strings)\n\nLAYERS POSSÍVEIS: ${layerLike.join(', ')}\n\nTEXTOS: ${textLike.join(', ')}\n\nCOTAS: ${dimLike.join(', ')}`;
+          fileInfo = `DWG binário: ${layerLike.length} layers, ${textLike.length} textos, ${dimLike.length} cotas`;
+        }
+      }
+
+      logger.info({ file_id: body.file_id, fileInfo }, 'File extracted for processing');
+
+      const systemPrompt = `Você é um engenheiro civil orçamentista senior especialista em levantamento de quantitativos.
+Você recebe dados extraídos de um arquivo de projeto (${fileType.toUpperCase()}) e uma instrução do usuário.
+
+REGRAS:
+1. SEMPRE produza itens com quantidades numéricas > 0. Nunca lista vazia.
+2. Use dimensões/cotas quando disponíveis para calcular quantidades.
+3. Para blocos CAD: conte inserções (ex: bloco TOMADA inserido 15x = 15 tomadas).
+4. Para layers: classifique por disciplina (ARQ/EST/HID/ELE).
+5. Quando incerto, estime com confidence baixo e explique em needs_review.
+6. Unidades: m², m³, m, kg, un, pt, vb.
+
+FORMATO JSON OBRIGATÓRIO:
+{
+  "itens": [{"descricao":"...","quantidade":0,"unidade":"m²","memorial_calculo":"...","ambiente":"...","disciplina":"arquitetonico","confidence":0.85}],
+  "needs_review": [{"item":"...","motivo":"..."}],
+  "resumo": "..."
+}`;
+
+      const userMessage = `ARQUIVO: ${fileData.filename}\n${fileInfo}\nDISCIPLINA: ${fileData.disciplina || 'auto'}\n\nINSTRUÇÃO: ${body.prompt}\n\nDADOS EXTRAÍDOS:\n${extractedText.slice(0, 15000)}`;
+
+      const llmResponse = await callLlm(systemPrompt, userMessage);
+      const parsed = parseJsonFromLlm(llmResponse);
+
+      const items = (parsed?.itens as unknown[]) || [];
+      const needsReview = (parsed?.needs_review as unknown[]) || [];
+      const summary = (parsed?.resumo as string) || llmResponse;
+
+      // Save run
+      if (runId) {
+        await supabaseAdmin.from('ob_processing_runs').update({
+          status: 'done', summary, items, needs_review: needsReview,
+          raw_response: parsed || { raw_text: llmResponse }, pages_processed: 1,
+        }).eq('id', runId);
+      }
+
+      await supabaseAdmin.from('ob_project_files').update({ status: 'done' }).eq('id', body.file_id);
+
+      json(res, 200, {
+        success: true, run_id: runId, summary,
+        items_count: items.length, review_count: needsReview.length,
+        file_type: fileType, file_info: fileInfo, structured_data: parsed,
+      });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      logger.error({ file_id: body.file_id, error: msg }, 'Process error');
+      if (runId) {
+        await supabaseAdmin.from('ob_processing_runs').update({ status: 'error', error_message: msg }).eq('id', runId);
+      }
+      json(res, 500, { error: msg });
+    }
+  }
+
   // ── Request router ─────────────────────────────────────────────────────────
 
   async function handleRequest(
@@ -326,6 +514,17 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
       segments[1] === 'status'
     ) {
       await handleStatus(req, res, segments[2]);
+      return;
+    }
+
+    // POST /api/process — process a file (PDF/DWG/DXF) with LLM
+    if (
+      req.method === 'POST' &&
+      segments.length === 2 &&
+      segments[0] === 'api' &&
+      segments[1] === 'process'
+    ) {
+      await handleProcess(req, res);
       return;
     }
 
