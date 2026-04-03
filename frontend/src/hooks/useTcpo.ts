@@ -34,12 +34,26 @@ export type TcpoComposicaoInsert = Omit<TcpoComposicao, "id" | "search_term">;
 export type TcpoInsumoInsert = Omit<TcpoInsumo, "id">;
 
 export const TCPO_CATEGORIES = [
+  "02. Serviços Iniciais",
+  "04. Infraestrutura",
+  "05. Superestrutura",
   "06. Alvenarias",
+  "09. Coberturas",
+  "10. Impermeabilização",
+  "11. Isolamento",
+  "12. Esquadrias",
+  "13. Sist. Hidráulicos",
+  "15. Prev. Incêndio",
+  "16. Sist. Elétricos",
+  "19. Ar Condicionado",
   "20. Revestimentos",
   "21. Forros",
   "22. Pisos",
   "23. Rev. Paredes",
   "24. Pinturas",
+  "26. Louças e Metais",
+  "27. Vidros",
+  "30. Urbanização",
 ] as const;
 
 export function useTcpoSearch(query: string, category: string | null) {

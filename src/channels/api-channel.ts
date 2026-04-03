@@ -257,8 +257,10 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
 
   // ── Process file (PDF/DWG/DXF) with LLM ──────────────────────────────────
 
-  const LLM_BASE_URL = process.env.ANTHROPIC_BASE_URL || 'http://100.91.255.19:8100';
-  const LLM_AUTH_TOKEN = process.env.ANTHROPIC_AUTH_TOKEN || 'sk-proxy-passthrough';
+  const LLM_BASE_URL =
+    process.env.ANTHROPIC_BASE_URL || 'http://100.91.255.19:8100';
+  const LLM_AUTH_TOKEN =
+    process.env.ANTHROPIC_AUTH_TOKEN || 'sk-proxy-passthrough';
   const LLM_MODEL = process.env.LLM_MODEL || 'claude-haiku-4-5-20251001';
 
   async function callLlm(system: string, userContent: string): Promise<string> {
@@ -276,17 +278,34 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
         messages: [{ role: 'user', content: userContent }],
       }),
     });
-    if (!res.ok) throw new Error(`LLM error: ${res.status} ${await res.text()}`);
-    const data = await res.json() as { content?: Array<{ text?: string }> };
+    if (!res.ok)
+      throw new Error(`LLM error: ${res.status} ${await res.text()}`);
+    const data = (await res.json()) as { content?: Array<{ text?: string }> };
     return data.content?.[0]?.text ?? '';
   }
 
   function parseJsonFromLlm(text: string): Record<string, unknown> | null {
-    try { return JSON.parse(text); } catch { /* */ }
+    try {
+      return JSON.parse(text);
+    } catch {
+      /* */
+    }
     const m = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (m) { try { return JSON.parse(m[1]); } catch { /* */ } }
+    if (m) {
+      try {
+        return JSON.parse(m[1]);
+      } catch {
+        /* */
+      }
+    }
     const b = text.match(/\{[\s\S]*\}/);
-    if (b) { try { return JSON.parse(b[0]); } catch { /* */ } }
+    if (b) {
+      try {
+        return JSON.parse(b[0]);
+      } catch {
+        /* */
+      }
+    }
     return null;
   }
 
@@ -310,7 +329,12 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
       // Create processing run
       const { data: run } = await supabaseAdmin
         .from('ob_processing_runs')
-        .insert({ project_id: body.project_id, file_id: body.file_id, prompt: body.prompt, status: 'processing' })
+        .insert({
+          project_id: body.project_id,
+          file_id: body.file_id,
+          prompt: body.prompt,
+          status: 'processing',
+        })
         .select('id')
         .single();
       runId = run?.id ?? null;
@@ -321,7 +345,8 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
         .select('storage_path, filename, disciplina, file_type')
         .eq('id', body.file_id)
         .single();
-      if (fileErr || !fileData) throw new Error(`File not found: ${fileErr?.message}`);
+      if (fileErr || !fileData)
+        throw new Error(`File not found: ${fileErr?.message}`);
 
       const fileType = body.file_type || fileData.file_type || 'pdf';
 
@@ -367,29 +392,51 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
             const value = (lines[i + 1] || '').trim();
 
             if (code === '0') currentEntity = value;
-            if (code === '8') { currentLayer = value; if (!layers.includes(value)) layers.push(value); }
-            if (code === '1' && (currentEntity === 'TEXT' || currentEntity === 'MTEXT')) texts.push(`[${currentLayer}] ${value}`);
-            if (code === '42' && currentEntity === 'DIMENSION') texts.push(`[COTA] ${value}`);
-            if (code === '2' && currentEntity === 'INSERT') blocks.set(value, (blocks.get(value) || 0) + 1);
+            if (code === '8') {
+              currentLayer = value;
+              if (!layers.includes(value)) layers.push(value);
+            }
+            if (
+              code === '1' &&
+              (currentEntity === 'TEXT' || currentEntity === 'MTEXT')
+            )
+              texts.push(`[${currentLayer}] ${value}`);
+            if (code === '42' && currentEntity === 'DIMENSION')
+              texts.push(`[COTA] ${value}`);
+            if (code === '2' && currentEntity === 'INSERT')
+              blocks.set(value, (blocks.get(value) || 0) + 1);
           }
 
-          const blocksList = Array.from(blocks.entries()).sort((a, b) => b[1] - a[1]).map(([n, c]) => `${n}: ${c}x`);
+          const blocksList = Array.from(blocks.entries())
+            .sort((a, b) => b[1] - a[1])
+            .map(([n, c]) => `${n}: ${c}x`);
 
           extractedText = `LAYERS (${layers.length}): ${layers.join(', ')}\n\nTEXTOS (${texts.length}):\n${texts.slice(0, 100).join('\n')}\n\nBLOCOS (${blocksList.length}):\n${blocksList.slice(0, 50).join('\n')}`;
           fileInfo = `DXF: ${layers.length} layers, ${texts.length} textos, ${blocksList.length} blocos`;
         } else {
           // Binary DWG — extract readable strings
           const strings = text.match(/[\x20-\x7E]{4,}/g) || [];
-          const layerLike = strings.filter(s => s.match(/^(ARQ|EST|HID|ELE|COT|PAR|TUB|ILU)/i)).slice(0, 50);
-          const textLike = strings.filter(s => s.match(/[A-Za-z]{2,}/) && s.length > 3 && s.length < 100).slice(0, 100);
-          const dimLike = strings.filter(s => s.match(/^\d+[\.,]\d+$/)).slice(0, 50);
+          const layerLike = strings
+            .filter((s) => s.match(/^(ARQ|EST|HID|ELE|COT|PAR|TUB|ILU)/i))
+            .slice(0, 50);
+          const textLike = strings
+            .filter(
+              (s) => s.match(/[A-Za-z]{2,}/) && s.length > 3 && s.length < 100,
+            )
+            .slice(0, 100);
+          const dimLike = strings
+            .filter((s) => s.match(/^\d+[\.,]\d+$/))
+            .slice(0, 50);
 
           extractedText = `DWG BINÁRIO (extração parcial de strings)\n\nLAYERS POSSÍVEIS: ${layerLike.join(', ')}\n\nTEXTOS: ${textLike.join(', ')}\n\nCOTAS: ${dimLike.join(', ')}`;
           fileInfo = `DWG binário: ${layerLike.length} layers, ${textLike.length} textos, ${dimLike.length} cotas`;
         }
       }
 
-      logger.info({ file_id: body.file_id, fileInfo }, 'File extracted for processing');
+      logger.info(
+        { file_id: body.file_id, fileInfo },
+        'File extracted for processing',
+      );
 
       const systemPrompt = `Você é um engenheiro civil orçamentista senior especialista em levantamento de quantitativos.
 Você recebe dados extraídos de um arquivo de projeto (${fileType.toUpperCase()}) e uma instrução do usuário.
@@ -420,24 +467,42 @@ FORMATO JSON OBRIGATÓRIO:
 
       // Save run
       if (runId) {
-        await supabaseAdmin.from('ob_processing_runs').update({
-          status: 'done', summary, items, needs_review: needsReview,
-          raw_response: parsed || { raw_text: llmResponse }, pages_processed: 1,
-        }).eq('id', runId);
+        await supabaseAdmin
+          .from('ob_processing_runs')
+          .update({
+            status: 'done',
+            summary,
+            items,
+            needs_review: needsReview,
+            raw_response: parsed || { raw_text: llmResponse },
+            pages_processed: 1,
+          })
+          .eq('id', runId);
       }
 
-      await supabaseAdmin.from('ob_project_files').update({ status: 'done' }).eq('id', body.file_id);
+      await supabaseAdmin
+        .from('ob_project_files')
+        .update({ status: 'done' })
+        .eq('id', body.file_id);
 
       json(res, 200, {
-        success: true, run_id: runId, summary,
-        items_count: items.length, review_count: needsReview.length,
-        file_type: fileType, file_info: fileInfo, structured_data: parsed,
+        success: true,
+        run_id: runId,
+        summary,
+        items_count: items.length,
+        review_count: needsReview.length,
+        file_type: fileType,
+        file_info: fileInfo,
+        structured_data: parsed,
       });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       logger.error({ file_id: body.file_id, error: msg }, 'Process error');
       if (runId) {
-        await supabaseAdmin.from('ob_processing_runs').update({ status: 'error', error_message: msg }).eq('id', runId);
+        await supabaseAdmin
+          .from('ob_processing_runs')
+          .update({ status: 'error', error_message: msg })
+          .eq('id', runId);
       }
       json(res, 500, { error: msg });
     }
