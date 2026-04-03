@@ -79,13 +79,17 @@ function InsumoEditableCell({
   if (!editing) {
     return (
       <span
-        className={cn("cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20 px-1 py-0.5 rounded transition-colors", className)}
-        onDoubleClick={() => setEditing(true)}
-        title="Duplo clique para editar"
+        className={cn(
+          "cursor-pointer px-1.5 py-0.5 rounded border border-transparent transition-all",
+          "hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/20 hover:shadow-sm",
+          className
+        )}
+        onClick={() => setEditing(true)}
+        title="Clique para editar"
       >
         {type === "number" && !isNaN(Number(value))
           ? (Number(value) >= 1 ? formatBRL(Number(value)) : formatNumber(Number(value), 4))
-          : value}
+          : (value || "—")}
       </span>
     );
   }
