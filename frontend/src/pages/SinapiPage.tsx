@@ -30,7 +30,8 @@ import {
   ChevronRight as ChevronRightIcon,
 } from "lucide-react";
 import { formatBRL } from "@/lib/format";
-import { useSinapiSearch } from "@/hooks/useSinapi";
+import { useSinapiSearch, useUpdateSinapi } from "@/hooks/useSinapi";
+import { toast } from "sonner";
 
 const PAGE_SIZE_OPTIONS = [25, 50, 100] as const;
 
@@ -96,6 +97,62 @@ function PaginationControls({
   );
 }
 
+function EditableSpan({
+  value,
+  className = "",
+  isCurrency = false,
+  onSave,
+}: {
+  value: string | number;
+  className?: string;
+  isCurrency?: boolean;
+  onSave: (val: string | number) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(String(value));
+
+  function commit() {
+    setEditing(false);
+    const newVal = isCurrency
+      ? parseFloat(draft.replace(/[R$\s.]/g, "").replace(",", ".")) || 0
+      : typeof value === "number"
+        ? parseFloat(draft.replace(",", ".")) || 0
+        : draft;
+    if (newVal !== value) onSave(newVal);
+  }
+
+  if (editing) {
+    return (
+      <input
+        autoFocus
+        className={`w-full border-0 bg-transparent outline-none ring-1 ring-primary/40 rounded px-1 py-0.5 text-xs ${className}`}
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") commit();
+          if (e.key === "Escape") setEditing(false);
+        }}
+        onClick={(e) => e.stopPropagation()}
+      />
+    );
+  }
+
+  return (
+    <span
+      className={`cursor-pointer hover:bg-muted/50 rounded px-1 py-0.5 ${className}`}
+      onDoubleClick={(e) => {
+        e.stopPropagation();
+        setDraft(isCurrency ? String(value) : String(value));
+        setEditing(true);
+      }}
+      title="Duplo-clique para editar"
+    >
+      {isCurrency ? formatBRL(value as number) : value}
+    </span>
+  );
+}
+
 export default function SinapiPage() {
   const location = useLocation();
   const [searchInput, setSearchInput] = useState("");
@@ -105,6 +162,7 @@ export default function SinapiPage() {
   const [pageSize, setPageSize] = useState(50);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
   const tableTopRef = useRef<HTMLDivElement>(null);
+  const updateSinapi = useUpdateSinapi();
 
   // Debounce 400ms
   useEffect(() => {
@@ -154,6 +212,13 @@ export default function SinapiPage() {
     };
     return labels[filter] ?? filter;
   }, [location.search]);
+
+  function handleFieldUpdate(id: string, field: string, value: string | number) {
+    updateSinapi.mutate(
+      { id, field, value },
+      { onError: () => toast.error("Erro ao salvar alteração") },
+    );
+  }
 
   function handlePageChange(newPage: number) {
     setPage(newPage);
@@ -316,13 +381,23 @@ export default function SinapiPage() {
                             )}
                           </button>
                           <span className="w-28 shrink-0 font-mono text-xs text-blue-600">
-                            {comp.codigo}
+                            <EditableSpan
+                              value={comp.codigo}
+                              onSave={(v) => handleFieldUpdate(comp.id, "codigo", v)}
+                            />
                           </span>
-                          <span className="flex-1 pr-4 truncate text-sm">
-                            {comp.descricao}
+                          <span className="flex-1 pr-4 text-sm">
+                            <EditableSpan
+                              value={comp.descricao}
+                              onSave={(v) => handleFieldUpdate(comp.id, "descricao", v)}
+                            />
                           </span>
                           <span className="w-16 shrink-0 text-center text-sm text-muted-foreground">
-                            {comp.unidade}
+                            <EditableSpan
+                              value={comp.unidade}
+                              className="text-center"
+                              onSave={(v) => handleFieldUpdate(comp.id, "unidade", v)}
+                            />
                           </span>
                           <span className="w-24 shrink-0 text-center">
                             {tipoBadge(comp.tipo)}
@@ -337,7 +412,12 @@ export default function SinapiPage() {
                             {comp.data_base}
                           </span>
                           <span className="w-36 shrink-0 text-right font-mono font-semibold text-primary">
-                            {formatBRL(comp.custo_com_desoneracao)}
+                            <EditableSpan
+                              value={comp.custo_com_desoneracao}
+                              className="text-right"
+                              isCurrency
+                              onSave={(v) => handleFieldUpdate(comp.id, "custo_com_desoneracao", v)}
+                            />
                           </span>
                         </div>
 
@@ -346,71 +426,41 @@ export default function SinapiPage() {
                           <div className="bg-muted/30 p-4 border-t space-y-3">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  Código:
-                                </span>{" "}
-                                <span className="font-mono font-medium">
-                                  {comp.codigo}
-                                </span>
+                                <span className="text-muted-foreground text-xs">Código:</span>{" "}
+                                <EditableSpan value={comp.codigo} className="font-mono font-medium" onSave={(v) => handleFieldUpdate(comp.id, "codigo", v)} />
                               </div>
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  Tipo:
-                                </span>{" "}
-                                <span className="font-medium">
-                                  {comp.tipo === "insumo"
-                                    ? "Insumo"
-                                    : "Composição"}
-                                </span>
+                                <span className="text-muted-foreground text-xs">Tipo:</span>{" "}
+                                <EditableSpan value={comp.tipo} className="font-medium" onSave={(v) => handleFieldUpdate(comp.id, "tipo", v)} />
                               </div>
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  Classe:
-                                </span>{" "}
-                                <span className="font-medium">
-                                  {comp.classe || "—"}
-                                </span>
+                                <span className="text-muted-foreground text-xs">Classe:</span>{" "}
+                                <EditableSpan value={comp.classe || "—"} className="font-medium" onSave={(v) => handleFieldUpdate(comp.id, "classe", v)} />
                               </div>
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  Unidade:
-                                </span>{" "}
-                                <span className="font-medium">
-                                  {comp.unidade}
-                                </span>
+                                <span className="text-muted-foreground text-xs">Unidade:</span>{" "}
+                                <EditableSpan value={comp.unidade} className="font-medium" onSave={(v) => handleFieldUpdate(comp.id, "unidade", v)} />
                               </div>
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  UF:
-                                </span>{" "}
-                                <span className="font-medium">{comp.uf}</span>
+                                <span className="text-muted-foreground text-xs">UF:</span>{" "}
+                                <EditableSpan value={comp.uf} className="font-medium" onSave={(v) => handleFieldUpdate(comp.id, "uf", v)} />
                               </div>
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  Data Base:
-                                </span>{" "}
-                                <span className="font-medium">
-                                  {comp.data_base}
-                                </span>
+                                <span className="text-muted-foreground text-xs">Data Base:</span>{" "}
+                                <EditableSpan value={comp.data_base} className="font-medium" onSave={(v) => handleFieldUpdate(comp.id, "data_base", v)} />
                               </div>
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  Preço Desonerado:
-                                </span>{" "}
-                                <span className="font-semibold text-primary">
-                                  {formatBRL(comp.custo_com_desoneracao)}
-                                </span>
+                                <span className="text-muted-foreground text-xs">Preço Desonerado:</span>{" "}
+                                <EditableSpan value={comp.custo_com_desoneracao} className="font-semibold text-primary" isCurrency onSave={(v) => handleFieldUpdate(comp.id, "custo_com_desoneracao", v)} />
                               </div>
                               <div>
-                                <span className="text-muted-foreground text-xs">
-                                  Preço Não Desonerado:
-                                </span>{" "}
-                                <span className="font-semibold">
-                                  {formatBRL(comp.custo_sem_desoneracao)}
-                                </span>
+                                <span className="text-muted-foreground text-xs">Preço Não Desonerado:</span>{" "}
+                                <EditableSpan value={comp.custo_sem_desoneracao} className="font-semibold" isCurrency onSave={(v) => handleFieldUpdate(comp.id, "custo_sem_desoneracao", v)} />
                               </div>
                             </div>
-                            <p className="text-sm">{comp.descricao}</p>
+                            <p className="text-sm">
+                              <EditableSpan value={comp.descricao} onSave={(v) => handleFieldUpdate(comp.id, "descricao", v)} />
+                            </p>
                           </div>
                         )}
                       </TableCell>

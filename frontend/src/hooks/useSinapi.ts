@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 
 export interface SinapiComposicao {
@@ -101,5 +101,21 @@ export function useSinapiCounts() {
       return counts;
     },
     staleTime: 1000 * 60 * 5,
+  });
+}
+
+export function useUpdateSinapi() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, field, value }: { id: string; field: string; value: string | number }) => {
+      const { error } = await supabase
+        .from("ob_sinapi_composicoes")
+        .update({ [field]: value })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sinapi-composicoes"] });
+    },
   });
 }
