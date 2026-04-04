@@ -68,7 +68,7 @@ export function PremissasTab() {
 
   return (
     <ScrollArea className="h-full">
-      <div className="max-w-2xl mx-auto p-6 space-y-6">
+      <div className="max-w-2xl p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold">Premissas do Projeto</h2>
           <Button onClick={handleSave} disabled={updateProject.isPending}>

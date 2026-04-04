@@ -22,7 +22,7 @@ export function CurvaAbcTab() {
 
   return (
     <ScrollArea className="h-full">
-      <div className="p-6 space-y-8">
+      <div className="p-6 space-y-8 max-w-fit">
         <div>
           <h2 className="text-lg font-bold mb-4">Curva ABC — Análise de Pareto</h2>
           <CurvaAbcChart entries={entries} />
