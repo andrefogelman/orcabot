@@ -238,7 +238,9 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
     // Fetch recent jobs for this project
     const { data: jobs, error } = await supabaseAdmin
       .from('ob_pdf_jobs')
-      .select('id, status, file_id, created_at, started_at, completed_at, error_message')
+      .select(
+        'id, status, file_id, created_at, started_at, completed_at, error_message',
+      )
       .eq('project_id', projectId)
       .order('created_at', { ascending: false })
       .limit(20);
@@ -361,10 +363,10 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
       let fileInfo = '';
 
       if (fileType === 'pdf') {
-        // PDF: use pdf-parse
+        // PDF: import lib directly to avoid pdf-parse's test-file auto-read bug
         try {
           // eslint-disable-next-line @typescript-eslint/no-require-imports
-          const pdfParseModule = await import('pdf-parse');
+          const pdfParseModule = await import('pdf-parse/lib/pdf-parse.js');
           const pdfParse = (pdfParseModule as any).default || pdfParseModule;
           const data = await pdfParse(Buffer.from(buffer));
           extractedText = data.text || '';
