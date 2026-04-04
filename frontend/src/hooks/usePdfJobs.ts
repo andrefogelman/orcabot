@@ -121,6 +121,7 @@ export function useUploadPdf() {
         .from("ob_pdf_jobs")
         .insert({
           file_id: fileRecord.id,
+          project_id: projectId,
           status: "pending" as const,
           stage: null,
           progress: 0,
