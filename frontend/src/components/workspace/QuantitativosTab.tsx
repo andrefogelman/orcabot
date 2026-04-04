@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useProjectContext } from "@/contexts/ProjectContext";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { formatNumber, confidenceLabel } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -13,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AlertTriangle, Trash2 } from "lucide-react";
+import { AlertTriangle, Trash2, Search, X } from "lucide-react";
 import { toast } from "sonner";
 import type { Quantitativo } from "@/types/orcamento";
 
@@ -83,6 +84,7 @@ export function QuantitativosTab() {
   const { project } = useProjectContext();
   const queryClient = useQueryClient();
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: quantitativos, isLoading } = useQuery({
     queryKey: ["quantitativos", project?.id],
@@ -144,12 +146,45 @@ export function QuantitativosTab() {
     [deleteRow],
   );
 
+  const filteredQuantitativos = useMemo(() => {
+    if (!quantitativos) return [];
+    if (!searchQuery) return quantitativos;
+    const q = searchQuery.toLowerCase();
+    return quantitativos.filter(
+      (item) =>
+        item.descricao.toLowerCase().includes(q) ||
+        item.item_code.toLowerCase().includes(q) ||
+        item.disciplina.toLowerCase().includes(q) ||
+        (item.origem_ambiente ?? "").toLowerCase().includes(q) ||
+        item.unidade.toLowerCase().includes(q),
+    );
+  }, [quantitativos, searchQuery]);
+
   if (!project) return null;
 
   return (
     <ScrollArea className="h-full">
       <div className="p-6">
-        <h2 className="text-lg font-bold mb-4">Quantitativos Extraídos</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold">Quantitativos Extraídos</h2>
+          <div className="relative w-64">
+            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Buscar item..."
+              className="h-8 pl-8 pr-8 text-sm"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-0.5 hover:bg-muted"
+                onClick={() => setSearchQuery("")}
+              >
+                <X className="h-3.5 w-3.5 text-muted-foreground" />
+              </button>
+            )}
+          </div>
+        </div>
 
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Carregando...</p>
@@ -157,6 +192,10 @@ export function QuantitativosTab() {
           <div className="text-center py-12 text-muted-foreground">
             <p>Nenhum quantitativo extraído ainda.</p>
             <p className="text-sm mt-1">Envie arquivos para que os agentes processem.</p>
+          </div>
+        ) : filteredQuantitativos.length === 0 ? (
+          <div className="text-center py-12 text-muted-foreground">
+            <p>Nenhum resultado para "{searchQuery}"</p>
           </div>
         ) : (
           <Table>
@@ -173,7 +212,7 @@ export function QuantitativosTab() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {quantitativos.map((q) => {
+              {filteredQuantitativos.map((q) => {
                 const conf = confidenceLabel(q.confidence ?? 0);
                 const isConfirming = confirmDeleteId === q.id;
 
