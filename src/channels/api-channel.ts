@@ -257,6 +257,118 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
     json(res, 200, { project_id: projectId, jobs: jobs ?? [] });
   }
 
+  // ── Caderno Query — AI Q&A over SINAPI chunks ───────────────────────────
+
+  async function handleCadernoQuery(req: IncomingMessage, res: ServerResponse) {
+    const raw = await readBody(req);
+    const body = parseJson(raw) as { question?: string } | null;
+
+    if (!body?.question?.trim()) {
+      json(res, 400, { error: 'Missing required field: question' });
+      return;
+    }
+
+    const question = body.question.trim();
+
+    try {
+      // 1. Search relevant chunks via ilike text search
+      const keywords = question
+        .replace(/[?!.,;:'"()]/g, '')
+        .split(/\s+/)
+        .filter((w) => w.length >= 3)
+        .slice(0, 5);
+
+      let chunks: Array<{
+        id: string;
+        source_file: string;
+        source_title: string;
+        page_number: number | null;
+        content: string;
+      }> = [];
+
+      // Try each keyword and collect unique chunks, up to 5
+      const seenIds = new Set<string>();
+      for (const kw of keywords) {
+        if (chunks.length >= 5) break;
+        const { data, error } = await supabaseAdmin
+          .from('ob_sinapi_chunks')
+          .select('id, source_file, source_title, page_number, content')
+          .ilike('content', `%${kw}%`)
+          .limit(3);
+        if (error) {
+          logger.error({ error: error.message }, 'Chunk search error');
+          continue;
+        }
+        for (const row of data ?? []) {
+          if (!seenIds.has(row.id) && chunks.length < 5) {
+            seenIds.add(row.id);
+            chunks.push(row);
+          }
+        }
+      }
+
+      // Fallback: if no chunks found, try broader search with first keyword
+      if (chunks.length === 0 && keywords.length > 0) {
+        const { data } = await supabaseAdmin
+          .from('ob_sinapi_chunks')
+          .select('id, source_file, source_title, page_number, content')
+          .ilike('content', `%${keywords[0]}%`)
+          .limit(5);
+        chunks = data ?? [];
+      }
+
+      // 2. Build context from chunks
+      const contextText = chunks
+        .map(
+          (c, i) =>
+            `[Trecho ${i + 1}] Caderno: ${c.source_title}${c.page_number ? `, Pág. ${c.page_number}` : ''}\n${c.content}`,
+        )
+        .join('\n\n---\n\n');
+
+      // 3. Call LLM
+      const systemPrompt = `Você é um especialista em engenharia civil e orçamentos com profundo conhecimento dos Cadernos Técnicos SINAPI (Sistema Nacional de Pesquisa de Custos e Índices da Construção Civil).
+
+REGRAS:
+1. Responda SEMPRE em português brasileiro.
+2. Base suas respostas EXCLUSIVAMENTE nos trechos fornecidos como contexto.
+3. Se os trechos não contiverem informação suficiente, diga claramente que não encontrou a informação nos cadernos disponíveis.
+4. Cite as fontes (nome do caderno e página) ao longo da resposta.
+5. Seja objetivo e técnico, mas claro na explicação.
+6. Use formatação simples: parágrafos, listas com - quando necessário.`;
+
+      const userMessage = contextText
+        ? `CONTEXTO DOS CADERNOS TÉCNICOS:\n\n${contextText}\n\n---\n\nPERGUNTA DO USUÁRIO:\n${question}`
+        : `Não foram encontrados trechos relevantes nos cadernos indexados.\n\nPERGUNTA DO USUÁRIO:\n${question}`;
+
+      const answer = await callLlm(systemPrompt, userMessage);
+
+      // 4. Build sources array
+      const sourcesMap = new Map<
+        string,
+        { title: string; page?: number; source_file: string }
+      >();
+      for (const c of chunks) {
+        const key = `${c.source_title}-${c.page_number ?? ''}`;
+        if (!sourcesMap.has(key)) {
+          sourcesMap.set(key, {
+            title: c.source_title,
+            page: c.page_number ?? undefined,
+            source_file: c.source_file,
+          });
+        }
+      }
+
+      json(res, 200, {
+        answer,
+        sources: Array.from(sourcesMap.values()),
+      });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      logger.error({ error: msg }, 'Caderno query error');
+      json(res, 500, { error: msg });
+    }
+  }
+
   // ── Process file (PDF/DWG/DXF) with LLM ──────────────────────────────────
 
   const LLM_BASE_URL =
@@ -687,6 +799,17 @@ FORMATO JSON OBRIGATÓRIO (responda APENAS com este JSON, sem texto antes ou dep
       segments[1] === 'process'
     ) {
       await handleProcess(req, res);
+      return;
+    }
+
+    // POST /api/caderno-query — AI Q&A over SINAPI cadernos
+    if (
+      req.method === 'POST' &&
+      segments.length === 2 &&
+      segments[0] === 'api' &&
+      segments[1] === 'caderno-query'
+    ) {
+      await handleCadernoQuery(req, res);
       return;
     }
 
