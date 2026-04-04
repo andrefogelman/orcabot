@@ -1,13 +1,14 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, LogOut, HardHat, Database, BookOpen } from "lucide-react";
+import { LogOut, HardHat, Database, BookOpen, FolderOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { to: "/", label: "Projetos", icon: LayoutDashboard },
+  { to: "/", label: "Projetos", icon: FolderOpen },
   { to: "/tcpo", label: "Base TCPO", icon: Database },
-  { to: "/cadernos", label: "Cadernos Técnicos", icon: BookOpen },
+  { to: "/sinapi", label: "Base SINAPI", icon: Database },
+  { to: "/cadernos", label: "Cadernos Tecnicos", icon: BookOpen },
 ];
 
 export function AppShell() {

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef, type KeyboardEvent } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo, type KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,11 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@/components/ui/resizable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Search, ChevronDown, ChevronRight, Database, Pencil, Trash2, Plus, X, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -32,6 +37,7 @@ import {
   type TcpoComposicao,
 } from "@/hooks/useTcpo";
 import { TcpoComposicaoDetail } from "@/components/tcpo/TcpoComposicaoDetail";
+import { CategoryTree, type TreeNode } from "@/components/shared/CategoryTree";
 
 // ── Inline Editable Cell ────────────────────────────────────────
 function EditableCell({
@@ -106,7 +112,7 @@ function NewComposicaoRow({ onCancel }: { onCancel: () => void }) {
         descricao: form.descricao.trim(),
         unidade: form.unidade.trim() || "un",
         categoria: form.categoria,
-        regiao: "São Paulo",
+        regiao: "Sao Paulo",
         data_precos: "",
         ls_percentual: 0,
         bdi_percentual: 0,
@@ -128,7 +134,7 @@ function NewComposicaoRow({ onCancel }: { onCancel: () => void }) {
         <div className="flex w-full items-center gap-2 px-4 py-2">
           <span className="w-8 shrink-0" />
           <Input
-            placeholder="Código"
+            placeholder="Codigo"
             value={form.codigo}
             onChange={(e) => setForm((f) => ({ ...f, codigo: e.target.value }))}
             onKeyDown={handleKey}
@@ -136,7 +142,7 @@ function NewComposicaoRow({ onCancel }: { onCancel: () => void }) {
             autoFocus
           />
           <Input
-            placeholder="Descrição"
+            placeholder="Descricao"
             value={form.descricao}
             onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
             onKeyDown={handleKey}
@@ -216,11 +222,6 @@ export default function TcpoPage() {
     setExpandedId((prev) => (prev === id ? null : id));
   }, []);
 
-  const toggleCategory = useCallback((cat: string) => {
-    setSelectedCategory((prev) => (prev === cat ? null : cat));
-    setExpandedId(null);
-  }, []);
-
   const saveField = (comp: TcpoComposicao, field: keyof TcpoComposicao, rawValue: string) => {
     const numericFields = ["custo_sem_taxas", "custo_com_taxas"];
     const value = numericFields.includes(field) ? parseBRNumber(rawValue) : rawValue;
@@ -239,234 +240,274 @@ export default function TcpoPage() {
     });
   };
 
+  // Build tree
+  const tree: TreeNode[] = useMemo(() => {
+    const children: TreeNode[] = TCPO_CATEGORIES.map((cat) => ({
+      id: cat,
+      label: cat,
+      count: categoryCounts?.[cat] ?? 0,
+    }));
+
+    const totalCount = Object.values(categoryCounts ?? {}).reduce((a, b) => a + b, 0);
+
+    return [
+      {
+        id: "root",
+        label: "TCPO PINI",
+        count: totalCount,
+        children: [
+          {
+            id: "__servicos__",
+            label: "Servicos",
+            count: totalCount,
+            children,
+          },
+        ],
+      },
+    ];
+  }, [categoryCounts]);
+
+  const handleSelectNode = (id: string | null) => {
+    if (id === "root" || id === "__servicos__") {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(id);
+    }
+    setExpandedId(null);
+  };
+
+  // Header text
+  const headerText = useMemo(() => {
+    if (!selectedCategory) return "Todos os servicos";
+    return selectedCategory;
+  }, [selectedCategory]);
+
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="border-b bg-background px-6 py-4 space-y-4">
-        <div className="flex items-center gap-3">
-          <Database className="h-6 w-6 text-primary" />
-          <h1 className="text-2xl font-bold">Base TCPO</h1>
-          {composicoes && (
-            <Badge variant="secondary" className="ml-2">
-              {composicoes.length} resultado{composicoes.length !== 1 ? "s" : ""}
-            </Badge>
-          )}
-          <div className="ml-auto">
-            <Button
-              size="sm"
-              onClick={() => { setShowNewRow(true); setEditingId(null); }}
-              className="gap-1.5"
-            >
-              <Plus className="h-4 w-4" />
-              Nova Composição
-            </Button>
+      <ResizablePanelGroup direction="horizontal" className="flex-1">
+        {/* LEFT PANEL — Category tree */}
+        <ResizablePanel defaultSize={25} minSize={15} maxSize={40}>
+          <div className="h-full overflow-auto border-r bg-muted/20">
+            <div className="px-3 pt-4 pb-2">
+              <div className="flex items-center gap-2 mb-2">
+                <Database className="h-5 w-5 text-orange-600" />
+                <h2 className="text-sm font-bold">Base TCPO</h2>
+              </div>
+            </div>
+            <CategoryTree
+              tree={tree}
+              selectedId={selectedCategory}
+              onSelect={handleSelectNode}
+            />
           </div>
-        </div>
+        </ResizablePanel>
 
-        {/* Search */}
-        <div className="relative max-w-lg">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Buscar composição por descrição..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            className="pl-10"
-          />
-        </div>
+        <ResizableHandle withHandle />
 
-        {/* Category pills */}
-        <div className="flex flex-wrap gap-2">
-          {TCPO_CATEGORIES.map((cat) => {
-            const isActive = selectedCategory === cat;
-            const count = categoryCounts?.[cat] ?? 0;
-            return (
-              <button
-                key={cat}
-                onClick={() => toggleCategory(cat)}
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors border",
-                  isActive
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-foreground border-border hover:bg-muted"
-                )}
-              >
-                {cat}
-                <span
-                  className={cn(
-                    "inline-flex items-center justify-center rounded-full px-1.5 text-xs min-w-[1.25rem]",
-                    isActive ? "bg-primary-foreground/20 text-primary-foreground" : "bg-muted text-muted-foreground"
-                  )}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Results */}
-      <div className="flex-1 overflow-auto px-6 py-4">
-        {isLoading ? (
-          <div className="space-y-3">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <Skeleton key={i} className="h-12 w-full" />
-            ))}
-          </div>
-        ) : composicoes && composicoes.length > 0 ? (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-8" />
-                <TableHead className="w-28">Código</TableHead>
-                <TableHead>Descrição</TableHead>
-                <TableHead className="w-16">Un</TableHead>
-                <TableHead className="w-36 text-right">R$ Sem Taxas</TableHead>
-                <TableHead className="w-36 text-right">R$ Com Taxas</TableHead>
-                <TableHead className="w-20" />
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {showNewRow && (
-                <NewComposicaoRow onCancel={() => setShowNewRow(false)} />
+        {/* RIGHT PANEL — Results */}
+        <ResizablePanel defaultSize={75}>
+          <div className="flex flex-col h-full">
+            {/* Orange header bar */}
+            <div className="bg-orange-500 text-white px-6 py-2.5 flex items-center gap-3">
+              <span className="font-semibold text-sm">
+                Mostrando: {headerText}
+              </span>
+              {composicoes && (
+                <Badge className="bg-white/20 text-white border-0 text-xs">
+                  {composicoes.length} resultado{composicoes.length !== 1 ? "s" : ""}
+                </Badge>
               )}
-              {composicoes.map((comp) => {
-                const isExpanded = expandedId === comp.id;
-                const isEditing = editingId === comp.id;
-                return (
-                  <TableRow
-                    key={comp.id}
-                    className={cn("group", isEditing && "ring-2 ring-blue-400/50 bg-blue-50/30 dark:bg-blue-950/10")}
-                  >
-                    <TableCell colSpan={7} className="p-0">
-                      {/* Row content */}
-                      <div className="flex w-full items-center px-4 py-3">
-                        {/* Expand toggle */}
-                        <button
-                          onClick={() => toggleExpand(comp.id)}
-                          className="w-8 shrink-0 hover:bg-muted/50 rounded p-0.5"
+              <div className="ml-auto">
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => { setShowNewRow(true); setEditingId(null); }}
+                  className="gap-1.5 h-7 text-xs"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  Nova Composicao
+                </Button>
+              </div>
+            </div>
+
+            {/* Search */}
+            <div className="px-6 py-3 border-b">
+              <div className="relative max-w-lg">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Buscar composicao por descricao..."
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+
+            {/* Results table */}
+            <div className="flex-1 overflow-auto px-6 py-4">
+              {isLoading ? (
+                <div className="space-y-3">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <Skeleton key={i} className="h-12 w-full" />
+                  ))}
+                </div>
+              ) : composicoes && composicoes.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-8" />
+                      <TableHead className="w-28">Codigo</TableHead>
+                      <TableHead>Descricao</TableHead>
+                      <TableHead className="w-16">Un</TableHead>
+                      <TableHead className="w-36 text-right">R$ Sem Taxas</TableHead>
+                      <TableHead className="w-36 text-right">R$ Com Taxas</TableHead>
+                      <TableHead className="w-20" />
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {showNewRow && (
+                      <NewComposicaoRow onCancel={() => setShowNewRow(false)} />
+                    )}
+                    {composicoes.map((comp) => {
+                      const isExpanded = expandedId === comp.id;
+                      const isEditing = editingId === comp.id;
+                      return (
+                        <TableRow
+                          key={comp.id}
+                          className={cn("group", isEditing && "ring-2 ring-blue-400/50 bg-blue-50/30 dark:bg-blue-950/10")}
                         >
-                          {isExpanded ? (
-                            <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                          ) : (
-                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                          )}
-                        </button>
+                          <TableCell colSpan={7} className="p-0">
+                            {/* Row content */}
+                            <div className="flex w-full items-center px-4 py-3">
+                              {/* Expand toggle */}
+                              <button
+                                onClick={() => toggleExpand(comp.id)}
+                                className="w-8 shrink-0 hover:bg-muted/50 rounded p-0.5"
+                              >
+                                {isExpanded ? (
+                                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                                ) : (
+                                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                )}
+                              </button>
 
-                        {/* Codigo */}
-                        <span className="w-28 shrink-0">
-                          <EditableCell
-                            value={comp.codigo}
-                            onSave={(v) => saveField(comp, "codigo", v)}
-                            isEditing={isEditing}
-                            className="font-mono text-xs"
-                          />
-                        </span>
+                              {/* Codigo */}
+                              <span className="w-28 shrink-0">
+                                <EditableCell
+                                  value={comp.codigo}
+                                  onSave={(v) => saveField(comp, "codigo", v)}
+                                  isEditing={isEditing}
+                                  className="font-mono text-xs"
+                                />
+                              </span>
 
-                        {/* Descricao */}
-                        <span className="flex-1 pr-4">
-                          <EditableCell
-                            value={comp.descricao}
-                            onSave={(v) => saveField(comp, "descricao", v)}
-                            isEditing={isEditing}
-                            className="truncate"
-                          />
-                        </span>
+                              {/* Descricao */}
+                              <span className="flex-1 pr-4">
+                                <EditableCell
+                                  value={comp.descricao}
+                                  onSave={(v) => saveField(comp, "descricao", v)}
+                                  isEditing={isEditing}
+                                  className="truncate"
+                                />
+                              </span>
 
-                        {/* Unidade */}
-                        <span className="w-16 shrink-0 text-center">
-                          <EditableCell
-                            value={comp.unidade}
-                            onSave={(v) => saveField(comp, "unidade", v)}
-                            isEditing={isEditing}
-                            className="text-muted-foreground"
-                          />
-                        </span>
+                              {/* Unidade */}
+                              <span className="w-16 shrink-0 text-center">
+                                <EditableCell
+                                  value={comp.unidade}
+                                  onSave={(v) => saveField(comp, "unidade", v)}
+                                  isEditing={isEditing}
+                                  className="text-muted-foreground"
+                                />
+                              </span>
 
-                        {/* Custo sem taxas */}
-                        <span className="w-36 shrink-0 text-right">
-                          <EditableCell
-                            value={String(comp.custo_sem_taxas)}
-                            onSave={(v) => saveField(comp, "custo_sem_taxas", v)}
-                            isEditing={isEditing}
-                            type="currency"
-                            className="font-mono"
-                          />
-                        </span>
+                              {/* Custo sem taxas */}
+                              <span className="w-36 shrink-0 text-right">
+                                <EditableCell
+                                  value={String(comp.custo_sem_taxas)}
+                                  onSave={(v) => saveField(comp, "custo_sem_taxas", v)}
+                                  isEditing={isEditing}
+                                  type="currency"
+                                  className="font-mono"
+                                />
+                              </span>
 
-                        {/* Custo com taxas */}
-                        <span className="w-36 shrink-0 text-right">
-                          <EditableCell
-                            value={String(comp.custo_com_taxas)}
-                            onSave={(v) => saveField(comp, "custo_com_taxas", v)}
-                            isEditing={isEditing}
-                            type="currency"
-                            className="font-mono font-semibold text-primary"
-                          />
-                        </span>
+                              {/* Custo com taxas */}
+                              <span className="w-36 shrink-0 text-right">
+                                <EditableCell
+                                  value={String(comp.custo_com_taxas)}
+                                  onSave={(v) => saveField(comp, "custo_com_taxas", v)}
+                                  isEditing={isEditing}
+                                  type="currency"
+                                  className="font-mono font-semibold text-primary"
+                                />
+                              </span>
 
-                        {/* Action buttons */}
-                        <span className="w-20 shrink-0 flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-7 w-7 p-0"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setEditingId(isEditing ? null : comp.id);
-                            }}
-                            title={isEditing ? "Parar edição" : "Editar"}
-                          >
-                            {isEditing ? (
-                              <Check className="h-3.5 w-3.5 text-green-600" />
-                            ) : (
-                              <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+                              {/* Action buttons */}
+                              <span className="w-20 shrink-0 flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-7 w-7 p-0"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditingId(isEditing ? null : comp.id);
+                                  }}
+                                  title={isEditing ? "Parar edicao" : "Editar"}
+                                >
+                                  {isEditing ? (
+                                    <Check className="h-3.5 w-3.5 text-green-600" />
+                                  ) : (
+                                    <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+                                  )}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-7 w-7 p-0"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setDeleteTarget(comp);
+                                  }}
+                                  title="Excluir"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                                </Button>
+                              </span>
+                            </div>
+
+                            {/* Expanded detail */}
+                            {isExpanded && (
+                              <TcpoComposicaoDetail composicao={comp} />
                             )}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-7 w-7 p-0"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDeleteTarget(comp);
-                            }}
-                            title="Excluir"
-                          >
-                            <Trash2 className="h-3.5 w-3.5 text-destructive" />
-                          </Button>
-                        </span>
-                      </div>
-
-                      {/* Expanded detail */}
-                      {isExpanded && (
-                        <TcpoComposicaoDetail composicao={comp} />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-            <Database className="h-12 w-12 mb-4 opacity-40" />
-            <p className="text-lg font-medium">Nenhuma composição encontrada</p>
-            <p className="text-sm">Tente alterar os filtros ou a busca.</p>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
+                  <Database className="h-12 w-12 mb-4 opacity-40" />
+                  <p className="text-lg font-medium">Nenhuma composicao encontrada</p>
+                  <p className="text-sm">Tente alterar os filtros ou a busca.</p>
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Excluir composição</DialogTitle>
+            <DialogTitle>Excluir composicao</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir a composição{" "}
+              Tem certeza que deseja excluir a composicao{" "}
               <strong>{deleteTarget?.codigo}</strong> — {deleteTarget?.descricao}?
-              Todos os insumos associados também serão excluídos.
-              Esta ação não pode ser desfeita.
+              Todos os insumos associados tambem serao excluidos.
+              Esta acao nao pode ser desfeita.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

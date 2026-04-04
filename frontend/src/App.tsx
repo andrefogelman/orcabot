@@ -5,6 +5,7 @@ import LoginPage from "@/pages/LoginPage";
 import DashboardPage from "@/pages/DashboardPage";
 import ProjectPage from "@/pages/ProjectPage";
 import TcpoPage from "@/pages/TcpoPage";
+import SinapiPage from "@/pages/SinapiPage";
 import CadernosPage from "@/pages/CadernosPage";
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         <Route index element={<DashboardPage />} />
         <Route path="projetos/:projectId" element={<ProjectPage />} />
         <Route path="tcpo" element={<TcpoPage />} />
+        <Route path="sinapi" element={<SinapiPage />} />
         <Route path="cadernos" element={<CadernosPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
