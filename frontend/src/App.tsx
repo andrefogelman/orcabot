@@ -7,6 +7,7 @@ import ProjectPage from "@/pages/ProjectPage";
 import TcpoPage from "@/pages/TcpoPage";
 import SinapiPage from "@/pages/SinapiPage";
 import CadernosPage from "@/pages/CadernosPage";
+import TcpoInsumosPage from "@/pages/TcpoInsumosPage";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route index element={<DashboardPage />} />
         <Route path="projetos/:projectId" element={<ProjectPage />} />
         <Route path="tcpo" element={<TcpoPage />} />
+        <Route path="tcpo-insumos" element={<TcpoInsumosPage />} />
         <Route path="sinapi" element={<SinapiPage />} />
         <Route path="cadernos" element={<CadernosPage />} />
       </Route>

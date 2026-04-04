@@ -1,0 +1,3404 @@
+[
+  {
+    "codigo": "07.007.000010.MAT",
+    "descricao": "Aço CA-50 Ø 10,0 mm em barra, massa nominal 0,617 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-50",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000011.MAT",
+    "descricao": "Aço CA-50 Ø 12,5 mm em barra, massa nominal 0,963 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-50",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000008.MAT",
+    "descricao": "Aço CA-50 Ø 6,3 mm em barra, massa nominal 0,245 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-50",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000013.MAT",
+    "descricao": "Aço CA-50 Ø 8,0 mm em barra, massa nominal 0,395 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-50",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000012.MAT",
+    "descricao": "Barra de aço CA-50 3/4\" (massa linear: 2,466 kg/m / bitola: 20,00 mm)",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-50",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000016.MAT",
+    "descricao": "Aço CA-60 Ø 4,20 mm em barra, massa nominal 0,109 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000014.MAT",
+    "descricao": "Aço CA-60 Ø 5,00 mm em barra, massa nominal 0,154 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000015.MAT",
+    "descricao": "Aço CA-60 Ø 7,00 mm em barra, massa nominal 0,302 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.007.000017.MAT",
+    "descricao": "Aço CA-60 Ø 9,50 mm em barra, massa nominal 0,558 kg/m",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.001.000013.MAT",
+    "descricao": "Tela de aço CA-60 soldada Q 138, Ø 4,20 mm, malha 10 x 10 cm, 2,20 kg/m²",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.001.000017.MAT",
+    "descricao": "Tela de aço CA-60 soldada Q 196, Ø 5,00 mm, malha 10 x 10 cm, 3,11 Kg/m²",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.001.000020.MAT",
+    "descricao": "Tela de aço CA-60 soldada Q 246, Ø 5,60 mm, malha 10 x 10 cm, 3,91 kg/m²",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.001.000004.MAT",
+    "descricao": "Tela de aço CA-60 soldada Q 75, Ø 3,80 mm, malha 15 x 15 cm, 1,21 kg/m²",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "07.001.000005.MAT",
+    "descricao": "Tela de aço CA-60 soldada Q 92, Ø 4,20 mm, malha 15 x 15 cm, 1,48 kg/m²",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aco ca-60",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.002.000011.MAT",
+    "descricao": "Brita 1",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.002.000014.MAT",
+    "descricao": "Brita 2",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.002.000003.MAT",
+    "descricao": "Brita 3",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.002.000004.MAT",
+    "descricao": "Brita 4",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.002.000005.MAT",
+    "descricao": "Brita graduada",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "06.004.000001.MAT",
+    "descricao": "Concreto dosado em central convencional brita 1 e 2 (resistência: 13,5 MPa)",
+    "unidade": "m3",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "06.004.000006.MAT",
+    "descricao": "Concreto dosado em central convencional brita 1 e 2 (resistência: 18 MPa)",
+    "unidade": "m3",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "06.004.000003.MAT",
+    "descricao": "Concreto usinado fck 20 MPa brita 0 abatimento 24±2 cm",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "brita",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "04.001.000001.MAT",
+    "descricao": "Cal hidratada CH III",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "cal hidratada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "21.004.000007.MAT",
+    "descricao": "Cal hidratada para pintura",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "cal hidratada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "1\t2\t3\t4\t5\t6",
+    "descricao": "1",
+    "unidade": "6",
+    "categoria": "Materiais",
+    "search_term": "argamassa",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.055.000008.MAT",
+    "descricao": "Mangueira para bomba de argamassa - Ø 35 mm",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "argamassa",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "04.004.000010.MAT",
+    "descricao": "Argamassa pré-fabricada para assentar e rejuntar blocos de vidro, placas e tijolos refratários",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "tijolo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000005.MAT",
+    "descricao": "Tijolo cerâmico comum para alvenaria 5,5 x 11 x 23,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tijolo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000006.MAT",
+    "descricao": "Tijolo cerâmico comum para alvenaria 6 x 9 x 19 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tijolo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.002.000002.MAT",
+    "descricao": "Tijolo de solo-cimento com 2 furos verticais (altura: 62,5 mm / comprimento: 250 mm / largura: 125 mm)",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tijolo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.002.000001.MAT",
+    "descricao": "Tijolo de solo-cimento com 2 furos verticais (altura: 75 mm / comprimento: 300 mm / largura: 150 mm)",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tijolo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.006.000001.MOE",
+    "descricao": "Alvenaria de vedação com blocos cerâmicos 9 x19 x19 cm, mão de obra para execução",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000004.MAT",
+    "descricao": "Bloco cerâmico furado de vedação 19 x 19 x 9 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000002.MAT",
+    "descricao": "Bloco cerâmico furado para alvenaria 14 x 19 x 39 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000003.MAT",
+    "descricao": "Bloco cerâmico furado para alvenaria 19 x 19 x 39 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000001.MAT",
+    "descricao": "Bloco cerâmico furado para alvenaria 9 x 19 x 39 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000009.MAT",
+    "descricao": "Bloco cerâmico furado para alvenaria estrutural 14 x 19 x 39 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000008.MAT",
+    "descricao": "Bloco cerâmico furado para alvenaria estrutural 19 x 19 x 39 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "05.004.000007.MAT",
+    "descricao": "Bloco cerâmico furado para alvenaria tipo canaleta 9 x 19 x 39 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "bloco ceramico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "1\t2\t3",
+    "descricao": "1",
+    "unidade": "3",
+    "categoria": "Materiais",
+    "search_term": "tubo pvc",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.086.000014.MAT",
+    "descricao": "Anel de borracha para tubo PVC PBA Ø 75",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tubo pvc",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.001.000971.MAT",
+    "descricao": "Pasta lubrificante para tubo PVC",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "tubo pvc",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "12.002.000001.MAT",
+    "descricao": "Cabo elétrico trançado com 2 fios para cordel detonante 1 mm²",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "cabo eletrico",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.010.000005.MAT",
+    "descricao": "Arruela plástica para prego 18x27 em fixação de telha de fibrocimento",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000005.MAT",
+    "descricao": "Prego com cabeça 10 x 10, 23,0 mm x Ø 1,5 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000006.MAT",
+    "descricao": "Prego com cabeça 12 x 12, 27,6 mm x Ø 1,8 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000008.MAT",
+    "descricao": "Prego com cabeça 15 x 15, 34,5 mm x Ø 2,4 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000007.MAT",
+    "descricao": "Prego com cabeça 16 x 24, 55 mm x Ø 2,7 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000002.MAT",
+    "descricao": "Prego com cabeça 17 x 21, 48 mm x Ø 3,0 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000004.MAT",
+    "descricao": "Prego com cabeça 17 x 27, 62,1 mm x Ø 3,0 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000009.MAT",
+    "descricao": "Prego com cabeça 18 x 27, 62,1 mm x Ø 3,4 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000010.MAT",
+    "descricao": "Prego com cabeça 18 x 30, 69 mm x Ø 3,4 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000001.MAT",
+    "descricao": "Prego com cabeça 19 x 33, 75,9 mm x Ø 3,9 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.007.000003.MAT",
+    "descricao": "Prego com cabeça dupla 17 x 27, 62,1 mm x Ø 3,0 mm",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "prego",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.011.000003.MAT",
+    "descricao": "Bucha de nylon Ø 5 mm com parafuso auto-atarraxante cabeça panela fenda simples Ø 3,8 mm x 30 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.011.000002.MAT",
+    "descricao": "Bucha de nylon Ø 8 mm com parafuso auto-atarraxante cabeça panela fenda simples Ø 4,8 mm x 50 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.017.000025.MAT",
+    "descricao": "Ferragens para vidro temperado, botão de correção fosco acetinado com parafuso tipo 1002",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.004.000054.MAT",
+    "descricao": "Fusível Diazed 25 A, acessório, parafuso com rosca E27",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.004.000055.MAT",
+    "descricao": "Fusível Diazed 63 A, acessório, parafuso com rosca E33",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "15.011.000005.MAT",
+    "descricao": "Jogo de metais com 1 engate flexivel 1 par de parafusos bucha e arruelas acabamento cromado para mictório",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.036.000010.MAT",
+    "descricao": "Olhal para parafuso tipo M16 Ø 5/8\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000006.MAT",
+    "descricao": "Parafuso auto-atarraxante cabeça chata fenda phillips - zincado branco (comprimento: 38 mm / diâmetro nominal: 6,3 mm)",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000013.MAT",
+    "descricao": "Parafuso autoperfurante autoatarraxante com cabeça trombeta e ponta agulha para gesso acartonado Ø 3,5 mm x 25 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000019.MAT",
+    "descricao": "Parafuso cabeça abaulada M10 Ø 10 mm x 115 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000005.MAT",
+    "descricao": "Parafuso cabeça abaulada M16 Ø 16 mm x 150 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000016.MAT",
+    "descricao": "Parafuso cabeça abaulada M16 Ø 16 mm x 45 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000020.MAT",
+    "descricao": "Parafuso cabeça chata auto-atarraxante Ø 5,5 mm x 25 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000014.MAT",
+    "descricao": "Parafuso cabeça chata fenda simples zincado branco para madeira comprimento Ø 6 mm x 90 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000023.MAT",
+    "descricao": "Parafuso cabeça quadrada Ø 16 mm x 45 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000021.MAT",
+    "descricao": "Parafuso cromado Ø 1/4\" x 2 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000012.MAT",
+    "descricao": "Parafuso prisioneiro Ø 1/2\" x 160 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000018.MAT",
+    "descricao": "Parafuso prisioneiro Ø 3/4\" x 235 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000015.MAT",
+    "descricao": "Parafuso prisioneiro Ø 3/8\" x 130 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000022.MAT",
+    "descricao": "Parafuso rosca soberba galvanizado Ø 8 mm x 110 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000010.MAT",
+    "descricao": "Parafuso rosca soberba galvanizado Ø 8 mm x 165 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000009.MAT",
+    "descricao": "Parafuso rosca soberba galvanizado Ø 8 mm x 180 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000007.MAT",
+    "descricao": "Parafuso rosca soberba galvanizado Ø 8 mm x 230 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000008.MAT",
+    "descricao": "Parafuso rosca soberba galvanizado Ø 8 mm x 250 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000024.MAT",
+    "descricao": "Parafuso rosca soberba galvanizado Ø 8 mm x 85 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.002.000011.MAT",
+    "descricao": "Parafuso sextavado rosca soberba zincado Ø 1/4\" x 1 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "25.006.000002.MAT",
+    "descricao": "Porca quadrada para parafuso M16 Ø 5/8\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "parafuso",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.002.000006.MAT",
+    "descricao": "Chapa de madeira compensada plastificada 1,10 x 2,20 m # 12 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.002.000005.MAT",
+    "descricao": "Chapa de madeira compensada plastificada 1,10 x 2,20 m # 18 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.002.000003.MAT",
+    "descricao": "Chapa de madeira compensada resinada 1,10 x 2,20 m # 10 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.002.000004.MAT",
+    "descricao": "Chapa de madeira compensada resinada 1,10 x 2,20 m # 12 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.002.000002.MAT",
+    "descricao": "Chapa de madeira compensada resinada 1,10 x 2,20 m # 6 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "06.002.000011.MAT",
+    "descricao": "Forma pré-fabricada com chapa de madeira compensada plastificada # 12 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000022.MAT",
+    "descricao": "Porta de chapa de madeira lisa encabeçada com Imbuia 60 x 210 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000010.MAT",
+    "descricao": "Porta de chapa de madeira lisa encabeçada com Imbuia 70 x 210 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000017.MAT",
+    "descricao": "Porta de chapa de madeira lisa encabeçada com Imbuia 80 x 210 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000012.MAT",
+    "descricao": "Porta de chapa de madeira lisa encabeçada com Imbuia 90 x 210 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000020.MAT",
+    "descricao": "Porta de chapa de madeira lisa encabeçada para sanitário 60 x 150 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "chapa madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "18.003.000007.MAT",
+    "descricao": "Assoalho de tábuas de madeira ipê com encaixe tipo macho-fêmea 15 cm x # 2 cm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000017.MAT",
+    "descricao": "Tábua 1\" x 6\"",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000014.MAT",
+    "descricao": "Tábua 1a. construção (seção transversal: 1x12 \" / tipo de madeira: cedro)",
+    "unidade": "m2",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000022.MAT",
+    "descricao": "Tábua de 3a 30 cm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000018.MAT",
+    "descricao": "Tábua de cedrinho 1\" x 6\"",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000021.MAT",
+    "descricao": "Tábua de cedrinho 1\" x 6\"",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000019.MAT",
+    "descricao": "Tábua de cedrinho 1\" x 9\"",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000020.MAT",
+    "descricao": "Tábua de cedrinho 2,3 x 30 cm",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000016.MAT",
+    "descricao": "Tábua de pinus 1\" x 12\"",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "tabua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000004.MAT",
+    "descricao": "Pontalete 2a. construção (seção transversal: 3x3 \" / tipo de madeira: cedro)",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "pontalete",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000003.MAT",
+    "descricao": "Pontalete de cedro 3a 7,5 x 7,5 cm",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "pontalete",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000005.MAT",
+    "descricao": "Pontalete de cedro 7,5 x 7,5 cm",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "pontalete",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000010.MAT",
+    "descricao": "Sarrafo 1\" x 2\"",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "sarrafo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000013.MAT",
+    "descricao": "Sarrafo 1\" x 3\"",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "sarrafo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000011.MAT",
+    "descricao": "Sarrafo 1\" x 4\"",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "sarrafo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000009.MAT",
+    "descricao": "Sarrafo de cedro aparelhado 1\" x 2\"",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "sarrafo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "08.005.000012.MAT",
+    "descricao": "Sarrafo de pinho aparelhado 1\" x 4\"",
+    "unidade": "m",
+    "categoria": "Materiais",
+    "search_term": "sarrafo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "21.004.000003.MAT",
+    "descricao": "Tinta látex acrílica fosca",
+    "unidade": "l",
+    "categoria": "Materiais",
+    "search_term": "tinta latex",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "21.004.000004.MAT",
+    "descricao": "Tinta látex PVA fosca",
+    "unidade": "l",
+    "categoria": "Materiais",
+    "search_term": "tinta latex",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "21.004.000014.MAT",
+    "descricao": "Tinta a base de emulsão acrílica para piso",
+    "unidade": "l",
+    "categoria": "Materiais",
+    "search_term": "tinta acrilica",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "21.001.000005.MAT",
+    "descricao": "Massa corrida acrílica",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "massa corrida",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "21.001.000006.MAT",
+    "descricao": "Massa corrida base óleo",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "massa corrida",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "21.001.000007.MAT",
+    "descricao": "Massa corrida base PVA",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "massa corrida",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "12.003.000013.MAT",
+    "descricao": "Aditivo impermeabilizante de pega ultra rápida",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "impermeabilizante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "12.003.000012.MAT",
+    "descricao": "Aditivo impermeabilizante e plastificante em pó para argamassas",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "impermeabilizante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "04.004.000003.MAT",
+    "descricao": "Argamassa pré-fabricada impermeabilizante de base poliéster",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "impermeabilizante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "10.001.000041.MAT",
+    "descricao": "Impermeabilizante base acrílica",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "impermeabilizante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "10.008.000001.MAT",
+    "descricao": "Impermeabilizante estrutural de base cimentícia",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "impermeabilizante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "10.002.000063.MAT",
+    "descricao": "Manta asfáltica antiraiz # 4 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "manta asfaltica",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "10.002.000046.MAT",
+    "descricao": "Manta asfáltica estruturada com filme polietileno # 3 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "manta asfaltica",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "10.002.000042.MAT",
+    "descricao": "Manta asfáltica estruturada com poliéster # 4 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "manta asfaltica",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "10.002.000039.MAT",
+    "descricao": "Manta asfáltica estruturada com trama de poliéster não tecido # 3 mm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "manta asfaltica",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "1\t2",
+    "descricao": "1",
+    "unidade": "2",
+    "categoria": "Materiais",
+    "search_term": "telha",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.029.000001.MOD",
+    "descricao": "Telhadista",
+    "unidade": "h",
+    "categoria": "Materiais",
+    "search_term": "telha",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "18.006.000006.MAT",
+    "descricao": "Porcelanato polido 40 x 40 cm",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "porcelanato",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000024.MAT",
+    "descricao": "Porta de madeira almofadada trabalhada em 2 faces em madeira Angelim 80 x 210 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000014.MAT",
+    "descricao": "Porta de madeira almofadada trabalhada em 2 faces em madeira Angelim 90 x 210 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000034.MAT",
+    "descricao": "Porta de madeira externa 2 folhas em madeira Cedro Arana 129 x 214 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000031.MAT",
+    "descricao": "Porta de madeira externa 2 folhas em madeira Cedro Arana 169 x 214 x 3,5 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.008.000004.MAT",
+    "descricao": "Porta de madeira lisa de cedro, sob encomenda",
+    "unidade": "m2",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000052.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 1,80 x 3,50 m, sistema basculante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000053.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 1,80 x 3,50 m, sistema basculante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000006.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 1,80 x 3,50 m, sistema deslizante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000005.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 1,80 x 3,50 m, sistema deslizante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000012.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 1,80 x 3,50 m, sistema pivotante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000057.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 1,80 x 3,50 m, sistema pivotante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000059.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 2,10 x 4,00 m, sistema basculante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000054.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 2,10 x 4,00 m, sistema basculante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000008.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 2,10 x 4,00 m, sistema deslizante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000007.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 2,10 x 4,00 m, sistema deslizante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000034.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 2,10 x 4,00 m, sistema pivotante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000023.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 2,10 x 4,00 m, sistema pivotante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000056.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 3,00 x 5,00 m, sistema basculante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000004.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 3,00 x 5,00 m, sistema basculante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000010.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 3,00 x 5,00 m, sistema deslizante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000009.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 3,00 x 5,00 m, sistema deslizante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000051.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 3,00 x 5,00 m, sistema pivotante, fluxo de veículos alto",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000045.SET",
+    "descricao": "Portão automático de madeira, com lâminas de madeira tipo assoalho em posição vertical 3,00 x 5,00 m, sistema pivotante, fluxo de veículos baixo",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "porta madeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000028.MAT",
+    "descricao": "Janela basculante de alumínio com acabamento natural, sem vidros",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000005.MAT",
+    "descricao": "Janela basculante de alumínio, 2 básculas, com vidro canelado 0,60 x 0,60 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000011.MAT",
+    "descricao": "Janela basculante de alumínio, 2 básculas, com vidro canelado 0,60 x 0,80 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000014.MAT",
+    "descricao": "Janela basculante de alumínio, 2 básculas, com vidro canelado 0,80 x 0,80 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000012.MAT",
+    "descricao": "Janela basculante de alumínio, com 2 seções de 3 básculas cada, com vidro canelado 1,20 x 0,60 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000020.MAT",
+    "descricao": "Janela basculante de alumínio, com 2 seções de 3 básculas cada, com vidro canelado 1,50 x 0,80 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000013.MAT",
+    "descricao": "Janela basculante de alumínio, com 2 seções de 5 básculas cada, com vidro canelado 1,20 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000030.MAT",
+    "descricao": "Janela de correr de alumínio com acabamento natural, 2 folhas, sem vidros",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000010.MAT",
+    "descricao": "Janela de correr de alumínio, 1 folha fixa e 1 móvel, vidro liso 1,20 x 1,00 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000008.MAT",
+    "descricao": "Janela de correr de alumínio, 1 folha veneziana e 1 folha de vidro liso 1,20 x 1,00 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000009.MAT",
+    "descricao": "Janela de correr de alumínio, 1 folha veneziana e 1 folha de vidro liso 1,20 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000018.MAT",
+    "descricao": "Janela de correr de alumínio, 1 folha veneziana e 1 folha de vidro liso 1,50 x 1,00 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000006.MAT",
+    "descricao": "Janela de correr de alumínio, 1 folha veneziana e 1 folha de vidro liso 1,50 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000022.MAT",
+    "descricao": "Janela de correr de alumínio, 2 folhas fixas e 2 móveis, vidro liso 1,20 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000016.MAT",
+    "descricao": "Janela de correr de alumínio, 2 folhas fixas e 2 móveis, vidro liso 1,50 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000023.MAT",
+    "descricao": "Janela de correr de alumínio, 2 folhas fixas e 2 móveis, vidro liso 2,00 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000015.MAT",
+    "descricao": "Janela de correr de alumínio, 2 folhas fixas, 2 folhas móveis na parte superior e 2 basculantes, vidro liso 1,50 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000021.MAT",
+    "descricao": "Janela de correr de alumínio, 2 folhas fixas, 2 folhas móveis na parte superior e 2 basculantes, vidro liso 2,00 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000019.MAT",
+    "descricao": "Janela de correr de alumínio, 2 venezianas fixas, 2 móveis e 2 móveis de vidro liso 1,50 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000007.MAT",
+    "descricao": "Janela de correr de alumínio, 2 venezianas fixas, 2 móveis e 2 móveis de vidro liso 2,00 x 1,20 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000032.MAT",
+    "descricao": "Janela fixa de alumínio com acabamento natural, sem vidros",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000017.MAT",
+    "descricao": "Janela maximo-ar de alumínio 1 bandeira móvel, vidro miniboreal 0,60 x 0,80 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000024.MAT",
+    "descricao": "Janela maximo-ar de alumínio 1 bandeira móvel, vidro miniboreal 0,80 x 0,80 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000025.MAT",
+    "descricao": "Janela maximo-ar de alumínio 2 bandeiras móveis, vidro miniboreal 1,20 x 0,80 m",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "13.005.000004.MAT",
+    "descricao": "Janela maximo-ar de alumínio com acabamento natural, sem vidros",
+    "unidade": "m²",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "17.001.000013.MAT",
+    "descricao": "Janela veneziana em alumínio anodizado fosco 30 x 50 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "17.001.000012.MAT",
+    "descricao": "Janela veneziana em alumínio anodizado fosco 80 x 140 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "janela aluminio",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.002.000001.MAT",
+    "descricao": "Para-raios de porcelana tipo válvula para poste ou cabine primaria (tensão: 12,00 kV)",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000021.MAT",
+    "descricao": "Válvula de descarga com registro interno Ø 1 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000020.MAT",
+    "descricao": "Válvula de descarga em PVC sem registro Ø 1 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000022.MAT",
+    "descricao": "Válvula de descarga sem registro interno Ø 1 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000065.MAT",
+    "descricao": "Válvula de escoamento para lavatório ou bidê metálica acabamento cromado Ø 1\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000063.MAT",
+    "descricao": "Válvula de escoamento para pia de cozinha metálica acabamento cromado Ø 3 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000061.MAT",
+    "descricao": "Válvula de escoamento para tanque ou mictório metálica Ø 1 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000059.MAT",
+    "descricao": "Válvula de escoamento para tanque ou mictório metálica Ø 1 1/4\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000028.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze Ø 1 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000027.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze Ø 1 1/4\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000026.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze Ø 1\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000024.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze Ø 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000030.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze Ø 2 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000025.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze Ø 3/4\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000032.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze Ø 4\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000029.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze rosca NPT Ø 2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000031.MAT",
+    "descricao": "Válvula de retenção de pé com crivo em bronze rosca NPT Ø 3\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000036.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 1 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000035.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 1 1/4\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000034.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 1\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000023.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000038.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 2 1/2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000037.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 2\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000039.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 3\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000033.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 3/4\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "14.006.000040.MAT",
+    "descricao": "Válvula de retenção horizontal em bronze com portinhola Ø 4\"",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "valvula",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000004.MAT",
+    "descricao": "Interruptor de embutir 1 tecla dupla bipolar paralelo 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000016.MAT",
+    "descricao": "Interruptor de embutir 1 tecla dupla bipolar simples 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000013.MAT",
+    "descricao": "Interruptor de embutir 1 tecla paralelo 1 tomada de 2 polos + terra sem placa 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000007.MAT",
+    "descricao": "Interruptor de embutir 1 tecla paralelo com placa 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000019.MAT",
+    "descricao": "Interruptor de embutir 1 tecla simples 1 paralelo 1 tomada de 2 polos + terra com placa 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000009.MAT",
+    "descricao": "Interruptor de embutir 1 tecla simples 1 paralelo 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000012.MAT",
+    "descricao": "Interruptor de embutir 1 tecla simples 1 tomada de 2 polos + terra com placa 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000017.MAT",
+    "descricao": "Interruptor de embutir 1 tecla simples 2 paralelo 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000006.MAT",
+    "descricao": "Interruptor de embutir 1 tecla simples com placa 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000005.MAT",
+    "descricao": "Interruptor de embutir 2 teclas paralelo 1 tomada de 2 polos 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000010.MAT",
+    "descricao": "Interruptor de embutir 2 teclas paralelo 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000014.MAT",
+    "descricao": "Interruptor de embutir 2 teclas simples 1 paralelo 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000018.MAT",
+    "descricao": "Interruptor de embutir 2 teclas simples 1 tomada de 2 polos 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000008.MAT",
+    "descricao": "Interruptor de embutir 2 teclas simples 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000015.MAT",
+    "descricao": "Interruptor de embutir 3 teclas paralelo 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000011.MAT",
+    "descricao": "Interruptor de embutir 3 teclas simples 10 A - 250 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "interruptor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.027.000010.MAT",
+    "descricao": "Caixa com tampa fixa em perfil para tomada em perfilado",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.015.000033.MAT",
+    "descricao": "Caixa PVC de sobrepor com 1 disjuntor padrão americano e uma tomada redonda para instalação de ar condicionado e elétrica comprimento 125 x 128 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.015.000038.MAT",
+    "descricao": "Caixa PVC de sobrepor para ate 4 disjuntores padrão americano e uma tomada redonda para instalação de ar condicionado e elétrica comprimento 125 x 128 mm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "17.001.000032.MAT",
+    "descricao": "Tomada de ar externo com veneziana, filtro, damper e tela em alumínio anodizado fosco 40 x 40 cm",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000020.MAT",
+    "descricao": "Tomada de embutir 2 polos + terra 250 V 20 A",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000023.MAT",
+    "descricao": "Tomada de embutir 2 polos + terra sem placa 250 V 10 A",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000021.MAT",
+    "descricao": "Tomada de embutir padrão Telebras para telefone 4 polos sem placa",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.035.000022.MAT",
+    "descricao": "Tomada de embutir para pino Jack 1/4",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "tomada",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000003.MAT",
+    "descricao": "Luminária em chapa de aço tipo calha de sobrepor para 1 lâmpada fluorescente tubular",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000004.MAT",
+    "descricao": "Luminária em chapa de aço tipo calha de sobrepor para 2 lâmpadas fluorescentes tubulares",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000014.MAT",
+    "descricao": "Luminária externa pública com reator com rosca E-40 para lâmpada vapor metálico 250/400 W",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000016.MAT",
+    "descricao": "Luminária fluorescente de emergência para 2 lâmpadas de 15 W",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000001.MAT",
+    "descricao": "Luminária fluorescente industrial para 2 lâmpadas, tipo calha de sobrepor",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000002.MAT",
+    "descricao": "Luminária fluorescente industrial para 4 lâmpadas, tipo calha de sobrepor",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000005.MAT",
+    "descricao": "Luminária fluorescente para forro metálico sistema interlocking para 1 lâmpada",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000006.MAT",
+    "descricao": "Luminária interna para forro de aluminio modulado HDI 84R para 1 lâmpada fluorescente tubular",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000007.MAT",
+    "descricao": "Luminária interna para forro de aluminio modular bandeja HDS 125 para 1 lâmpada fluorescente tubular",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000008.MAT",
+    "descricao": "Luminária interna para forro de aluminio multipainel HD4 80 B para 1 lâmpada fluorescente tubular",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.037.000017.MAT",
+    "descricao": "Luminária sinalizadora pisca-pisca com duas cupulas 40 W - 220 V",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.027.000019.MAT",
+    "descricao": "Suporte curto para perfilado em aço galvanizado # 22, 38 mm x 100 mm, para luminária",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "16.027.000020.MAT",
+    "descricao": "Suporte longo para perfilado em aço galvanizado # 22, 38 mm x 165 mm, para luminária",
+    "unidade": "un",
+    "categoria": "Materiais",
+    "search_term": "luminaria",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.002.000013.MAT",
+    "descricao": "Seixo rolado fino",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "seixo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "03.002.000010.MAT",
+    "descricao": "Seixo rolado médio",
+    "unidade": "m³",
+    "categoria": "Materiais",
+    "search_term": "seixo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "12.003.000010.MAT",
+    "descricao": "Aditivo expansor para argamassa e concreto",
+    "unidade": "kg",
+    "categoria": "Materiais",
+    "search_term": "aditivo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "12.003.000008.MAT",
+    "descricao": "Aditivo hidrófugo",
+    "unidade": "l",
+    "categoria": "Materiais",
+    "search_term": "aditivo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "12.003.000003.MAT",
+    "descricao": "Aditivo melhorador de trabalhabilidade das argamassas, substitutivo da cal",
+    "unidade": "l",
+    "categoria": "Materiais",
+    "search_term": "aditivo",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.021.000001.MOD",
+    "descricao": "Pedreiro",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "pedreiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.026.000001.MOD",
+    "descricao": "Servente",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "servente",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000003.MOD",
+    "descricao": "Ajudante de carpinteiro",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "carpinteiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000009.MOD",
+    "descricao": "Ajudante de carpinteiro para fabricação",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "carpinteiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.007.000001.MOD",
+    "descricao": "Carpinteiro",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "carpinteiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.007.000002.MOD",
+    "descricao": "Carpinteiro para fabricação",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "carpinteiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000002.MOD",
+    "descricao": "Ajudante de armador",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "armador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.011.000001.MOD",
+    "descricao": "Armador",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "armador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000004.MOD",
+    "descricao": "Ajudante de eletricista",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "eletricista",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.009.000001.MOD",
+    "descricao": "Eletricista",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "eletricista",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.009.000002.MOD",
+    "descricao": "Eletricista para alta tensão",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "eletricista",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.130.000002.MOD",
+    "descricao": "Eletricista para média tensão",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "eletricista",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000005.MOD",
+    "descricao": "Ajudante de encanador",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "encanador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.010.000001.MOD",
+    "descricao": "Encanador",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "encanador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000007.MOD",
+    "descricao": "Ajudante de pintor",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "pintor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.022.000001.MOD",
+    "descricao": "Pintor",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "pintor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000001.MOD",
+    "descricao": "Ajudante",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "ajudante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000011.MOD",
+    "descricao": "Ajudante de aplicador de impermeabilização",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "ajudante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000006.MOD",
+    "descricao": "Ajudante de graniteiro/marmorista",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "ajudante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000010.MOD",
+    "descricao": "Ajudante de serralheiro",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "ajudante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.001.000008.MOD",
+    "descricao": "Ajudante de telhadista",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "ajudante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.018.000001.MOD",
+    "descricao": "Montador",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "montador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.027.000001.MOD",
+    "descricao": "Soldador",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "soldador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.025.000001.MOD",
+    "descricao": "Serralheiro",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "serralheiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.012.000001.MOD",
+    "descricao": "Gesseiro",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "gesseiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.003.000001.MOD",
+    "descricao": "Azulejista",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "azulejista",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000001.MOD",
+    "descricao": "Calceteiro",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "calceteiro",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.019.000001.MOD",
+    "descricao": "Operador",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "operador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.019.000002.MOD",
+    "descricao": "Operador de equipamento",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "operador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.019.000004.MOD",
+    "descricao": "Operador de equipamentos",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "operador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.019.000003.MOD",
+    "descricao": "Operador de terraplenagem",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "operador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.030.000001.MOD",
+    "descricao": "Motorista de caminhão",
+    "unidade": "h",
+    "categoria": "Mão de obra",
+    "search_term": "motorista",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "29.001.000010.MAT",
+    "descricao": "Tambor para betoneira 5 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.014.000013.EQA",
+    "descricao": "Betoneira elétrica monofásica, 0,33 hp - 0,25 kW, capacidade 150 L",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.014.000017.EQA",
+    "descricao": "Betoneira elétrica trifásica, 1 hp - 0,75 kW, capacidade 250 L",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.014.000023.EQA",
+    "descricao": "Betoneira elétrica trifásica, 2 hp - 1,5 kW, capacidade 400 L",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.014.000021.EQA",
+    "descricao": "Betoneira elétrica trifásica, 4 hp - 3 kW, capacidade 600 L",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.006.000005.EQA",
+    "descricao": "Betoneira elétrica trifásica, bimotor, 4 hp - 3 kW, com carregador e basculamento automatizado, 1,25 hp - 0,9 kW, capacidade 600 L",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.014.000012.EQA",
+    "descricao": "Betoneira para caminhão capacidade: 5 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.014.000016.EQA",
+    "descricao": "Betoneira para caminhão capacidade: 7 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.060.000002.EQA",
+    "descricao": "Caminhão betoneira 7 m³ 306 hp - 228 kW, 6 x 4",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "29.001.000028.MAT",
+    "descricao": "Lâmina para tambor de betoneira de 5 m³",
+    "unidade": "cj",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "29.001.000025.MAT",
+    "descricao": "Lâmina para tambor de betoneira de 7 m³",
+    "unidade": "cj",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "29.001.000027.MAT",
+    "descricao": "Tambor para betoneira 7 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "betoneira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000051.EQA",
+    "descricao": "Retroescavadeira sobre pneus 100 HP 74 kW, capacidade 1 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.016.000001.EQA",
+    "descricao": "Retroescavadeira sobre pneus 75 hp - 56 kW, caçamba dianteira, 0,76 m³, profundidade de escavação de 3 m",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.016.000002.EQA",
+    "descricao": "Retroescavadeira sobre pneus 75 hp - 56 kW, caçamba dianteira, 0,76 m³, retro, 0,22 m³, profundidade de escavação de 4,3 m",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000043.EQA",
+    "descricao": "Retroescavadeira sobre pneus 76 HP 57 kW, capacidade 0,9 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.016.000003.EQA",
+    "descricao": "Retroescavadeira sobre pneus 79 hp - 59 kW, caçamba dianteira, 0,79 m³, retro, 0,22 m³, profundidade de escavação de 4,3 m",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000042.EQA",
+    "descricao": "Retroescavadeira sobre pneus 85 HP 63 kW, capacidade 1 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.016.000004.EQA",
+    "descricao": "Retroescavadeira sobre pneus 90 hp - 67 kW, caçamba dianteira, 0,76 m³, retro, 0,22 m³, profundidade de escavação de 4,3 m",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.016.000005.EQA",
+    "descricao": "Retroescavadeira sobre pneus 92 hp - 69 kW, caçamba dianteira, 0,96 m³, retro, 0,26 m³, profundidade de escavação de 4,3 m",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000041.EQA",
+    "descricao": "Retroescavadeira sobre pneus 92 HP 69 kW, capacidade 1 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.016.000006.EQA",
+    "descricao": "Retroescavadeira sobre pneus 94 hp - 70 kW, caçamba dianteira, 0,88 m³, retro, 0,26 m³, profundidade de escavação de 4,4 m",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.016.000007.EQA",
+    "descricao": "Retroescavadeira sobre pneus, diesel, 101 hp - 75 kW, caçamba dianteira, capacidade 0,88 m³, retro, capacidade 0,26 m³, profundidade de escavação de 4,72 m, vida útil 10.000 h",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "retroescavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000034.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 110 HP, capacidade 0,86 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000005.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 138 hp - 103 kW, capacidade 1,5 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000022.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 162 HP, capacidade 1,30 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000007.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 168 hp - 125 kW, capacidade 1,9 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000008.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 188 hp - 140 kW, capacidade 1,61 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000009.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 222 hp - 166 kW, capacidade 2,01 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000024.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 247 HP 184 kW, capacidade 2,20 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000011.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 268 hp - 200 kW, capacidade 2,2 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000012.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 290 hp - 216 kW, capacidade 2,6 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000025.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 321 HP 240 kW, capacidade 3,10 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000014.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 404 hp - 328 kW, capacidade 3,5 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000026.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 404 HP 328 kW, capacidade 3,50 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000015.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 513 hp - 383 kW, capacidade 5,8 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000027.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 513 HP 383 kW, capacidade 5,80 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000001.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras 84 hp - 63 kW, capacidade 0,78 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000033.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras, 90 HP 67 kW, capacidade 0,72 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000003.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras, 99 hp - 74 kW, capacidade 0,84 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.041.000004.EQA",
+    "descricao": "Escavadeira hidráulica sobre esteiras,110 hp - 82 kW, capacidade 0,84 m³",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "escavadeira",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000036.EQA",
+    "descricao": "Rolo compactador autopropelido vibratório com pneus de tração e cilindro liso em aço diesel massa operacional 11,2 t / 150 HP",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000040.EQA",
+    "descricao": "Rolo compactador autopropelido vibratório com pneus de tração e cilindro liso em aço diesel massa operacional 15,35 t / 150 HP",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000008.EQA",
+    "descricao": "Rolo compactador autopropelido vibratório com pneus de tração e cilindro pé-de-carneiro em aço diesel massa operacional 15,25 t / 150 HP",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000028.EQA",
+    "descricao": "Rolo compactador autopropelido vibratório tipo tandem com cilindros lisos em aço diesel 130 HP / massa operacional 10 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000011.EQA",
+    "descricao": "Rolo compactador com pneus, largura 2,28 m 130 hp - 98 kW, peso operacional com lastro 25 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000002.EQA",
+    "descricao": "Rolo compactador estático, com pneus 74 hp - 55 kW, peso operacional 6,5 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000025.EQA",
+    "descricao": "Rolo compactador estático, com pneus 99 hp - 74 kW, peso operacional 6 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000008.EQA",
+    "descricao": "Rolo compactador estático, com pneus, 110 hp - 82 kW, peso operacional com lastro 27 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000007.EQA",
+    "descricao": "Rolo compactador estático, com pneus, 99 hp 74 - kW, peso operacional com lastro 21 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000004.EQA",
+    "descricao": "Rolo compactador estático, tandem, cilindros lisos potência 58 hp - 43 kW, peso operacional 9 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000018.EQA",
+    "descricao": "Rolo compactador rebocável estático, cilindro pé de carneiro simples, peso operacional 3 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000019.EQA",
+    "descricao": "Rolo compactador rebocável estático, cilindro pé-de-carneiro duplo peso operacional 6 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000020.EQA",
+    "descricao": "Rolo compactador rebocável vibratório, cilindro liso, peso operacional 3,8 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000021.EQA",
+    "descricao": "Rolo compactador rebocável vibratório, pé-de-carneiro, peso operacional 4,5 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000047.EQA",
+    "descricao": "Rolo compactador vibratório com pneus de tração e cilindro pé-de-carneiro em aço 150 hp - 112 kW, peso operacional 11,6 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000016.EQA",
+    "descricao": "Rolo compactador vibratório com pneus e cilindro liso em aço, 110 hp - 82 kW, peso operacional 13,3 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000006.EQA",
+    "descricao": "Rolo compactador vibratório, com cilindro liso, 80 hp - 60 kW, peso operacional 8,5 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000044.EQA",
+    "descricao": "Rolo compactador vibratório, com pneus de tração e 1 cilindro pé-de-carneiro em aço 83 hp - 62 kW, peso operacional 8,8 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000014.EQA",
+    "descricao": "Rolo compactador vibratório, com pneus de tração e cilindro liso em aço 150 hp - 112 kW, peso operacional 15,35 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000017.EQA",
+    "descricao": "Rolo compactador vibratório, com pneus de tração e cilindro pé-de-carneiro em aço 110 hp - 82 kW, peso operacional 13,3 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000014.EQA",
+    "descricao": "Rolo compactador vibratório, tandem, cilindros lisos em aço 50 hp - 37kW, peso operacional 4 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.015.000022.EQA",
+    "descricao": "Rolo compactador vibratório, tandem, cilindros lisos em aço 83 hp - 62 kW, peso operacional 7,4 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000005.EQA",
+    "descricao": "Rolo compactador vibratório, tandem, cilindros lisos em aço, largura 0,9 m, 23 hp - 17 kW, peso operacional 1,66 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.028.000023.EQA",
+    "descricao": "Rolo compactador vibratório, tandem, cilindros lisos em aço, largura 1,5 m, 100 hp - 75 kW, peso operacional 9 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.047.000013.EQA",
+    "descricao": "Rolo compactador vibratório, tandem, cilindros lisos em aço, largura 1,73 m, 125 hp - 93 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "rolo compactador",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.059.000006.EQA",
+    "descricao": "Caminhão basculante 14 m³ 401 hp - 295 kW, 6 x 4",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "caminhao basculante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.059.000001.EQA",
+    "descricao": "Caminhão basculante 4 m³ 147 hp - 110 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "caminhao basculante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.059.000007.EQA",
+    "descricao": "Caminhão basculante para rocha 12 m³ 439 hp - 323 kW, 6 x 4",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "caminhao basculante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.059.000005.EQA",
+    "descricao": "Caminhão basculante para rocha 8 m3 282 hp - 210 kW, 6 x 4",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "caminhao basculante",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.063.000003.EQA",
+    "descricao": "Caminhão com guindaste 10 t, carroceria de madeira 7 m, 15 t, 235 hp - 175 kW, 6 x 2",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.063.000002.EQA",
+    "descricao": "Caminhão com guindaste 3,3 t, carroceria de madeira 5,4 m, 9 t, 182 hp - 136 kW, 4 x 2",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.063.000001.EQA",
+    "descricao": "Caminhão com guindaste 6,2 t, carroceria de madeira 7 m, 15 t, 235 hp - 175 kW, 6 x 2",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000004.EQA",
+    "descricao": "Guindaste hidráulico 30 t, sobre pneus, autopropelido, 175 hp - 131 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000018.EQL",
+    "descricao": "Guindaste hidráulico montado sobre chassi de caminhão 228 HP 30 t",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "36.010.000019.EQA",
+    "descricao": "Guindaste hidráulico, 10 t, sobre pneus, autopropelido, 124 hp - 93 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.024.000002.EQA",
+    "descricao": "Guindaste hidráulico, 10 t, sobre pneus, autopropelido, 124 hp - 93 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000015.EQA",
+    "descricao": "Guindaste hidráulico, 30 t, montado sobre chassi de caminhão 228 HP",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.024.000003.EQA",
+    "descricao": "Guindaste hidraúlico, 30 t, sobre chassis caminhão 414 hp - 309 kW, com 3º eixo",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000011.EQA",
+    "descricao": "Guindaste mecânico 68 t, sobre pneus, autopropelido, 200 HP",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "guindaste",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000009.EQA",
+    "descricao": "Grua fixa, 4 t, elétrica, 16 hp - 12 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "grua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000010.EQA",
+    "descricao": "Grua fixa, 5 t, elétrica, 33 hp - 24,6 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "grua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000006.EQA",
+    "descricao": "Grua móvel, 0,8 t, elétrica, 5 hp - 3,7 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "grua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000007.EQA",
+    "descricao": "Grua móvel, 1,2 t, elétrica 7,5 hp - 5,6 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "grua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.037.000008.EQA",
+    "descricao": "Grua móvel, 3 t, elétrica, 15 hp - 11 kW",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "grua",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "02.006.000001.EQL",
+    "descricao": "Central de injeção de resina com tanque regulador de pressão e compressor de ar",
+    "unidade": "loc/un/h",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000006.EQA",
+    "descricao": "Compressor de ar de ar portátil rebocável diesel capacidade: 678 pcm / 269 HP",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.001.000004.EQA",
+    "descricao": "Compressor de ar, 109 hp - 81 kW, capacidade 8,5 m³/min - 299 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.001.000005.EQA",
+    "descricao": "Compressor de ar, 109 hp - 81 kW, capacidade 9,6 m³/min - 340 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000004.EQA",
+    "descricao": "Compressor de ar, 109 hp - kW 81, capacidade 11,2 m³/min - 394 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.001.000006.EQA",
+    "descricao": "Compressor de ar, 109 HP kW 81, capacidade 11,2 m³/min 394 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000005.EQA",
+    "descricao": "Compressor de ar, 207 hp - 155 kW, capacidade 21,2 m³/min - 748 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000007.EQA",
+    "descricao": "Compressor de ar, 269 hp - 201 kW, capacidade 21,6 m³/min - 762 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000008.EQA",
+    "descricao": "Compressor de ar, 269 hp - 201 kW, capacidade 24,8 m³/min - 891 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000001.EQA",
+    "descricao": "Compressor de ar, 61 hp - 46 kW, capacidade 3,3 m³/min - 116 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.001.000001.EQA",
+    "descricao": "Compressor de ar, 61 hp - 46 kW, capacidade 3,3 m³/min - 116 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000002.EQA",
+    "descricao": "Compressor de ar, 61 hp - 46 kW, capacidade 4,2 m³/min - 149 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.001.000002.EQA",
+    "descricao": "Compressor de ar, 61 hp - 46 kW, capacidade 4,2 m³/min - 149 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "01.006.000003.EQA",
+    "descricao": "Compressor de ar, 74 hp - 55 kW, capacidade 5,6 m³/min - 197 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.001.000003.EQA",
+    "descricao": "Compressor de ar, 74 hp - 55 kW, capacidade 5,6 m³/min - 197 pcm",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  },
+  {
+    "codigo": "60.002.000001.EQA",
+    "descricao": "Máquina para pintura, compressor de ar e filtro, elétrica, 2 hp - 1,4 kW, 100 L",
+    "unidade": "un",
+    "categoria": "Equipamentos",
+    "search_term": "compressor",
+    "regiao": "São Paulo",
+    "preco": 0
+  }
+]

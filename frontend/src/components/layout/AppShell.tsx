@@ -121,6 +121,24 @@ export function AppShell() {
                       <span className="text-[10px] flex-shrink-0 ml-1">{tcpoCounts?.[cat] ?? 0}</span>
                     </button>
                   ))}
+                  {/* Insumos sub-tree */}
+                  <div className="mt-2 pt-1 border-t border-border/50">
+                    <span className="text-[10px] font-semibold uppercase text-muted-foreground px-2">Insumos</span>
+                    {(["Materiais", "Mão de obra", "Equipamentos"] as const).map((insCat) => (
+                      <button
+                        key={insCat}
+                        onClick={() => navigate(`/tcpo-insumos?cat=${encodeURIComponent(insCat)}`)}
+                        className={cn(
+                          "flex w-full items-center justify-between rounded px-2 py-1 text-xs transition-colors",
+                          location.pathname === "/tcpo-insumos" && new URLSearchParams(location.search).get("cat") === insCat
+                            ? "bg-orange-100 text-orange-800 font-medium"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        )}
+                      >
+                        <span>{insCat}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
