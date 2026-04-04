@@ -200,7 +200,7 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
       id: jobId,
       project_id: body.project_id,
       file_id: body.file_id,
-      status: 'queued',
+      status: 'pending',
       created_at: now,
     });
 
@@ -238,7 +238,7 @@ function apiChannelFactory(opts: ChannelOpts): Channel | null {
     // Fetch recent jobs for this project
     const { data: jobs, error } = await supabaseAdmin
       .from('ob_pdf_jobs')
-      .select('id, status, file_id, created_at, updated_at, error')
+      .select('id, status, file_id, created_at, started_at, completed_at, error_message')
       .eq('project_id', projectId)
       .order('created_at', { ascending: false })
       .limit(20);
