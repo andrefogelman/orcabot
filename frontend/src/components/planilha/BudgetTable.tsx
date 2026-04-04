@@ -55,10 +55,29 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
 
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
+      // Find all items that match the query
+      const matched = new Set(
+        result
+          .filter(
+            (i) =>
+              i.descricao.toLowerCase().includes(q) ||
+              i.eap_code.includes(q)
+          )
+          .map((i) => i.id)
+      );
+      // Also include parent items so the tree structure is preserved
+      const matchedCodes = result
+        .filter((i) => matched.has(i.id))
+        .map((i) => i.eap_code);
+      const parentCodes = new Set<string>();
+      for (const code of matchedCodes) {
+        const parts = code.split(".");
+        for (let len = 1; len < parts.length; len++) {
+          parentCodes.add(parts.slice(0, len).join("."));
+        }
+      }
       result = result.filter(
-        (i) =>
-          i.descricao.toLowerCase().includes(q) ||
-          i.eap_code.includes(q)
+        (i) => matched.has(i.id) || parentCodes.has(i.eap_code)
       );
     }
 

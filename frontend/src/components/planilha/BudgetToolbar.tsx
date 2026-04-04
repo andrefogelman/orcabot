@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Plus, Download, Filter, Search, Upload, Undo2 } from "lucide-react";
+import { Plus, Download, Filter, Search, Upload, Undo2, X } from "lucide-react";
 import { useState } from "react";
 
 interface BudgetToolbarProps {
@@ -57,13 +57,24 @@ export function BudgetToolbar({
         <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder="Buscar item..."
-          className="h-8 pl-8 text-sm"
+          className="h-8 pl-8 pr-8 text-sm"
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
             onSearch(e.target.value);
           }}
         />
+        {searchQuery && (
+          <button
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-0.5 hover:bg-muted"
+            onClick={() => {
+              setSearchQuery("");
+              onSearch("");
+            }}
+          >
+            <X className="h-3.5 w-3.5 text-muted-foreground" />
+          </button>
+        )}
       </div>
 
       {/* Filter by disciplina */}
