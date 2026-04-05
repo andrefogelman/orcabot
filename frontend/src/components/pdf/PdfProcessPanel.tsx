@@ -183,8 +183,8 @@ function RunCard({
           {Array.isArray(run.needs_review) && run.needs_review.length > 0 && (
             <AlertTriangle className="h-3 w-3 text-orange-500" />
           )}
-          <span className="flex-1 text-xs truncate text-muted-foreground italic">
-            {run.prompt.slice(0, 60)}...
+          <span className="flex-1 text-xs text-muted-foreground italic" style={{ wordBreak: 'break-word' }}>
+            {run.prompt}
           </span>
           {expanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
         </button>
@@ -281,7 +281,7 @@ function RunCard({
                   </Button>
                 </div>
               </div>
-              <div className="max-h-[250px] overflow-auto">
+              <div className="overflow-auto">
                 <table className="w-full text-xs">
                   <thead className="sticky top-0 bg-muted/80">
                     <tr>
@@ -302,9 +302,9 @@ function RunCard({
                           <input type="checkbox" checked={item.selected} readOnly className="rounded" />
                         </td>
                         <td className="p-1">
-                          <div className="truncate" title={item.descricao}>{item.descricao}</div>
+                          <div>{item.descricao}</div>
                           {item.memorial_calculo && (
-                            <div className="text-[10px] text-muted-foreground truncate" title={item.memorial_calculo}>
+                            <div className="text-[10px] text-muted-foreground">
                               {item.memorial_calculo}
                             </div>
                           )}

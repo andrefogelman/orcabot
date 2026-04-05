@@ -103,7 +103,7 @@ export function PdfsTab() {
 
           <ResizableHandle />
 
-          <ResizablePanel defaultSize={25} minSize={20}>
+          <ResizablePanel defaultSize={30} minSize={15}>
             <PdfProcessPanel file={activeFile ?? null} projectId={project.id} />
           </ResizablePanel>
         </ResizablePanelGroup>
