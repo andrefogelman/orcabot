@@ -12,6 +12,7 @@ import { registerChannel, type ChannelOpts } from './registry.js';
 import { supabaseAdmin } from '../supabase-client.js';
 import { storeMessage } from '../db.js';
 import { logger } from '../logger.js';
+import { extractDxfGeometry, formatDxfForLlm } from '../dwg-processor.js';
 import type { Channel, NewMessage } from '../types.js';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -488,46 +489,60 @@ REGRAS:
           throw new Error(`Invalid PDF structure: ${(e as Error).message}`);
         }
       } else {
-        // DWG/DXF: extract text strings from binary or parse DXF text
+        // DWG/DXF: extract geometry via Docker container (ezdxf)
         const decoder = new TextDecoder('utf-8', { fatal: false });
         const text = decoder.decode(buffer);
+        const isDxf =
+          text.includes('SECTION') && text.includes('ENTITIES');
 
-        if (text.includes('SECTION') && text.includes('ENTITIES')) {
-          // It's a DXF (text-based) — extract useful content
-          const layers: string[] = [];
-          const texts: string[] = [];
-          const blocks: Map<string, number> = new Map();
-          const lines = text.split('\n');
-
-          let currentEntity = '';
-          let currentLayer = '0';
-
-          for (let i = 0; i < lines.length; i++) {
-            const code = lines[i].trim();
-            const value = (lines[i + 1] || '').trim();
-
-            if (code === '0') currentEntity = value;
-            if (code === '8') {
-              currentLayer = value;
-              if (!layers.includes(value)) layers.push(value);
+        if (isDxf) {
+          // DXF file — run full geometric extraction via ezdxf container
+          try {
+            const dxfData = await extractDxfGeometry(buffer);
+            extractedText = formatDxfForLlm(dxfData);
+            fileInfo = `DXF (ezdxf): ${dxfData.stats.total_layers} layers, ${dxfData.stats.total_entities} entidades geom., ${dxfData.stats.total_texts} textos, ${dxfData.stats.total_blocks} blocos, ${dxfData.stats.total_dimensions} cotas`;
+          } catch (extractErr) {
+            // Fallback to basic text extraction if container fails
+            logger.warn(
+              {
+                file_id: body.file_id,
+                error:
+                  extractErr instanceof Error
+                    ? extractErr.message
+                    : String(extractErr),
+              },
+              'ezdxf extraction failed, falling back to text parser',
+            );
+            const layers: string[] = [];
+            const texts: string[] = [];
+            const blocks: Map<string, number> = new Map();
+            const lines = text.split('\n');
+            let currentEntity = '';
+            let currentLayer = '0';
+            for (let i = 0; i < lines.length; i++) {
+              const code = lines[i].trim();
+              const value = (lines[i + 1] || '').trim();
+              if (code === '0') currentEntity = value;
+              if (code === '8') {
+                currentLayer = value;
+                if (!layers.includes(value)) layers.push(value);
+              }
+              if (
+                code === '1' &&
+                (currentEntity === 'TEXT' || currentEntity === 'MTEXT')
+              )
+                texts.push(`[${currentLayer}] ${value}`);
+              if (code === '42' && currentEntity === 'DIMENSION')
+                texts.push(`[COTA] ${value}`);
+              if (code === '2' && currentEntity === 'INSERT')
+                blocks.set(value, (blocks.get(value) || 0) + 1);
             }
-            if (
-              code === '1' &&
-              (currentEntity === 'TEXT' || currentEntity === 'MTEXT')
-            )
-              texts.push(`[${currentLayer}] ${value}`);
-            if (code === '42' && currentEntity === 'DIMENSION')
-              texts.push(`[COTA] ${value}`);
-            if (code === '2' && currentEntity === 'INSERT')
-              blocks.set(value, (blocks.get(value) || 0) + 1);
+            const blocksList = Array.from(blocks.entries())
+              .sort((a, b) => b[1] - a[1])
+              .map(([n, c]) => `${n}: ${c}x`);
+            extractedText = `LAYERS (${layers.length}): ${layers.join(', ')}\n\nTEXTOS (${texts.length}):\n${texts.slice(0, 100).join('\n')}\n\nBLOCOS (${blocksList.length}):\n${blocksList.slice(0, 50).join('\n')}`;
+            fileInfo = `DXF (fallback): ${layers.length} layers, ${texts.length} textos, ${blocksList.length} blocos`;
           }
-
-          const blocksList = Array.from(blocks.entries())
-            .sort((a, b) => b[1] - a[1])
-            .map(([n, c]) => `${n}: ${c}x`);
-
-          extractedText = `LAYERS (${layers.length}): ${layers.join(', ')}\n\nTEXTOS (${texts.length}):\n${texts.slice(0, 100).join('\n')}\n\nBLOCOS (${blocksList.length}):\n${blocksList.slice(0, 50).join('\n')}`;
-          fileInfo = `DXF: ${layers.length} layers, ${texts.length} textos, ${blocksList.length} blocos`;
         } else {
           // Binary DWG — try dwg2dxf conversion first
           let dwgConverted = false;
@@ -737,7 +752,9 @@ FORMATO JSON OBRIGATÓRIO (responda APENAS com este JSON, sem texto antes ou dep
     } | null;
 
     if (!body?.project_id || !body?.agent_slug || !body?.message) {
-      json(res, 400, { error: 'Missing required fields: project_id, agent_slug, message' });
+      json(res, 400, {
+        error: 'Missing required fields: project_id, agent_slug, message',
+      });
       return;
     }
 
@@ -778,8 +795,12 @@ FORMATO JSON OBRIGATÓRIO (responda APENAS com este JSON, sem texto antes ou dep
       }
 
       // 4. Build system prompt
-      const basePrompt = AGENT_SYSTEM_PROMPTS[body.agent_slug] ?? AGENT_SYSTEM_PROMPTS.orcamentista;
-      const systemPrompt = contextInfo ? `${basePrompt}\n\nCONTEXTO ATUAL:${contextInfo}` : basePrompt;
+      const basePrompt =
+        AGENT_SYSTEM_PROMPTS[body.agent_slug] ??
+        AGENT_SYSTEM_PROMPTS.orcamentista;
+      const systemPrompt = contextInfo
+        ? `${basePrompt}\n\nCONTEXTO ATUAL:${contextInfo}`
+        : basePrompt;
 
       // 5. Build messages from history (already includes the user message just inserted by frontend)
       const llmMessages = (history ?? [])
@@ -801,8 +822,11 @@ FORMATO JSON OBRIGATÓRIO (responda APENAS com este JSON, sem texto antes ou dep
           messages: llmMessages,
         }),
       });
-      if (!llmRes.ok) throw new Error(`LLM error: ${llmRes.status} ${await llmRes.text()}`);
-      const llmData = (await llmRes.json()) as { content?: Array<{ text?: string }> };
+      if (!llmRes.ok)
+        throw new Error(`LLM error: ${llmRes.status} ${await llmRes.text()}`);
+      const llmData = (await llmRes.json()) as {
+        content?: Array<{ text?: string }>;
+      };
       const response = llmData.content?.[0]?.text ?? '';
 
       // 7. Save assistant response

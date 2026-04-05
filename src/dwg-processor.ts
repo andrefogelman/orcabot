@@ -1,12 +1,19 @@
 /**
- * DWG/DXF Processor — spawns the dwg-pipeline Docker container for a job.
+ * DWG/DXF Processor — spawns the dwg-pipeline Docker container for a job,
+ * or extracts geometry from a local DXF file via the Python extractor.
  *
- * The container handles: download from Supabase Storage → ezdxf extraction →
- * layer classification → block mapping → structured output → save to ob_pdf_pages.
+ * Two modes:
+ * 1. processDwgJob(jobId) — full pipeline (download → extract → classify → save)
+ * 2. extractDxfGeometry(buffer) — quick extraction, returns parsed JSON for LLM
  *
- * This module is called by pdf-job-poller.ts when a DXF/DWG job is found.
+ * This module is called by:
+ * - pdf-job-poller.ts for background job processing
+ * - api-channel.ts for inline DXF extraction with geometry
  */
 import { spawn } from 'child_process';
+import { writeFile, mkdtemp, unlink, rm } from 'node:fs/promises';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 import { config } from './config.js';
 import { logger } from './logger.js';
@@ -76,10 +83,15 @@ export async function processDwgJob(jobId: string): Promise<boolean> {
     });
 
     const timeout = setTimeout(() => {
-      logger.error({ jobId, containerName }, 'dwg-pipeline container timed out');
+      logger.error(
+        { jobId, containerName },
+        'dwg-pipeline container timed out',
+      );
       try {
         proc.kill('SIGTERM');
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
       resolve(false);
     }, DWG_PIPELINE_TIMEOUT);
 
@@ -106,4 +118,208 @@ export async function processDwgJob(jobId: string): Promise<boolean> {
       resolve(false);
     });
   });
+}
+
+// ── Inline DXF geometry extraction (for /api/process) ─────────────────────
+
+export interface DxfExtractionResult {
+  filename: string;
+  units: string;
+  layers: Array<{
+    name: string;
+    color: number;
+    is_on: boolean;
+    is_frozen: boolean;
+    entity_counts: Record<string, number>;
+  }>;
+  entities: Array<{
+    type: string;
+    layer: string;
+    vertices?: number[][];
+    is_closed?: boolean;
+    length?: number;
+    area?: number;
+    start?: number[];
+    end?: number[];
+    center?: number[];
+    radius?: number;
+  }>;
+  blocks: Array<{
+    name: string;
+    count: number;
+    layer: string;
+    position: number[];
+  }>;
+  dimensions: Array<{
+    type: string;
+    actual_measurement: number;
+    layer: string;
+  }>;
+  texts: Array<{
+    type: string;
+    content: string;
+    layer: string;
+    position: number[];
+    height: number;
+  }>;
+  stats: {
+    total_layers: number;
+    total_entities: number;
+    total_blocks: number;
+    total_dimensions: number;
+    total_texts: number;
+  };
+}
+
+const EXTRACT_TIMEOUT = 120_000; // 2 minutes
+
+/**
+ * Extract full geometry from a DXF file buffer using ezdxf via Docker.
+ * Returns parsed JSON with entities, areas, lengths, etc.
+ * Used by api-channel.ts for inline processing (no job/poller needed).
+ */
+export async function extractDxfGeometry(
+  dxfBuffer: ArrayBuffer,
+): Promise<DxfExtractionResult> {
+  const tmpDir = await mkdtemp(join(tmpdir(), 'dxf-extract-'));
+  const hostPath = join(tmpDir, 'input.dxf');
+
+  try {
+    await writeFile(hostPath, Buffer.from(dxfBuffer));
+
+    const stdout = await new Promise<string>((resolve, reject) => {
+      const args = [
+        'run',
+        '--rm',
+        '-v',
+        `${hostPath}:/tmp/input.dxf:ro`,
+        '--entrypoint',
+        'python3',
+        DWG_PIPELINE_IMAGE,
+        '/app/python/dwg_extractor.py',
+        '/tmp/input.dxf',
+      ];
+
+      const proc = spawn(CONTAINER_RUNTIME_BIN, args, {
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+
+      let out = '';
+      let err = '';
+
+      proc.stdout.on('data', (d) => {
+        out += d.toString();
+      });
+      proc.stderr.on('data', (d) => {
+        err += d.toString();
+      });
+
+      const timeout = setTimeout(() => {
+        proc.kill('SIGTERM');
+        reject(new Error('DXF extraction timed out'));
+      }, EXTRACT_TIMEOUT);
+
+      proc.on('close', (code) => {
+        clearTimeout(timeout);
+        if (code === 0) {
+          resolve(out);
+        } else {
+          reject(
+            new Error(`DXF extraction failed (code ${code}): ${err.slice(-300)}`),
+          );
+        }
+      });
+
+      proc.on('error', (e) => {
+        clearTimeout(timeout);
+        reject(new Error(`Failed to spawn extraction container: ${e.message}`));
+      });
+    });
+
+    return JSON.parse(stdout) as DxfExtractionResult;
+  } finally {
+    // Cleanup temp files
+    await rm(tmpDir, { recursive: true, force: true }).catch(() => {});
+  }
+}
+
+/**
+ * Format extracted DXF data into a rich text summary for LLM consumption.
+ * Includes geometry stats, layer details, room-like polylines, and dimensions.
+ */
+export function formatDxfForLlm(data: DxfExtractionResult): string {
+  const parts: string[] = [];
+
+  parts.push(`UNIDADES: ${data.units}`);
+  parts.push(
+    `ESTATÍSTICAS: ${data.stats.total_entities} entidades geométricas, ${data.stats.total_texts} textos, ${data.stats.total_blocks} blocos, ${data.stats.total_dimensions} cotas, ${data.stats.total_layers} layers`,
+  );
+
+  // Layers with entity counts
+  const activeLayers = data.layers.filter((l) => l.is_on && !l.is_frozen);
+  parts.push(
+    `\nLAYERS ATIVOS (${activeLayers.length}):`,
+  );
+  for (const l of activeLayers) {
+    const counts = Object.entries(l.entity_counts)
+      .map(([t, c]) => `${t}:${c}`)
+      .join(', ');
+    if (counts) parts.push(`  ${l.name}: ${counts}`);
+  }
+
+  // Closed polylines with areas (room candidates)
+  const closedPolys = data.entities.filter(
+    (e) => e.type === 'LWPOLYLINE' && e.is_closed && e.area,
+  );
+  if (closedPolys.length > 0) {
+    parts.push(
+      `\nPOLILINHAS FECHADAS COM ÁREA (${closedPolys.length}):`,
+    );
+    // Group by layer
+    const byLayer = new Map<string, typeof closedPolys>();
+    for (const p of closedPolys) {
+      const arr = byLayer.get(p.layer) || [];
+      arr.push(p);
+      byLayer.set(p.layer, arr);
+    }
+    for (const [layer, polys] of byLayer) {
+      const areas = polys
+        .map((p) => p.area!)
+        .sort((a, b) => b - a);
+      parts.push(
+        `  ${layer}: ${polys.length} polilinhas, áreas: [${areas.slice(0, 20).map((a) => a.toFixed(4)).join(', ')}]`,
+      );
+    }
+  }
+
+  // Dimensions
+  if (data.dimensions.length > 0) {
+    parts.push(`\nCOTAS (${data.dimensions.length}):`);
+    for (const d of data.dimensions.slice(0, 50)) {
+      parts.push(`  [${d.layer}] ${d.type}: ${d.actual_measurement.toFixed(4)}`);
+    }
+  }
+
+  // Texts grouped by layer
+  parts.push(`\nTEXTOS (${data.texts.length}):`);
+  const textByLayer = new Map<string, string[]>();
+  for (const t of data.texts) {
+    const arr = textByLayer.get(t.layer) || [];
+    arr.push(t.content);
+    textByLayer.set(t.layer, arr);
+  }
+  for (const [layer, txts] of textByLayer) {
+    parts.push(`  [${layer}] ${txts.slice(0, 30).join(' | ')}`);
+  }
+
+  // Blocks
+  if (data.blocks.length > 0) {
+    parts.push(`\nBLOCOS (${data.blocks.length}):`);
+    const sorted = [...data.blocks].sort((a, b) => b.count - a.count);
+    for (const b of sorted.slice(0, 50)) {
+      parts.push(`  ${b.name}: ${b.count}x [${b.layer}]`);
+    }
+  }
+
+  return parts.join('\n');
 }
