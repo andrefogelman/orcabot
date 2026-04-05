@@ -51,6 +51,10 @@ export function ImportQuantitativos({
 
   const level1Items = existingItems.filter((i) => i.eap_level === 1);
 
+  const alreadyImported = new Set(
+    existingItems.filter((i) => i.quantitativo_id).map((i) => i.quantitativo_id)
+  );
+
   const toggleSelection = (id: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
@@ -62,13 +66,10 @@ export function ImportQuantitativos({
 
   const toggleAll = () => {
     if (!quantitativos) return;
-    const importable = quantitativos.filter(
-      (q) => !alreadyImported.has(q.id)
-    );
-    if (selected.size === importable.length) {
+    if (selected.size === quantitativos.length) {
       setSelected(new Set());
     } else {
-      setSelected(new Set(importable.map((q) => q.id)));
+      setSelected(new Set(quantitativos.map((q) => q.id)));
     }
   };
 
@@ -103,42 +104,89 @@ export function ImportQuantitativos({
         quantidade: null,
         quantitativo_id: "",
       });
+
+      // For new etapa, create a level-2 group and level-3 items
+      const l2Code = `${l1Code}.01`;
+      toCreate.push({
+        eap_code: l2Code,
+        eap_level: 2,
+        descricao: "Itens Importados",
+        unidade: null,
+        quantidade: null,
+        quantitativo_id: "",
+      });
+
+      selectedItems.forEach((q, idx) => {
+        const l3Code = `${l2Code}.${String(idx + 1).padStart(3, "0")}`;
+        toCreate.push({
+          eap_code: l3Code,
+          eap_level: 3,
+          descricao: q.descricao,
+          unidade: q.unidade,
+          quantidade: q.quantidade,
+          quantitativo_id: q.id,
+        });
+      });
     } else {
       l1Code = targetEtapa;
+
+      // Find existing level-2 children to determine the next code
+      const l2Children = existingItems.filter(
+        (i) => i.eap_level === 2 && i.eap_code.startsWith(l1Code + ".")
+      );
+
+      if (l2Children.length > 0) {
+        // Insert into the last existing level-2 group
+        const lastL2 = l2Children.sort((a, b) =>
+          a.eap_code.localeCompare(b.eap_code)
+        )[l2Children.length - 1];
+        const l2Code = lastL2.eap_code;
+
+        // Find next level-3 code under this group
+        const l3Children = existingItems.filter(
+          (i) => i.eap_level === 3 && i.eap_code.startsWith(l2Code + ".")
+        );
+        const maxL3 = l3Children.reduce((max, i) => {
+          const num = parseInt(i.eap_code.split(".")[2], 10);
+          return num > max ? num : max;
+        }, 0);
+
+        selectedItems.forEach((q, idx) => {
+          const l3Code = `${l2Code}.${String(maxL3 + idx + 1).padStart(3, "0")}`;
+          toCreate.push({
+            eap_code: l3Code,
+            eap_level: 3,
+            descricao: q.descricao,
+            unidade: q.unidade,
+            quantidade: q.quantidade,
+            quantitativo_id: q.id,
+          });
+        });
+      } else {
+        // No level-2 children — create one group
+        const l2Code = `${l1Code}.01`;
+        toCreate.push({
+          eap_code: l2Code,
+          eap_level: 2,
+          descricao: "Itens Importados",
+          unidade: null,
+          quantidade: null,
+          quantitativo_id: "",
+        });
+
+        selectedItems.forEach((q, idx) => {
+          const l3Code = `${l2Code}.${String(idx + 1).padStart(3, "0")}`;
+          toCreate.push({
+            eap_code: l3Code,
+            eap_level: 3,
+            descricao: q.descricao,
+            unidade: q.unidade,
+            quantidade: q.quantidade,
+            quantitativo_id: q.id,
+          });
+        });
+      }
     }
-
-    // Find next level-2 code under the target etapa
-    const l2Children = existingItems.filter(
-      (i) => i.eap_level === 2 && i.eap_code.startsWith(l1Code + ".")
-    );
-    const maxL2 = l2Children.reduce((max, i) => {
-      const num = parseInt(i.eap_code.split(".")[1], 10);
-      return num > max ? num : max;
-    }, 0);
-    const l2Code = `${l1Code}.${String(maxL2 + 1).padStart(2, "0")}`;
-
-    // Create level-2 group
-    toCreate.push({
-      eap_code: l2Code,
-      eap_level: 2,
-      descricao: "Itens Importados",
-      unidade: null,
-      quantidade: null,
-      quantitativo_id: "",
-    });
-
-    // Each quantitativo becomes level-3
-    selectedItems.forEach((q, idx) => {
-      const l3Code = `${l2Code}.${String(idx + 1).padStart(3, "0")}`;
-      toCreate.push({
-        eap_code: l3Code,
-        eap_level: 3,
-        descricao: q.descricao,
-        unidade: q.unidade,
-        quantidade: q.quantidade,
-        quantitativo_id: q.id,
-      });
-    });
 
     onImport(toCreate);
     setSelected(new Set());
@@ -147,10 +195,6 @@ export function ImportQuantitativos({
     onOpenChange(false);
     toast.success(`${selectedItems.length} quantitativo(s) importado(s)`);
   }
-
-  const alreadyImported = new Set(
-    existingItems.filter((i) => i.quantitativo_id).map((i) => i.quantitativo_id)
-  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -207,11 +251,7 @@ export function ImportQuantitativos({
                   <th className="w-8 px-2 py-2">
                     <input
                       type="checkbox"
-                      checked={
-                        selected.size > 0 &&
-                        selected.size ===
-                          quantitativos.filter((q) => !alreadyImported.has(q.id)).length
-                      }
+                      checked={selected.size > 0 && selected.size === quantitativos.length}
                       onChange={toggleAll}
                       className="rounded"
                     />
@@ -229,18 +269,13 @@ export function ImportQuantitativos({
                   return (
                     <tr
                       key={q.id}
-                      className={`border-b transition-colors ${
-                        imported
-                          ? "opacity-40"
-                          : "hover:bg-accent/20 cursor-pointer"
-                      }`}
-                      onClick={() => !imported && toggleSelection(q.id)}
+                      className="border-b transition-colors hover:bg-accent/20 cursor-pointer"
+                      onClick={() => toggleSelection(q.id)}
                     >
                       <td className="px-2 py-1.5">
                         <input
                           type="checkbox"
                           checked={selected.has(q.id)}
-                          disabled={imported}
                           onChange={() => toggleSelection(q.id)}
                           className="rounded"
                         />
@@ -257,7 +292,7 @@ export function ImportQuantitativos({
                       </td>
                       <td className="px-2 py-1.5 text-center text-xs">
                         {imported ? (
-                          <span className="text-muted-foreground">Importado</span>
+                          <span className="text-orange-500">Reimportar</span>
                         ) : (
                           <span className="text-green-600">Disponível</span>
                         )}
@@ -278,7 +313,7 @@ export function ImportQuantitativos({
             onClick={handleImport}
             disabled={selected.size === 0 || (targetEtapa === "__new__" && !newEtapaName.trim())}
           >
-            Importar {selected.size > 0 ? `(${selected.size})` : ""} na Etapa
+            Importar na Etapa
           </Button>
         </DialogFooter>
       </DialogContent>
