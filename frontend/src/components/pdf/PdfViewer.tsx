@@ -3,7 +3,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import { Button } from "@/components/ui/button";
-import { ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from "lucide-react";
+import { ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Maximize } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 // Configure PDF.js worker
@@ -18,14 +18,13 @@ export function PdfViewer({ storagePath }: PdfViewerProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [scale, setScale] = useState(1.0);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
 
   // Pan state
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [scrollStart, setScrollStart] = useState({ x: 0, y: 0 });
-
-  const canPan = true;
 
   useEffect(() => {
     async function getUrl() {
@@ -35,11 +34,27 @@ export function PdfViewer({ storagePath }: PdfViewerProps) {
       if (data?.signedUrl) setPdfUrl(data.signedUrl);
     }
     getUrl();
+    setScale(1.0);
+    setCurrentPage(1);
   }, [storagePath]);
+
+  // Measure container width for fit-to-width
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width - 32); // minus padding
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      if (!canPan || !containerRef.current) return;
+      if (!containerRef.current) return;
       setIsPanning(true);
       setPanStart({ x: e.clientX, y: e.clientY });
       setScrollStart({
@@ -48,7 +63,7 @@ export function PdfViewer({ storagePath }: PdfViewerProps) {
       });
       e.preventDefault();
     },
-    [canPan],
+    [],
   );
 
   const handleMouseMove = useCallback(
@@ -78,6 +93,14 @@ export function PdfViewer({ storagePath }: PdfViewerProps) {
     [],
   );
 
+  function resetFit() {
+    setScale(1.0);
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = 0;
+      containerRef.current.scrollTop = 0;
+    }
+  }
+
   if (!pdfUrl) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -85,6 +108,10 @@ export function PdfViewer({ storagePath }: PdfViewerProps) {
       </div>
     );
   }
+
+  // The base width is the container width (fit-to-width).
+  // Scale multiplies on top of that.
+  const pageWidth = containerWidth > 0 ? containerWidth * scale : undefined;
 
   return (
     <div className="flex flex-col h-full">
@@ -128,14 +155,22 @@ export function PdfViewer({ storagePath }: PdfViewerProps) {
           >
             <ZoomIn className="h-4 w-4" />
           </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={resetFit}
+            title="Ajustar à tela"
+          >
+            <Maximize className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
       {/* PDF with pan support */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-auto flex justify-center bg-muted/20 p-4"
-        style={{ cursor: canPan ? (isPanning ? "grabbing" : "grab") : "default" }}
+        className="flex-1 overflow-auto bg-muted/20 p-4"
+        style={{ cursor: isPanning ? "grabbing" : "grab" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -146,12 +181,14 @@ export function PdfViewer({ storagePath }: PdfViewerProps) {
           file={pdfUrl}
           onLoadSuccess={({ numPages: n }) => setNumPages(n)}
           loading={
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+            <div className="flex items-center justify-center h-full">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+            </div>
           }
         >
           <Page
             pageNumber={currentPage}
-            scale={scale}
+            width={pageWidth}
             renderAnnotationLayer
             renderTextLayer
           />
