@@ -162,12 +162,19 @@ export interface DxfExtractionResult {
     position: number[];
     height: number;
   }>;
+  hatches: Array<{
+    layer: string;
+    pattern: string;
+    area: number;
+    vertices?: number[][];
+  }>;
   stats: {
     total_layers: number;
     total_entities: number;
     total_blocks: number;
     total_dimensions: number;
     total_texts: number;
+    total_hatches: number;
   };
 }
 
@@ -225,7 +232,9 @@ export async function extractDxfGeometry(
           resolve(out);
         } else {
           reject(
-            new Error(`DXF extraction failed (code ${code}): ${err.slice(-300)}`),
+            new Error(
+              `DXF extraction failed (code ${code}): ${err.slice(-300)}`,
+            ),
           );
         }
       });
@@ -252,14 +261,12 @@ export function formatDxfForLlm(data: DxfExtractionResult): string {
 
   parts.push(`UNIDADES: ${data.units}`);
   parts.push(
-    `ESTATÍSTICAS: ${data.stats.total_entities} entidades geométricas, ${data.stats.total_texts} textos, ${data.stats.total_blocks} blocos, ${data.stats.total_dimensions} cotas, ${data.stats.total_layers} layers`,
+    `ESTATÍSTICAS: ${data.stats.total_entities} entidades geométricas, ${data.stats.total_hatches} hatches, ${data.stats.total_texts} textos, ${data.stats.total_blocks} blocos, ${data.stats.total_dimensions} cotas, ${data.stats.total_layers} layers`,
   );
 
   // Layers with entity counts
   const activeLayers = data.layers.filter((l) => l.is_on && !l.is_frozen);
-  parts.push(
-    `\nLAYERS ATIVOS (${activeLayers.length}):`,
-  );
+  parts.push(`\nLAYERS ATIVOS (${activeLayers.length}):`);
   for (const l of activeLayers) {
     const counts = Object.entries(l.entity_counts)
       .map(([t, c]) => `${t}:${c}`)
@@ -272,9 +279,7 @@ export function formatDxfForLlm(data: DxfExtractionResult): string {
     (e) => e.type === 'LWPOLYLINE' && e.is_closed && e.area,
   );
   if (closedPolys.length > 0) {
-    parts.push(
-      `\nPOLILINHAS FECHADAS COM ÁREA (${closedPolys.length}):`,
-    );
+    parts.push(`\nPOLILINHAS FECHADAS COM ÁREA (${closedPolys.length}):`);
     // Group by layer
     const byLayer = new Map<string, typeof closedPolys>();
     for (const p of closedPolys) {
@@ -283,11 +288,36 @@ export function formatDxfForLlm(data: DxfExtractionResult): string {
       byLayer.set(p.layer, arr);
     }
     for (const [layer, polys] of byLayer) {
-      const areas = polys
-        .map((p) => p.area!)
-        .sort((a, b) => b - a);
+      const areas = polys.map((p) => p.area!).sort((a, b) => b - a);
       parts.push(
-        `  ${layer}: ${polys.length} polilinhas, áreas: [${areas.slice(0, 20).map((a) => a.toFixed(4)).join(', ')}]`,
+        `  ${layer}: ${polys.length} polilinhas, áreas: [${areas
+          .slice(0, 20)
+          .map((a) => a.toFixed(4))
+          .join(', ')}]`,
+      );
+    }
+  }
+
+  // Hatches (filled areas — floor areas, wall sections, etc.)
+  if (data.hatches && data.hatches.length > 0) {
+    parts.push(`\nHATCHES/ÁREAS PREENCHIDAS (${data.hatches.length}):`);
+    const hByLayer = new Map<string, typeof data.hatches>();
+    for (const h of data.hatches) {
+      const arr = hByLayer.get(h.layer) || [];
+      arr.push(h);
+      hByLayer.set(h.layer, arr);
+    }
+    for (const [layer, hs] of hByLayer) {
+      const totalArea = hs.reduce((sum, h) => sum + h.area, 0);
+      const areas = hs
+        .map((h) => h.area)
+        .sort((a, b) => b - a);
+      const patterns = [...new Set(hs.map((h) => h.pattern))].join(', ');
+      parts.push(
+        `  ${layer}: ${hs.length} hatches, área total=${totalArea.toFixed(4)}, padrões=[${patterns}], áreas individuais: [${areas
+          .slice(0, 20)
+          .map((a) => a.toFixed(4))
+          .join(', ')}]`,
       );
     }
   }
@@ -296,7 +326,9 @@ export function formatDxfForLlm(data: DxfExtractionResult): string {
   if (data.dimensions.length > 0) {
     parts.push(`\nCOTAS (${data.dimensions.length}):`);
     for (const d of data.dimensions.slice(0, 50)) {
-      parts.push(`  [${d.layer}] ${d.type}: ${d.actual_measurement.toFixed(4)}`);
+      parts.push(
+        `  [${d.layer}] ${d.type}: ${d.actual_measurement.toFixed(4)}`,
+      );
     }
   }
 

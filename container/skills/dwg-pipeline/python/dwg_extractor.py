@@ -20,6 +20,7 @@ from ezdxf.entities import (
     Circle,
     Dimension,
     Ellipse,
+    Hatch,
     Insert,
     Line,
     LWPolyline,
@@ -280,6 +281,91 @@ def extract_texts(msp: Any) -> list[dict]:
     return texts
 
 
+def _edge_path_to_points(edges: list, arc_segments: int = 16) -> list[tuple[float, float]]:
+    """Convert HATCH edge path (lines + arcs) to a list of (x, y) points."""
+    pts: list[tuple[float, float]] = []
+    for edge in edges:
+        etype = getattr(edge, "EDGE_TYPE", "")
+        if etype == "LineEdge":
+            pts.append((edge.start[0], edge.start[1]))
+        elif etype == "ArcEdge":
+            cx, cy = edge.center
+            r = edge.radius
+            sa = math.radians(edge.start_angle)
+            ea = math.radians(edge.end_angle)
+            ccw = edge.ccw
+            if ccw:
+                if ea <= sa:
+                    ea += 2 * math.pi
+            else:
+                if sa <= ea:
+                    sa += 2 * math.pi
+            for i in range(arc_segments + 1):
+                t = sa + (ea - sa) * i / arc_segments
+                pts.append((cx + r * math.cos(t), cy + r * math.sin(t)))
+        elif etype == "EllipseEdge":
+            pts.append((edge.center[0], edge.center[1]))
+    return pts
+
+
+def _shoelace(pts: list[tuple[float, float]]) -> float:
+    """Calculate area of a polygon using the shoelace formula."""
+    n = len(pts)
+    if n < 3:
+        return 0.0
+    a = 0.0
+    for i in range(n):
+        x1, y1 = pts[i]
+        x2, y2 = pts[(i + 1) % n]
+        a += x1 * y2 - x2 * y1
+    return abs(a) / 2.0
+
+
+def extract_hatches(msp: Any) -> list[dict]:
+    """Extract HATCH entities with boundary areas.
+
+    HATCHes represent filled regions (floor areas, wall sections, etc.)
+    and are critical for quantity takeoff in construction projects.
+    """
+    hatches = []
+
+    for entity in msp:
+        if entity.dxftype() != "HATCH" or not isinstance(entity, Hatch):
+            continue
+
+        layer = entity.dxf.layer
+        pattern = entity.dxf.pattern_name
+
+        for bp in entity.paths:
+            area = 0.0
+            vertices: list[list[float]] = []
+
+            if hasattr(bp, "vertices") and bp.vertices:
+                # PolylinePath — vertices directly available
+                vertices = [[round(v[0], 4), round(v[1], 4)] for v in bp.vertices]
+                area = _shoelace([(v[0], v[1]) for v in bp.vertices])
+            elif hasattr(bp, "edges") and bp.edges:
+                # EdgePath — convert arcs/lines to points first
+                pts = _edge_path_to_points(bp.edges)
+                if pts:
+                    vertices = [[round(p[0], 4), round(p[1], 4)] for p in pts]
+                    area = _shoelace(pts)
+
+            if area < 1e-6:
+                continue  # Skip degenerate hatches
+
+            hatches.append(
+                {
+                    "layer": layer,
+                    "pattern": pattern,
+                    "area": round(area, 4),
+                    "vertices": vertices[:100],  # Limit for large hatches
+                }
+            )
+
+    return hatches
+
+
 def detect_units(doc: ezdxf.document.Drawing) -> str:
     """Detect drawing units from the DXF header."""
     try:
@@ -317,6 +403,7 @@ def main(dxf_path: str) -> None:
     blocks = extract_blocks(msp, doc)
     dimensions = extract_dimensions(msp)
     texts = extract_texts(msp)
+    hatches = extract_hatches(msp)
     units = detect_units(doc)
 
     result = {
@@ -327,12 +414,14 @@ def main(dxf_path: str) -> None:
         "blocks": blocks,
         "dimensions": dimensions,
         "texts": texts,
+        "hatches": hatches,
         "stats": {
             "total_layers": len(layers),
             "total_entities": len(entities),
             "total_blocks": len(blocks),
             "total_dimensions": len(dimensions),
             "total_texts": len(texts),
+            "total_hatches": len(hatches),
         },
     }
 
