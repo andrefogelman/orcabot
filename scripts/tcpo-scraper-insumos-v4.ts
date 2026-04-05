@@ -29,7 +29,7 @@ const CATEGORIES_CONFIG: Array<{ name: string; maxPages: number }> = [
   { name: "Serviços terceirizados", maxPages: 999 },
   { name: "Equipamentos - Aquisição", maxPages: 999 },
   { name: "Equipamentos - Locação", maxPages: 999 },
-  { name: "Materiais", maxPages: 1 }, // só 1 página = ~100 itens amostra
+  { name: "Materiais", maxPages: 51 }, // 21 páginas = ~2100 itens (1500 novos + 600 já feitos)
 ];
 
 interface InsumoCode { code: string; desc: string; unit: string; categoria: string; }
@@ -161,14 +161,22 @@ async function collectCategory(page: Page, catName: string, maxPages: number): P
 
     if (pageNum >= maxPages) break;
 
-    // Next page
+    // Next page — handle "..." pagination links
     const hasNext = await page.evaluate(`(() => {
       var currentPage = ${pageNum};
       var links = document.querySelectorAll('a');
+      // First try: direct next page number
       for (var i = 0; i < links.length; i++) {
         var t = (links[i].innerText || '').trim();
         if (t === String(currentPage + 1) && (links[i].getAttribute('href') || '').indexOf('Page') >= 0) {
           links[i].click(); return true;
+        }
+      }
+      // Second try: click "..." to load more page links
+      for (var j = 0; j < links.length; j++) {
+        var t2 = (links[j].innerText || '').trim();
+        if (t2 === '...' && (links[j].getAttribute('href') || '').indexOf('Page') >= 0) {
+          links[j].click(); return true;
         }
       }
       return false;

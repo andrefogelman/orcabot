@@ -25,7 +25,10 @@ async function processNextJob(): Promise<boolean> {
     .limit(1);
 
   if (error) {
-    logger.error({ error: error.message }, '[pdf-job-poller] Failed to fetch jobs');
+    logger.error(
+      { error: error.message },
+      '[pdf-job-poller] Failed to fetch jobs',
+    );
     return false;
   }
 
@@ -47,7 +50,11 @@ async function processNextJob(): Promise<boolean> {
     const isDwg = fileType === 'dwg' || fileType === 'dxf';
 
     logger.info(
-      { jobId: job.id, fileType, pipeline: isDwg ? 'dwg-pipeline' : 'pdf-pipeline' },
+      {
+        jobId: job.id,
+        fileType,
+        pipeline: isDwg ? 'dwg-pipeline' : 'pdf-pipeline',
+      },
       '[pdf-job-poller] Job dispatched',
     );
 
@@ -64,7 +71,11 @@ async function processNextJob(): Promise<boolean> {
           .eq('id', job.id)
           .single();
 
-        if (jobCheck && jobCheck.status !== 'error' && jobCheck.status !== 'done') {
+        if (
+          jobCheck &&
+          jobCheck.status !== 'error' &&
+          jobCheck.status !== 'done'
+        ) {
           await supabaseAdmin
             .from('ob_pdf_jobs')
             .update({
