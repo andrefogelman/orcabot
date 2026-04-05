@@ -376,7 +376,7 @@ REGRAS:
     process.env.ANTHROPIC_BASE_URL || 'http://100.91.255.19:8100';
   const LLM_AUTH_TOKEN =
     process.env.ANTHROPIC_AUTH_TOKEN || 'sk-proxy-passthrough';
-  const LLM_MODEL = process.env.LLM_MODEL || 'claude-haiku-4-5-20251001';
+  const LLM_MODEL = process.env.LLM_MODEL || 'gemini-3.1-pro-preview';
 
   async function callLlm(system: string, userContent: string): Promise<string> {
     const res = await fetch(`${LLM_BASE_URL}/v1/messages`, {
@@ -675,9 +675,7 @@ REGRAS:
               .from('ob_project_files')
               .select('id, filename, file_type')
               .in('id', fileIds);
-            const fileMap = new Map(
-              projFiles?.map((f) => [f.id, f]) || [],
-            );
+            const fileMap = new Map(projFiles?.map((f) => [f.id, f]) || []);
 
             const pdfParts: string[] = [];
             for (const run of pdfRuns) {
@@ -709,7 +707,11 @@ REGRAS:
       }
 
       logger.info(
-        { file_id: body.file_id, fileInfo, hasPdfContext: pdfContext.length > 0 },
+        {
+          file_id: body.file_id,
+          fileInfo,
+          hasPdfContext: pdfContext.length > 0,
+        },
         'File extracted for processing',
       );
 
