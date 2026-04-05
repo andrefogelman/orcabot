@@ -377,8 +377,14 @@ REGRAS:
   const LLM_AUTH_TOKEN =
     process.env.ANTHROPIC_AUTH_TOKEN || 'sk-proxy-passthrough';
   const LLM_MODEL = process.env.LLM_MODEL || 'gemini-3.1-pro-preview';
+  const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 
   async function callLlm(system: string, userContent: string): Promise<string> {
+    // Gemini models → call Google AI API directly
+    if (LLM_MODEL.startsWith('gemini') && GOOGLE_API_KEY) {
+      return callGemini(system, userContent);
+    }
+    // Anthropic models → call via proxy
     const res = await fetch(`${LLM_BASE_URL}/v1/messages`, {
       method: 'POST',
       headers: {
@@ -397,6 +403,33 @@ REGRAS:
       throw new Error(`LLM error: ${res.status} ${await res.text()}`);
     const data = (await res.json()) as { content?: Array<{ text?: string }> };
     return data.content?.[0]?.text ?? '';
+  }
+
+  async function callGemini(
+    system: string,
+    userContent: string,
+  ): Promise<string> {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${LLM_MODEL}:generateContent?key=${GOOGLE_API_KEY}`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: system }] },
+        contents: [{ role: 'user', parts: [{ text: userContent }] }],
+        generationConfig: {
+          maxOutputTokens: 16384,
+          temperature: 0.2,
+        },
+      }),
+    });
+    if (!res.ok)
+      throw new Error(`Gemini error: ${res.status} ${await res.text()}`);
+    const data = (await res.json()) as {
+      candidates?: Array<{
+        content?: { parts?: Array<{ text?: string }> };
+      }>;
+    };
+    return data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
   }
 
   function parseJsonFromLlm(text: string): Record<string, unknown> | null {
