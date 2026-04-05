@@ -410,26 +410,47 @@ REGRAS:
     userContent: string,
   ): Promise<string> {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${LLM_MODEL}:generateContent?key=${GOOGLE_API_KEY}`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: system }] },
-        contents: [{ role: 'user', parts: [{ text: userContent }] }],
-        generationConfig: {
-          maxOutputTokens: 16384,
-          temperature: 0.2,
-        },
-      }),
-    });
-    if (!res.ok)
-      throw new Error(`Gemini error: ${res.status} ${await res.text()}`);
-    const data = (await res.json()) as {
-      candidates?: Array<{
-        content?: { parts?: Array<{ text?: string }> };
-      }>;
-    };
-    return data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+    logger.info({ model: LLM_MODEL }, 'Calling Gemini API');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 120_000);
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: system }] },
+          contents: [{ role: 'user', parts: [{ text: userContent }] }],
+          generationConfig: {
+            maxOutputTokens: 32768,
+            temperature: 0.2,
+          },
+        }),
+      });
+      if (!res.ok) {
+        const errBody = await res.text();
+        logger.error(
+          { status: res.status, body: errBody.slice(0, 500) },
+          'Gemini API error',
+        );
+        throw new Error(`Gemini error: ${res.status} ${errBody.slice(0, 200)}`);
+      }
+      const data = (await res.json()) as {
+        candidates?: Array<{
+          content?: { parts?: Array<{ text?: string }> };
+          finishReason?: string;
+        }>;
+      };
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+      const finishReason = data.candidates?.[0]?.finishReason;
+      logger.info(
+        { finishReason, responseLength: text.length },
+        'Gemini response received',
+      );
+      return text;
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   function parseJsonFromLlm(text: string): Record<string, unknown> | null {
