@@ -1,16 +1,12 @@
 // src/orcabot-agent-runner.ts
 // Runs OrcaBot specialist agents (estrutural, hidraulico, eletricista) in-process
-// using the Anthropic SDK with tools from agent-registry.
+// using the unified LLM provider with tool-use loop.
 
-import Anthropic from '@anthropic-ai/sdk';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { config } from './config.js';
-
-const anthropic = new Anthropic({
-  apiKey: config.anthropicApiKey || 'placeholder',
-  baseURL: `http://localhost:${config.llmProxyPort}`,
-});
+import { getProvider } from './llm/index.js';
+import type { Message, ContentBlock, ToolDef } from './llm/types.js';
 
 export interface AgentRunResult {
   response: string;
@@ -19,28 +15,23 @@ export interface AgentRunResult {
   duration_ms: number;
 }
 
-/**
- * Load the system prompt for an OrcaBot agent from agents/{slug}/CLAUDE.md
- */
 async function loadSystemPrompt(slug: string): Promise<string> {
   const promptPath = join(process.cwd(), 'agents', slug, 'CLAUDE.md');
   return readFile(promptPath, 'utf-8');
 }
 
-/**
- * Run an OrcaBot specialist agent with the given task description and tools.
- * Uses a simple tool-use loop until the agent is done.
- */
 export async function runOrcabotAgent(
   slug: string,
   taskDescription: string,
-  toolDefinitions: Anthropic.Tool[],
+  toolDefinitions: ToolDef[],
   toolHandlers: Record<string, (params: any) => Promise<unknown>>,
 ): Promise<AgentRunResult> {
   const startTime = Date.now();
+  const provider = await getProvider();
+  const model = config.llmModel;
   const systemPrompt = await loadSystemPrompt(slug);
 
-  const messages: Anthropic.MessageParam[] = [
+  const messages: Message[] = [
     { role: 'user', content: taskDescription },
   ];
 
@@ -54,79 +45,84 @@ export async function runOrcabotAgent(
   while (iteration < MAX_ITERATIONS) {
     iteration++;
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
+    const response = await provider.chatWithTools({
+      model,
+      maxTokens: 4096,
       temperature: 0.2,
       system: systemPrompt,
       tools: toolDefinitions,
       messages,
     });
 
-    totalInputTokens += response.usage.input_tokens;
-    totalOutputTokens += response.usage.output_tokens;
+    totalInputTokens += response.inputTokens;
+    totalOutputTokens += response.outputTokens;
 
-    if (response.stop_reason === 'end_turn') {
-      const textBlock = response.content.find((b) => b.type === 'text');
+    if (response.stopReason === 'end') {
       return {
-        response: (textBlock as any)?.text || '',
+        response: response.text,
         tokens_used: totalInputTokens + totalOutputTokens,
         tool_calls: toolCalls,
         duration_ms: Date.now() - startTime,
       };
     }
 
-    if (response.stop_reason === 'tool_use') {
-      messages.push({ role: 'assistant', content: response.content });
+    if (response.stopReason === 'tool_use') {
+      // Build assistant message with text + tool calls
+      const assistantBlocks: ContentBlock[] = [];
+      if (response.text) {
+        assistantBlocks.push({ type: 'text', text: response.text });
+      }
+      for (const tc of response.toolCalls) {
+        assistantBlocks.push({
+          type: 'tool_use',
+          id: tc.id,
+          name: tc.name,
+          input: tc.input,
+        });
+      }
+      messages.push({ role: 'assistant', content: assistantBlocks });
 
-      const toolResults: Anthropic.Messages.ToolResultBlockParam[] = [];
+      // Execute tools and build results
+      const resultBlocks: ContentBlock[] = [];
 
-      for (const block of response.content) {
-        if (block.type !== 'tool_use') continue;
-
-        const handler = toolHandlers[block.name];
+      for (const tc of response.toolCalls) {
+        const handler = toolHandlers[tc.name];
         if (!handler) {
-          toolResults.push({
+          resultBlocks.push({
             type: 'tool_result',
-            tool_use_id: block.id,
-            content: `Erro: ferramenta "${block.name}" não encontrada`,
+            id: tc.id,
+            name: tc.name,
+            content: `Erro: ferramenta "${tc.name}" não encontrada`,
             is_error: true,
           });
           continue;
         }
 
         try {
-          const result = await handler(block.input as any);
-          toolCalls.push({
-            name: block.name,
-            input: block.input,
-            output: result,
-          });
-          toolResults.push({
+          const result = await handler(tc.input as any);
+          toolCalls.push({ name: tc.name, input: tc.input, output: result });
+          resultBlocks.push({
             type: 'tool_result',
-            tool_use_id: block.id,
+            id: tc.id,
+            name: tc.name,
             content: JSON.stringify(result),
           });
         } catch (err: any) {
-          toolCalls.push({
-            name: block.name,
-            input: block.input,
-            output: { error: err.message },
-          });
-          toolResults.push({
+          toolCalls.push({ name: tc.name, input: tc.input, output: { error: err.message } });
+          resultBlocks.push({
             type: 'tool_result',
-            tool_use_id: block.id,
+            id: tc.id,
+            name: tc.name,
             content: `Erro: ${err.message}`,
             is_error: true,
           });
         }
       }
 
-      messages.push({ role: 'user', content: toolResults });
+      messages.push({ role: 'user', content: resultBlocks });
       continue;
     }
 
-    // Unknown stop reason — break
     break;
   }
 

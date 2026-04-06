@@ -1,6 +1,5 @@
-import type Anthropic from '@anthropic-ai/sdk';
+import type { ToolDef } from './llm/types.js';
 
-// OrcaBot agents
 import {
   toolDefinitions as orcamentistaDefs,
   toolHandlers as orcamentistaHandlers,
@@ -19,26 +18,36 @@ import {
 } from '../agents/eletricista/tools.js';
 
 export interface AgentToolset {
-  definitions: Anthropic.Tool[];
+  definitions: ToolDef[];
   handlers: Record<string, (params: any) => Promise<unknown>>;
 }
 
+/**
+ * Convert Anthropic-style tool defs (input_schema) to unified ToolDef (parameters).
+ */
+function toUnifiedDefs(defs: Array<{ name: string; description: string; input_schema: Record<string, unknown> }>): ToolDef[] {
+  return defs.map((d) => ({
+    name: d.name,
+    description: d.description,
+    parameters: d.input_schema,
+  }));
+}
+
 const registry: Record<string, AgentToolset> = {
-  // OrcaBot agents
   orcamentista: {
-    definitions: orcamentistaDefs as unknown as Anthropic.Tool[],
+    definitions: toUnifiedDefs(orcamentistaDefs as any),
     handlers: orcamentistaHandlers,
   },
   estrutural: {
-    definitions: estruturalDefs as unknown as Anthropic.Tool[],
+    definitions: toUnifiedDefs(estruturalDefs as any),
     handlers: estruturalHandlers,
   },
   hidraulico: {
-    definitions: hidraulicoDefs as unknown as Anthropic.Tool[],
+    definitions: toUnifiedDefs(hidraulicoDefs as any),
     handlers: hidraulicoHandlers,
   },
   eletricista: {
-    definitions: eletricistaDefs as unknown as Anthropic.Tool[],
+    definitions: toUnifiedDefs(eletricistaDefs as any),
     handlers: eletricistaHandlers,
   },
 };
