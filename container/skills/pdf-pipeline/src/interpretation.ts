@@ -9,23 +9,88 @@ interface InterpretationResult {
   needs_review: ReviewItem[];
 }
 
+export interface DetectedCota {
+  raw: string;
+  value1_m: number;
+  value2_m?: number;
+  area_m2?: number;
+  type: 'dimension' | 'area_direct' | 'pair';
+}
+
+export function detectCotas(text: string): DetectedCota[] {
+  const cotas: DetectedCota[] = [];
+
+  // Pattern 1: "4,20 x 5,50" or "4.20 x 5.50" (pair of dimensions)
+  const pairPattern = /(\d+[.,]\d+)\s*[xX×]\s*(\d+[.,]\d+)/g;
+  let match;
+  while ((match = pairPattern.exec(text)) !== null) {
+    const v1 = parseFloat(match[1].replace(',', '.'));
+    const v2 = parseFloat(match[2].replace(',', '.'));
+    cotas.push({
+      raw: match[0],
+      value1_m: v1,
+      value2_m: v2,
+      area_m2: v1 * v2,
+      type: 'pair',
+    });
+  }
+
+  // Pattern 2: "A=25,50m²" or "25,50 m²" (direct area)
+  const areaPattern = /(?:A\s*=\s*)?(\d+[.,]\d+)\s*(?:m²|m2|M2|M²)/g;
+  while ((match = areaPattern.exec(text)) !== null) {
+    const area = parseFloat(match[1].replace(',', '.'));
+    cotas.push({
+      raw: match[0],
+      value1_m: area,
+      area_m2: area,
+      type: 'area_direct',
+    });
+  }
+
+  // Pattern 3: standalone dimensions "4,20" (reasonable room dimension range 0.3-50m)
+  const dimPattern = /\b(\d{1,3}[.,]\d{2})\b/g;
+  while ((match = dimPattern.exec(text)) !== null) {
+    const val = parseFloat(match[1].replace(',', '.'));
+    // Skip if already captured as part of a pair or area
+    const alreadyCaptured = cotas.some((c) => c.raw.includes(match![1]));
+    if (!alreadyCaptured && val >= 0.3 && val <= 50) {
+      cotas.push({
+        raw: match[0],
+        value1_m: val,
+        type: 'dimension',
+      });
+    }
+  }
+
+  return cotas;
+}
+
 /**
  * Build the user prompt for interpretation, including classification context.
  */
 export function buildInterpretationPrompt(page: ClassifiedPage): string {
-  return `Interpret this construction drawing and extract structured data.
+  const cotas = detectCotas(page.text_content);
+  const cotasSection = cotas.length > 0
+    ? `\n--- COTAS DETECTADAS AUTOMATICAMENTE ---\n${cotas.map(c =>
+        c.type === 'pair' ? `Dimensão: ${c.raw} → área = ${c.area_m2?.toFixed(2)}m²`
+        : c.type === 'area_direct' ? `Área explícita: ${c.raw}`
+        : `Cota: ${c.raw} = ${c.value1_m}m`
+      ).join('\n')}\n--- FIM COTAS ---\n`
+    : '\n--- NENHUMA COTA DETECTADA NO TEXTO ---\n';
 
-CLASSIFICATION:
-- Type: ${page.tipo}
+  return `Interprete esta prancha de construção e extraia dados estruturados.
+
+CLASSIFICAÇÃO:
+- Tipo: ${page.tipo}
 - Prancha: ${page.prancha}
 - Pavimento: ${page.pavimento}
-- Classification confidence: ${page.classification_confidence}
-
---- EXTRACTED TEXT ---
+- Confiança classificação: ${page.classification_confidence}
+${cotasSection}
+--- TEXTO EXTRAÍDO ---
 ${page.text_content}
---- END TEXT ---
+--- FIM TEXTO ---
 
-Analyze both the image and the extracted text above. Extract all rooms/environments with their dimensions, finishes, and openings. Mark uncertain items in needs_review.`;
+Analise a imagem E o texto acima. Extraia todos os ambientes com dimensões, acabamentos e aberturas. Use as cotas detectadas automaticamente como referência. Marque itens incertos em needs_review.`;
 }
 
 /**
