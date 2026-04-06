@@ -22,6 +22,8 @@ export const config = {
   supabaseAnonKey: required('SUPABASE_ANON_KEY'),
   llmProxyPort: parseInt(optional('LLM_PROXY_PORT', '8200'), 10),
   llmMode: optional('LLM_MODE', 'max') as 'max' | 'apikey',
+  llmProvider: optional('LLM_PROVIDER', 'gemini') as 'gemini' | 'anthropic',
+  llmModel: optional('LLM_MODEL', 'gemini-2.5-pro'),
   anthropicApiKey: process.env.ANTHROPIC_API_KEY || '',
   claudeMaxSessionToken: process.env.CLAUDE_MAX_SESSION_TOKEN || '',
   claudeMaxCookies: process.env.CLAUDE_MAX_COOKIES || '',
