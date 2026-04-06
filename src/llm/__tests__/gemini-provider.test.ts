@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // Mock the @google/genai SDK
 const mockGenerateContent = vi.fn();
 vi.mock('@google/genai', () => ({
-  GoogleGenAI: vi.fn().mockImplementation(function () {
+  GoogleGenAI: vi.fn().mockImplementation(function (this: any) {
     this.models = { generateContent: mockGenerateContent };
   }),
 }));
@@ -55,9 +55,7 @@ describe('GeminiProvider', () => {
     it('returns tool_use when model calls a function', async () => {
       mockGenerateContent.mockResolvedValue({
         text: '',
-        functionCalls: [
-          { name: 'get_weather', args: { city: 'SP' } },
-        ],
+        functionCalls: [{ name: 'get_weather', args: { city: 'SP' } }],
         usageMetadata: { promptTokenCount: 20, candidatesTokenCount: 15 },
       });
 

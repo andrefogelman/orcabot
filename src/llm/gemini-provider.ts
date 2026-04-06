@@ -17,7 +17,8 @@ export class GeminiProvider implements LlmProvider {
 
   constructor() {
     const apiKey = process.env.GOOGLE_API_KEY;
-    if (!apiKey) throw new Error('GOOGLE_API_KEY is required for GeminiProvider');
+    if (!apiKey)
+      throw new Error('GOOGLE_API_KEY is required for GeminiProvider');
     this.client = new GoogleGenAI({ apiKey });
   }
 
@@ -40,9 +41,16 @@ export class GeminiProvider implements LlmProvider {
   }
 
   async chatWithTools(opts: ToolChatOpts): Promise<ToolChatResult> {
-    const tools = opts.tools.length > 0
-      ? [{ functionDeclarations: opts.tools.map((t) => this.toFunctionDeclaration(t)) }]
-      : undefined;
+    const tools =
+      opts.tools.length > 0
+        ? [
+            {
+              functionDeclarations: opts.tools.map((t) =>
+                this.toFunctionDeclaration(t),
+              ),
+            },
+          ]
+        : undefined;
 
     const response = await this.client.models.generateContent({
       model: opts.model,
@@ -63,11 +71,13 @@ export class GeminiProvider implements LlmProvider {
         inputTokens: response.usageMetadata?.promptTokenCount ?? 0,
         outputTokens: response.usageMetadata?.candidatesTokenCount ?? 0,
         stopReason: 'tool_use',
-        toolCalls: functionCalls.map((fc: { name?: string; args?: unknown }, i: number) => ({
-          id: `call_${Date.now()}_${i}`,
-          name: fc.name ?? '',
-          input: fc.args ?? {},
-        })),
+        toolCalls: functionCalls.map(
+          (fc: { name?: string; args?: unknown }, i: number) => ({
+            id: `call_${Date.now()}_${i}`,
+            name: fc.name ?? '',
+            input: fc.args ?? {},
+          }),
+        ),
       };
     }
 
@@ -80,14 +90,7 @@ export class GeminiProvider implements LlmProvider {
     };
   }
 
-  private buildContents(messages: Message[]): Array<{
-    role: string;
-    parts: Array<{
-      text?: string;
-      functionCall?: { name: string; args: unknown };
-      functionResponse?: { name: string; response: unknown };
-    }>;
-  }> {
+  private buildContents(messages: Message[]) {
     return messages.map((msg) => {
       if (typeof msg.content === 'string') {
         return {
@@ -99,20 +102,22 @@ export class GeminiProvider implements LlmProvider {
       // Array of ContentBlocks
       const parts: Array<{
         text?: string;
-        functionCall?: { name: string; args: unknown };
-        functionResponse?: { name: string; response: unknown };
+        functionCall?: { name: string; args: Record<string, unknown> };
+        functionResponse?: { name: string; response: Record<string, unknown> };
       }> = [];
 
       for (const block of msg.content) {
         if (block.type === 'text' && block.text) {
           parts.push({ text: block.text });
         } else if (block.type === 'tool_use' && block.name) {
-          parts.push({ functionCall: { name: block.name, args: block.input ?? {} } });
+          parts.push({
+            functionCall: { name: block.name, args: (block.input ?? {}) as Record<string, unknown> },
+          });
         } else if (block.type === 'tool_result' && block.name) {
           parts.push({
             functionResponse: {
               name: block.name,
-              response: block.content ? JSON.parse(block.content) : {},
+              response: (block.content ? JSON.parse(block.content) : {}) as Record<string, unknown>,
             },
           });
         }
@@ -133,7 +138,8 @@ export class GeminiProvider implements LlmProvider {
     return {
       name: tool.name,
       description: tool.description,
-      parameters: Object.keys(tool.parameters).length > 0 ? tool.parameters : undefined,
+      parameters:
+        Object.keys(tool.parameters).length > 0 ? tool.parameters : undefined,
     };
   }
 }
