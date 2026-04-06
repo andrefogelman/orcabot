@@ -372,85 +372,18 @@ REGRAS:
 
   // ── Process file (PDF/DWG/DXF) with LLM ──────────────────────────────────
 
-  const LLM_BASE_URL =
-    process.env.ANTHROPIC_BASE_URL || 'http://100.91.255.19:8100';
-  const LLM_AUTH_TOKEN =
-    process.env.ANTHROPIC_AUTH_TOKEN || 'sk-proxy-passthrough';
-  const LLM_MODEL = process.env.LLM_MODEL || 'claude-sonnet-4-6';
-  const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
-
   async function callLlm(system: string, userContent: string): Promise<string> {
-    // Gemini models → call Google AI API directly
-    if (LLM_MODEL.startsWith('gemini') && GOOGLE_API_KEY) {
-      return callGemini(system, userContent);
-    }
-    // Anthropic models → call via proxy
-    const res = await fetch(`${LLM_BASE_URL}/v1/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': LLM_AUTH_TOKEN,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: LLM_MODEL,
-        max_tokens: 16384,
-        system,
-        messages: [{ role: 'user', content: userContent }],
-      }),
+    const { getProvider } = await import('../llm/index.js');
+    const { config } = await import('../config.js');
+    const provider = await getProvider();
+    const result = await provider.chat({
+      model: config.llmModel,
+      system,
+      messages: [{ role: 'user', content: userContent }],
+      maxTokens: 16384,
+      temperature: 0.2,
     });
-    if (!res.ok)
-      throw new Error(`LLM error: ${res.status} ${await res.text()}`);
-    const data = (await res.json()) as { content?: Array<{ text?: string }> };
-    return data.content?.[0]?.text ?? '';
-  }
-
-  async function callGemini(
-    system: string,
-    userContent: string,
-  ): Promise<string> {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${LLM_MODEL}:generateContent?key=${GOOGLE_API_KEY}`;
-    logger.info({ model: LLM_MODEL }, 'Calling Gemini API');
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 120_000);
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal,
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: system }] },
-          contents: [{ role: 'user', parts: [{ text: userContent }] }],
-          generationConfig: {
-            maxOutputTokens: 32768,
-            temperature: 0.2,
-          },
-        }),
-      });
-      if (!res.ok) {
-        const errBody = await res.text();
-        logger.error(
-          { status: res.status, body: errBody.slice(0, 500) },
-          'Gemini API error',
-        );
-        throw new Error(`Gemini error: ${res.status} ${errBody.slice(0, 200)}`);
-      }
-      const data = (await res.json()) as {
-        candidates?: Array<{
-          content?: { parts?: Array<{ text?: string }> };
-          finishReason?: string;
-        }>;
-      };
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-      const finishReason = data.candidates?.[0]?.finishReason;
-      logger.info(
-        { finishReason, responseLength: text.length },
-        'Gemini response received',
-      );
-      return text;
-    } finally {
-      clearTimeout(timeout);
-    }
+    return result.text;
   }
 
   function parseJsonFromLlm(text: string): Record<string, unknown> | null {
@@ -919,26 +852,17 @@ FORMATO JSON OBRIGATÓRIO (responda APENAS com este JSON, sem texto antes ou dep
         .map((m) => ({ role: m.role, content: m.content }));
 
       // 6. Call LLM with multi-turn messages
-      const llmRes = await fetch(`${LLM_BASE_URL}/v1/messages`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': LLM_AUTH_TOKEN,
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify({
-          model: LLM_MODEL,
-          max_tokens: 4096,
-          system: systemPrompt,
-          messages: llmMessages,
-        }),
+      const { getProvider: getAgentProvider } = await import('../llm/index.js');
+      const { config: agentConfig } = await import('../config.js');
+      const agentProvider = await getAgentProvider();
+      const agentResult = await agentProvider.chat({
+        model: agentConfig.llmModel,
+        system: systemPrompt,
+        messages: llmMessages,
+        maxTokens: 4096,
+        temperature: 0.2,
       });
-      if (!llmRes.ok)
-        throw new Error(`LLM error: ${llmRes.status} ${await llmRes.text()}`);
-      const llmData = (await llmRes.json()) as {
-        content?: Array<{ text?: string }>;
-      };
-      const response = llmData.content?.[0]?.text ?? '';
+      const response = agentResult.text;
 
       // 7. Save assistant response
       await supabaseAdmin.from('ob_agent_conversations').insert({
