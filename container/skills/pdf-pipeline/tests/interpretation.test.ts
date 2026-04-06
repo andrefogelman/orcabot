@@ -2,8 +2,104 @@ import { describe, it, expect } from "vitest";
 import {
   buildInterpretationPrompt,
   parseInterpretationResponse,
+  detectCotas,
 } from "../src/interpretation.js";
 import type { ClassifiedPage } from "../src/types.js";
+import { INTERPRETATION_SYSTEM_PROMPT } from "../src/prompts.js";
+
+describe("detectCotas", () => {
+  it("detects pair dimensions with comma decimal (BR)", () => {
+    const cotas = detectCotas("SALA 4,20 x 5,50");
+    const pairs = cotas.filter((c) => c.type === "pair");
+    expect(pairs.length).toBe(1);
+    expect(pairs[0].value1_m).toBeCloseTo(4.2);
+    expect(pairs[0].value2_m).toBeCloseTo(5.5);
+    expect(pairs[0].area_m2).toBeCloseTo(23.1);
+  });
+
+  it("detects pair dimensions with dot decimal", () => {
+    const cotas = detectCotas("QUARTO 3.50 x 4.00");
+    const pairs = cotas.filter((c) => c.type === "pair");
+    expect(pairs.length).toBe(1);
+    expect(pairs[0].area_m2).toBeCloseTo(14.0);
+  });
+
+  it("detects direct area with m²", () => {
+    const cotas = detectCotas("Area total: 25,50 m²");
+    const areas = cotas.filter((c) => c.type === "area_direct");
+    expect(areas.length).toBe(1);
+    expect(areas[0].area_m2).toBeCloseTo(25.5);
+  });
+
+  it("detects A= pattern", () => {
+    const cotas = detectCotas("A = 12,80m²");
+    const areas = cotas.filter((c) => c.type === "area_direct");
+    expect(areas.length).toBe(1);
+    expect(areas[0].area_m2).toBeCloseTo(12.8);
+  });
+
+  it("detects standalone dimensions", () => {
+    const cotas = detectCotas("3,50  cota  4,20");
+    const dims = cotas.filter((c) => c.type === "dimension");
+    expect(dims.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("returns empty for text without dimensions", () => {
+    const cotas = detectCotas("PLANTA BAIXA - PAVIMENTO TERREO");
+    expect(cotas.length).toBe(0);
+  });
+});
+
+describe("buildInterpretationPrompt with cotas", () => {
+  it("includes detected cotas section when cotas found", () => {
+    const page = {
+      page_number: 1,
+      text_content: "SALA 4,20 x 5,50",
+      tipo: "arquitetonico-planta-baixa",
+      prancha: "ARQ-01",
+      pavimento: "terreo",
+      classification_confidence: 0.95,
+      ocr_used: false,
+      char_count: 100,
+    };
+    const prompt = buildInterpretationPrompt(page as any);
+    expect(prompt).toContain("COTAS DETECTADAS AUTOMATICAMENTE");
+    expect(prompt).toContain("23.10");
+  });
+
+  it("shows no cotas message when none found", () => {
+    const page = {
+      page_number: 1,
+      text_content: "PLANTA BAIXA",
+      tipo: "arquitetonico-planta-baixa",
+      prancha: "ARQ-01",
+      pavimento: "terreo",
+      classification_confidence: 0.95,
+      ocr_used: false,
+      char_count: 50,
+    };
+    const prompt = buildInterpretationPrompt(page as any);
+    expect(prompt).toContain("NENHUMA COTA DETECTADA");
+  });
+});
+
+describe("INTERPRETATION_SYSTEM_PROMPT", () => {
+  it("includes Brazilian notation rules", () => {
+    expect(INTERPRETATION_SYSTEM_PROMPT).toContain("NOTAÇÃO BRASILEIRA");
+    expect(INTERPRETATION_SYSTEM_PROMPT).toContain("Vírgula é separador decimal");
+  });
+  it("includes calculation rules", () => {
+    expect(INTERPRETATION_SYSTEM_PROMPT).toContain("CÁLCULO DE ÁREAS");
+    expect(INTERPRETATION_SYSTEM_PROMPT).toContain("NUNCA inventar ou estimar");
+  });
+  it("includes confidence scale", () => {
+    expect(INTERPRETATION_SYSTEM_PROMPT).toContain("0.90-1.00");
+    expect(INTERPRETATION_SYSTEM_PROMPT).toContain("0.00-0.49");
+  });
+  it("includes example calculation", () => {
+    expect(INTERPRETATION_SYSTEM_PROMPT).toContain("4.20 × 5.50 = 23.10");
+  });
+});
 
 describe("buildInterpretationPrompt", () => {
   it("includes classification context in the prompt", () => {
