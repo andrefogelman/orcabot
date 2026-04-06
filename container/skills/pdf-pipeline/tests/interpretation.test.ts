@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
   buildInterpretationPrompt,
   parseInterpretationResponse,
@@ -118,6 +118,55 @@ describe("buildInterpretationPrompt", () => {
     expect(prompt).toContain("ARQ-01");
     expect(prompt).toContain("terreo");
     expect(prompt).toContain("SALA 18.50m\u00B2");
+  });
+});
+
+describe("interpretPage provider selection", () => {
+  it("uses Gemini when LLM_PROVIDER=gemini", async () => {
+    // This is a structural test — verify the function reads LLM_PROVIDER
+    // We can't easily integration test without a real API, so test the provider detection
+    vi.stubEnv("LLM_PROVIDER", "gemini");
+    vi.stubEnv("GOOGLE_API_KEY", "test-key");
+    vi.stubEnv("LLM_MODEL", "gemini-2.5-pro");
+
+    // The function should attempt Gemini API, not Anthropic
+    // We mock fetch to verify the correct URL is called
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        candidates: [{ content: { parts: [{ text: '{"ambientes":[],"needs_review":[]}' }] } }],
+      }),
+    });
+    vi.stubGlobal("fetch", mockFetch);
+
+    const { interpretPage } = await import("../src/interpretation.js");
+
+    const page = {
+      page_number: 1,
+      text_content: "SALA 4,20 x 5,50",
+      tipo: "arquitetonico-planta-baixa" as const,
+      prancha: "ARQ-01",
+      pavimento: "terreo",
+      classification_confidence: 0.95,
+      ocr_used: false,
+      char_count: 100,
+    };
+
+    // Create a minimal test image file
+    const fs = await import("node:fs/promises");
+    const tmpImage = "/tmp/test-page.png";
+    await fs.writeFile(tmpImage, Buffer.from("fake-png-data"));
+
+    await interpretPage(page as any, tmpImage);
+
+    // Verify Gemini API was called (generativelanguage.googleapis.com), not Anthropic
+    expect(mockFetch).toHaveBeenCalled();
+    const calledUrl = mockFetch.mock.calls[0][0] as string;
+    expect(calledUrl).toContain("generativelanguage.googleapis.com");
+
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+    await fs.unlink(tmpImage).catch(() => {});
   });
 });
 

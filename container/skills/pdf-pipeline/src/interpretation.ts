@@ -137,24 +137,85 @@ export function parseInterpretationResponse(response: string): InterpretationRes
 }
 
 /**
- * Interpret a single classified page using Claude Vision.
+ * Interpret a single classified page using vision LLM.
  * Sends both the page image and extracted text to the LLM.
+ * Supports Gemini (default) and Anthropic based on LLM_PROVIDER env var.
  */
 export async function interpretPage(
   page: ClassifiedPage,
   imagePath: string
 ): Promise<InterpretedPage> {
-  const baseUrl = process.env.ANTHROPIC_BASE_URL ?? "http://localhost:8100";
-  const authToken = process.env.ANTHROPIC_AUTH_TOKEN ?? "";
+  const provider = process.env.LLM_PROVIDER || 'gemini';
 
-  // Read image as base64
   const imageBuffer = await readFile(imagePath);
   const imageBase64 = imageBuffer.toString("base64");
-
-  // Determine media type from extension
   const mediaType = imagePath.endsWith(".png") ? "image/png" : "image/jpeg";
-
   const userPrompt = buildInterpretationPrompt(page);
+
+  let text: string;
+
+  if (provider === 'gemini') {
+    text = await callGeminiVision(imageBase64, mediaType, userPrompt);
+  } else {
+    text = await callAnthropicVision(imageBase64, mediaType, userPrompt);
+  }
+
+  const result = parseInterpretationResponse(text);
+
+  return {
+    ...page,
+    ambientes: result.ambientes,
+    needs_review: result.needs_review,
+    image_path: imagePath,
+  };
+}
+
+async function callGeminiVision(
+  imageBase64: string,
+  mediaType: string,
+  userPrompt: string,
+): Promise<string> {
+  const apiKey = process.env.GOOGLE_API_KEY;
+  if (!apiKey) throw new Error("GOOGLE_API_KEY required for Gemini vision");
+
+  const model = process.env.LLM_MODEL || 'gemini-2.5-pro';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      system_instruction: { parts: [{ text: INTERPRETATION_SYSTEM_PROMPT }] },
+      contents: [{
+        role: "user",
+        parts: [
+          { inline_data: { mime_type: mediaType, data: imageBase64 } },
+          { text: userPrompt },
+        ],
+      }],
+      generationConfig: {
+        maxOutputTokens: 4096,
+        temperature: 0.2,
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Gemini vision error: ${response.status} ${await response.text()}`);
+  }
+
+  const data = await response.json() as any;
+  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+}
+
+async function callAnthropicVision(
+  imageBase64: string,
+  mediaType: string,
+  userPrompt: string,
+): Promise<string> {
+  const baseUrl = process.env.ANTHROPIC_BASE_URL ?? "http://localhost:8100";
+  const authToken = process.env.ANTHROPIC_AUTH_TOKEN ?? "";
+  const model = process.env.LLM_MODEL || "claude-haiku-4-5-20251001";
 
   const response = await fetch(`${baseUrl}/v1/messages`, {
     method: "POST",
@@ -164,45 +225,25 @@ export async function interpretPage(
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-      model: "claude-haiku-4-5-20251001",
+      model,
       max_tokens: 4096,
       system: INTERPRETATION_SYSTEM_PROMPT,
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "image",
-              source: {
-                type: "base64",
-                media_type: mediaType,
-                data: imageBase64,
-              },
-            },
-            {
-              type: "text",
-              text: userPrompt,
-            },
-          ],
-        },
-      ],
+      messages: [{
+        role: "user",
+        content: [
+          { type: "image", source: { type: "base64", media_type: mediaType, data: imageBase64 } },
+          { type: "text", text: userPrompt },
+        ],
+      }],
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`Interpretation API error: ${response.status} ${await response.text()}`);
+    throw new Error(`Anthropic vision error: ${response.status} ${await response.text()}`);
   }
 
   const data = await response.json() as any;
-  const text = data.content?.[0]?.text ?? "";
-  const result = parseInterpretationResponse(text);
-
-  return {
-    ...page,
-    ambientes: result.ambientes,
-    needs_review: result.needs_review,
-    image_path: imagePath,
-  };
+  return data.content?.[0]?.text ?? "";
 }
 
 /**
