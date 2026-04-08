@@ -33,7 +33,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-muted/40 px-4 gap-3">
+      <a
+        href="https://anf.com.br"
+        className="w-full max-w-sm block rounded-lg bg-blue-600 px-4 py-3 text-center text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+      >
+        O sistema de gestão ANF mudou para{" "}
+        <span className="underline">anf.com.br</span>
+      </a>
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">OrcaBot</CardTitle>
