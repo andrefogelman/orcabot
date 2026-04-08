@@ -10,6 +10,7 @@ import { PdfsTab } from "@/components/workspace/PdfsTab";
 import { QuantitativosTab } from "@/components/workspace/QuantitativosTab";
 import { PremissasTab } from "@/components/workspace/PremissasTab";
 import { CurvaAbcTab } from "@/components/workspace/CurvaAbcTab";
+import { PropostasTab } from "@/components/workspace/PropostasTab";
 import { AgentChatSidebar } from "@/components/chat/AgentChatSidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -128,6 +129,7 @@ function ProjectPageInner() {
           {activeTab === "planilha" && <PlanilhaTab />}
           {activeTab === "pdfs" && <PdfsTab />}
           {activeTab === "quantitativos" && <QuantitativosTab />}
+          {activeTab === "propostas" && <PropostasTab />}
           {activeTab === "premissas" && <PremissasTab />}
           {activeTab === "curva-abc" && <CurvaAbcTab />}
         </div>
