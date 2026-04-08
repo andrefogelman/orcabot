@@ -5,6 +5,7 @@ import { BudgetFooter } from "./BudgetFooter";
 import { BudgetToolbar } from "./BudgetToolbar";
 import { ContextMenu, type ContextMenuAction } from "./ContextMenu";
 import { ImportQuantitativos } from "./ImportQuantitativos";
+import { ImportPropostas } from "./ImportPropostas";
 import {
   buildBudgetTree,
   calculateFooterTotals,
@@ -48,6 +49,7 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
   const [filterDisciplina, setFilterDisciplina] = useState<string | null>(null);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [importOpen, setImportOpen] = useState(false);
+  const [importPropostasOpen, setImportPropostasOpen] = useState(false);
 
   const filteredItems = useMemo(() => {
     if (!items) return [];
@@ -579,6 +581,58 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
     [projectId, bulkCreate, undoStack]
   );
 
+  // ─── Import Propostas ──────────────────────────────────────
+  const handleImportPropostas = useCallback(
+    (
+      importItems: Array<{
+        eap_code: string;
+        eap_level: number;
+        descricao: string;
+        unidade: string | null;
+        quantidade: number | null;
+        custo_unitario: number | null;
+        custo_total: number | null;
+        fonte: string | null;
+      }>
+    ) => {
+      const inserts = importItems.map((item) => ({
+        project_id: projectId,
+        eap_code: item.eap_code,
+        eap_level: item.eap_level,
+        descricao: item.descricao,
+        unidade: item.unidade,
+        quantidade: item.quantidade,
+        fonte: item.fonte,
+        fonte_codigo: null,
+        fonte_data_base: null,
+        custo_unitario: item.custo_unitario,
+        custo_material: item.eap_level === 1 ? null : (item.custo_total ?? 0),
+        custo_mao_obra: item.eap_level === 1 ? null : 0,
+        custo_total: item.eap_level === 1 ? null : (item.custo_total ?? 0),
+        adm_percentual: 12,
+        peso_percentual: null,
+        curva_abc_classe: null,
+        quantitativo_id: null,
+      }));
+
+      bulkCreate.mutate(
+        { items: inserts },
+        {
+          onSuccess: (data) => {
+            for (const created of data) {
+              undoStack.push({
+                type: "create",
+                table: "ob_orcamento_items",
+                itemId: created.id,
+              });
+            }
+          },
+        }
+      );
+    },
+    [projectId, bulkCreate, undoStack]
+  );
+
   // ─── Export Excel ──────────────────────────────────────────────
   const handleExportExcel = useCallback(async () => {
     if (!items) return;
@@ -633,6 +687,7 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
         filterDisciplina={filterDisciplina}
         onFilterDisciplina={setFilterDisciplina}
         onImportQuantitativos={() => setImportOpen(true)}
+        onImportPropostas={() => setImportPropostasOpen(true)}
         onUndo={undoStack.undo}
       />
 
@@ -672,6 +727,15 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
         projectId={projectId}
         existingItems={items ?? []}
         onImport={handleImportQuantitativos}
+      />
+
+      {/* Import Propostas Modal */}
+      <ImportPropostas
+        open={importPropostasOpen}
+        onOpenChange={setImportPropostasOpen}
+        projectId={projectId}
+        existingItems={items ?? []}
+        onImport={handleImportPropostas}
       />
     </div>
   );

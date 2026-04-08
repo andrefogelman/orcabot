@@ -17,6 +17,7 @@ interface BudgetToolbarProps {
   filterDisciplina: string | null;
   onFilterDisciplina: (disciplina: string | null) => void;
   onImportQuantitativos?: () => void;
+  onImportPropostas?: () => void;
   onUndo?: () => void;
 }
 
@@ -27,6 +28,7 @@ export function BudgetToolbar({
   filterDisciplina,
   onFilterDisciplina,
   onImportQuantitativos,
+  onImportPropostas,
   onUndo,
 }: BudgetToolbarProps) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -100,6 +102,14 @@ export function BudgetToolbar({
         <Button variant="outline" size="sm" onClick={onImportQuantitativos}>
           <Upload className="mr-1 h-3 w-3" />
           Importar Quantitativos
+        </Button>
+      )}
+
+      {/* Import Propostas */}
+      {onImportPropostas && (
+        <Button variant="outline" size="sm" onClick={onImportPropostas}>
+          <Upload className="mr-1 h-3 w-3" />
+          Importar Proposta
         </Button>
       )}
 
