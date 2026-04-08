@@ -34,6 +34,10 @@ groups/global/*
 
 # Skills system (local per-installation state)
 .nanoclaw/
+.agents/
+skills/
+skills-lock.json
 
 agents-sdk-docs
 .vercel
+.superpowers/
