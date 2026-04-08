@@ -4,6 +4,7 @@
 
 import { supabaseAdmin } from './supabase-client.js';
 import { processDwgJob } from './dwg-processor.js';
+import { processProposalJob } from './proposal-processor.js';
 import { logger } from './logger.js';
 
 const POLL_INTERVAL_MS = 10000;
@@ -42,23 +43,50 @@ async function processNextJob(): Promise<boolean> {
     // Determine file type to route to correct pipeline
     const { data: fileData } = await supabaseAdmin
       .from('ob_project_files')
-      .select('file_type')
+      .select('file_type, disciplina')
       .eq('id', job.file_id)
       .single();
 
     const fileType = fileData?.file_type || 'pdf';
+    const disciplina = fileData?.disciplina || null;
     const isDwg = fileType === 'dwg' || fileType === 'dxf';
+    const isProposta = disciplina === 'proposta';
 
     logger.info(
       {
         jobId: job.id,
         fileType,
-        pipeline: isDwg ? 'dwg-pipeline' : 'pdf-pipeline',
+        disciplina,
+        pipeline: isProposta ? 'proposal-pipeline' : isDwg ? 'dwg-pipeline' : 'pdf-pipeline',
       },
       '[pdf-job-poller] Job dispatched',
     );
 
-    if (isDwg) {
+    if (isProposta) {
+      const success = await processProposalJob(job.id);
+
+      if (!success) {
+        const { data: jobCheck } = await supabaseAdmin
+          .from('ob_pdf_jobs')
+          .select('status')
+          .eq('id', job.id)
+          .single();
+
+        if (
+          jobCheck &&
+          jobCheck.status !== 'error' &&
+          jobCheck.status !== 'done'
+        ) {
+          await supabaseAdmin
+            .from('ob_pdf_jobs')
+            .update({
+              status: 'error',
+              error_message: 'proposal-pipeline container failed — check logs',
+            })
+            .eq('id', job.id);
+        }
+      }
+    } else if (isDwg) {
       // Spawn dwg-pipeline container — it handles all stages:
       // ingestion → conversion → extraction → classification → structured_output → done
       const success = await processDwgJob(job.id);
