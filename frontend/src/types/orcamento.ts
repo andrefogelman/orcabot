@@ -16,6 +16,12 @@ export type AgentConversation = Database["public"]["Tables"]["ob_agent_conversat
 export type AgentActivityLog = Database["public"]["Tables"]["ob_agent_activity_log"]["Row"];
 export type SinapiComposicao = Database["public"]["Tables"]["ob_sinapi_composicoes"]["Row"];
 
+export type Proposta = Database["public"]["Tables"]["ob_propostas"]["Row"];
+export type PropostaInsert = Database["public"]["Tables"]["ob_propostas"]["Insert"];
+export type PropostaItem = Database["public"]["Tables"]["ob_proposta_items"]["Row"];
+export type PropostaItemInsert = Database["public"]["Tables"]["ob_proposta_items"]["Insert"];
+export type PropostaItemUpdate = Database["public"]["Tables"]["ob_proposta_items"]["Update"];
+
 /** Hierarchical budget item for the spreadsheet view */
 export interface BudgetRow {
   item: OrcamentoItem;
