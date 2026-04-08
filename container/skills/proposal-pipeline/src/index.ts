@@ -6,7 +6,7 @@ import {
   updateJob,
   downloadPdf,
   getFileStoragePath,
-  getPropostaByFileId,
+  getOrCreatePropostaByFileId,
   upsertPropostaItems,
   updatePropostaAfterExtraction,
 } from "./supabase.js";
@@ -59,7 +59,7 @@ export async function runPipeline(jobId: string): Promise<void> {
       progress: STAGE_PROGRESS.structured_output,
     });
 
-    const proposta = await getPropostaByFileId(job.file_id);
+    const proposta = await getOrCreatePropostaByFileId(job.file_id);
     await upsertPropostaItems(proposta.id, output.items);
 
     const valorTotal = output.items.reduce(

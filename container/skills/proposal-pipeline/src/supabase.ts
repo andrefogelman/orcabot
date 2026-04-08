@@ -61,15 +61,39 @@ export async function downloadPdf(storagePath: string, localPath: string): Promi
   await writeFile(localPath, buffer);
 }
 
-export async function getPropostaByFileId(fileId: string): Promise<{ id: string; project_id: string }> {
+export async function getOrCreatePropostaByFileId(fileId: string): Promise<{ id: string; project_id: string }> {
   const sb = getSupabase();
-  const { data, error } = await sb
+
+  // Try to find existing proposta
+  const { data: existing } = await sb
     .from("ob_propostas")
     .select("id, project_id")
     .eq("file_id", fileId)
+    .limit(1);
+
+  if (existing && existing.length > 0) return existing[0];
+
+  // No proposta exists — create one from the file record
+  const { data: fileData, error: fileErr } = await sb
+    .from("ob_project_files")
+    .select("project_id, filename")
+    .eq("id", fileId)
     .single();
-  if (error) throw new Error(`No proposta found for file ${fileId}: ${error.message}`);
-  return data;
+  if (fileErr) throw new Error(`File not found ${fileId}: ${fileErr.message}`);
+
+  const { data: created, error: createErr } = await sb
+    .from("ob_propostas")
+    .insert({
+      project_id: fileData.project_id,
+      file_id: fileId,
+      fornecedor: fileData.filename.replace(/\.pdf$/i, ""),
+      status: "pending",
+    })
+    .select("id, project_id")
+    .single();
+  if (createErr) throw new Error(`Failed to create proposta: ${createErr.message}`);
+
+  return created;
 }
 
 export async function upsertPropostaItems(
