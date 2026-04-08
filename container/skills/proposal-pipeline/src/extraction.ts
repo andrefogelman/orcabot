@@ -91,7 +91,20 @@ REGRAS DE CONFIDENCE:
     throw new Error("Empty response from Gemini");
   }
 
-  const parsed = JSON.parse(content);
+  let parsed = JSON.parse(content);
+
+  // Gemini sometimes returns an array instead of an object — normalize
+  if (Array.isArray(parsed)) {
+    // If it's an array of items, wrap in the expected structure
+    if (parsed.length > 0 && parsed[0].descricao) {
+      parsed = { fornecedor: "", items: parsed };
+    } else if (parsed.length === 1 && parsed[0].fornecedor) {
+      parsed = parsed[0];
+    } else {
+      parsed = { fornecedor: "", items: parsed };
+    }
+  }
+
   const validated = ProposalOutputSchema.parse(parsed);
 
   for (const item of validated.items) {
