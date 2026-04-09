@@ -12,7 +12,7 @@ import { FileText } from "lucide-react";
 export function PdfsTab() {
   const { project, setActivePranchaId } = useProjectContext();
   const [activeFileId, setActiveFileId] = useState<string | null>(null);
-  const { data: files } = useProjectFiles(project?.id ?? "");
+  const { data: allFiles } = useProjectFiles(project?.id ?? "");
 
   useRealtimeSubscription({
     table: "ob_pdf_jobs",
@@ -34,6 +34,8 @@ export function PdfsTab() {
 
   if (!project) return null;
 
+  // Filter out proposal files — they belong in the Propostas tab
+  const files = allFiles?.filter((f) => f.disciplina !== "proposta");
   const activeFile = files?.find((f) => f.id === activeFileId);
 
   function handleSelectFile(fileId: string) {
