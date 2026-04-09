@@ -14,6 +14,7 @@ import { storeMessage } from '../db.js';
 import { logger } from '../logger.js';
 import { extractDxfGeometry, formatDxfForLlm } from '../dwg-processor.js';
 import type { Channel, NewMessage } from '../types.js';
+import { triggerOrcamentista } from '../orcamentista-trigger.js';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -702,80 +703,19 @@ REGRAS:
         'File extracted for processing',
       );
 
-      const systemPrompt = `Você é um engenheiro civil orçamentista senior especialista em levantamento de quantitativos.
-Você recebe dados extraídos de um arquivo de projeto (${fileType.toUpperCase()}) e uma instrução do usuário.
-${fileType === 'dxf' || fileType === 'dwg' ? '\nVocê também recebe DADOS DE REFERÊNCIA extraídos dos PDFs do mesmo projeto. Use esses dados para:\n- Identificar nomes e áreas dos ambientes\n- Correlacionar hatches/geometrias do DXF com ambientes conhecidos\n- Validar quantitativos calculados a partir da geometria\n- Quando a geometria DXF não contiver áreas explícitas, use as áreas dos PDFs como base\n' : ''}
-REGRAS:
-1. SEMPRE produza itens com quantidades numéricas > 0. Nunca lista vazia.
-2. Use dimensões/cotas quando disponíveis para calcular quantidades.
-3. Para blocos CAD: conte inserções (ex: bloco TOMADA inserido 15x = 15 tomadas).
-4. Para layers: classifique por disciplina (ARQ/EST/HID/ELE).
-5. Quando incerto, estime com confidence baixo e explique em needs_review.
-6. Unidades: m², m³, m, kg, un, pt, vb.
-7. Se os dados extraídos forem insuficientes (DWG binário complexo), informe no resumo: "Recomenda-se converter o arquivo DWG para DXF no AutoCAD (Salvar Como → DXF) e reenviar."
-8. O campo "resumo" deve ter NO MÁXIMO 3 frases curtas. Nunca incluir dados brutos no resumo.
-9. O campo "memorial_calculo" deve conter o cálculo detalhado por ambiente.
-10. Siga fielmente a instrução do usuário. Ela pode pedir consolidação, detalhamento por ambiente, filtros específicos, ou qualquer outro formato. Adapte o resultado conforme solicitado.
+      // Invoke orcamentista agent instead of direct LLM call
+      const result = await triggerOrcamentista({
+        projectId: body.project_id,
+        runId: runId,
+        fileId: body.file_id,
+        extractedText,
+        fileInfo,
+        userPrompt: body.prompt,
+        pdfContext,
+      });
 
-FORMATO JSON OBRIGATÓRIO (responda APENAS com este JSON, sem texto antes ou depois):
-{
-  "itens": [{"descricao":"...","quantidade":0,"unidade":"m²","memorial_calculo":"...","ambiente":"...","disciplina":"arquitetonico","confidence":0.85}],
-  "needs_review": [{"item":"...","motivo":"..."}],
-  "resumo": "Frase curta sobre o levantamento realizado."
-}`;
-
-      const maxExtracted = pdfContext ? 12000 : 15000;
-      const userMessage = `ARQUIVO: ${fileData.filename}\n${fileInfo}\nDISCIPLINA: ${fileData.disciplina || 'auto'}\n\nINSTRUÇÃO: ${body.prompt}\n\nDADOS EXTRAÍDOS:\n${extractedText.slice(0, maxExtracted)}${pdfContext.slice(0, 8000)}`;
-
-      const llmResponse = await callLlm(systemPrompt, userMessage);
-      const parsed = parseJsonFromLlm(llmResponse);
-
-      const items = (parsed?.itens as unknown[]) || [];
-      const needsReview = (parsed?.needs_review as unknown[]) || [];
-      const summary = (parsed?.resumo as string) || llmResponse;
-
-      // Save run
-      if (runId) {
-        await supabaseAdmin
-          .from('ob_processing_runs')
-          .update({
-            status: 'done',
-            summary,
-            items,
-            needs_review: needsReview,
-            raw_response: parsed || { raw_text: llmResponse },
-            pages_processed: 1,
-          })
-          .eq('id', runId);
-      }
-
-      // Persist items to ob_quantitativos
-      if (items.length > 0) {
-        const discMap: Record<string, string> = {
-          arquitetonico: 'arq', estrutural: 'est', hidraulico: 'hid',
-          eletrico: 'ele', arq: 'arq', est: 'est', hid: 'hid', ele: 'ele',
-          geral: 'geral',
-        };
-        const rows = items.map((it: any, idx: number) => ({
-          project_id: body.project_id,
-          disciplina: discMap[it.disciplina?.toLowerCase()] || 'geral',
-          item_code: String(idx + 1).padStart(3, '0'),
-          descricao: it.descricao || 'Item sem descrição',
-          unidade: it.unidade || 'vb',
-          quantidade: Number(it.quantidade) || 0,
-          calculo_memorial: it.memorial_calculo || null,
-          origem_ambiente: it.ambiente || null,
-          confidence: Math.min(1, Math.max(0, Number(it.confidence) || 0)),
-          needs_review: (Number(it.confidence) || 0) < 0.7,
-          created_by: 'api-pipeline',
-        }));
-        const { error: qError } = await supabaseAdmin
-          .from('ob_quantitativos')
-          .insert(rows);
-        if (qError) {
-          logger.warn({ error: qError.message }, 'Failed to insert quantitativos');
-        }
-      }
+      const quantCount = result.tool_calls.filter((tc) => tc.name === 'create_quantitativo').length;
+      const delegations = result.tool_calls.filter((tc) => tc.name === 'delegate_to_specialist').length;
 
       await supabaseAdmin
         .from('ob_project_files')
@@ -785,12 +725,14 @@ FORMATO JSON OBRIGATÓRIO (responda APENAS com este JSON, sem texto antes ou dep
       json(res, 200, {
         success: true,
         run_id: runId,
-        summary,
-        items_count: items.length,
-        review_count: needsReview.length,
+        summary: result.response,
+        items_count: quantCount,
+        delegations_count: delegations,
         file_type: fileType,
         file_info: fileInfo,
-        structured_data: parsed,
+        agent: 'orcamentista',
+        tokens_used: result.tokens_used,
+        duration_ms: result.duration_ms,
       });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
