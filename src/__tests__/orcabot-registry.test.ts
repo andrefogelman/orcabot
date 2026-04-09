@@ -21,7 +21,7 @@ describe('OrcaBot agent registry', () => {
   it('registers orcamentista agent', () => {
     const tools = getAgentTools('orcamentista');
     expect(tools).not.toBeNull();
-    expect(tools!.definitions.length).toBe(9);
+    expect(tools!.definitions.length).toBe(10);
   });
 
   it('registers estrutural agent', () => {

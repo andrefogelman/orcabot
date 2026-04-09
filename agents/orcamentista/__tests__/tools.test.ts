@@ -31,7 +31,8 @@ describe('orcamentista tools', () => {
     expect(names).toContain('flag_for_review');
     expect(names).toContain('get_project_context');
     expect(names).toContain('export_budget');
-    expect(toolDefinitions.length).toBe(9);
+    expect(names).toContain('get_extraction_data');
+    expect(toolDefinitions.length).toBe(10);
   });
 
   it('every definition has a matching handler', () => {
