@@ -43,8 +43,8 @@ export function PropostaUploader({ projectId }: PropostaUploaderProps) {
           });
 
           toast.success(`${file.name} enviado para extração`);
-        } catch (err) {
-          const msg = err instanceof Error ? err.message : String(err);
+        } catch (err: any) {
+          const msg = err?.message || err?.error_description || JSON.stringify(err);
           console.error("Upload proposta error:", err);
           toast.error(`Erro ao enviar ${file.name}: ${msg}`);
         }
