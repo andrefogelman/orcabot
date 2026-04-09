@@ -174,6 +174,15 @@ export function useProcessingRuns(fileId: string) {
       }>;
     },
     enabled: !!fileId,
+    // Poll every 3s while any run is still processing, stop when all done
+    refetchInterval: (query) => {
+      const runs = query.state.data;
+      if (!runs) return false;
+      const hasProcessing = runs.some(
+        (r) => r.status === "processing" || r.status === "agent_processing"
+      );
+      return hasProcessing ? 3000 : false;
+    },
   });
 }
 

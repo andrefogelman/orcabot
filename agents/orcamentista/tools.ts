@@ -65,6 +65,13 @@ function normalizeDisciplina(raw: string): string {
   return DISCIPLINA_MAP[raw.toLowerCase().trim()] || 'geral';
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Returns null unless value is a valid UUID (agent often invents fake IDs) */
+function safeUuidOrNull(val?: string): string | null {
+  return val && UUID_RE.test(val) ? val : null;
+}
+
 async function create_quantitativo(params: {
   project_id: string;
   disciplina: string;
@@ -85,7 +92,7 @@ async function create_quantitativo(params: {
     unidade: params.unidade,
     quantidade: params.quantidade,
     calculo_memorial: params.calculo_memorial,
-    origem_prancha: params.origem_prancha || null,
+    origem_prancha: safeUuidOrNull(params.origem_prancha),
     origem_ambiente: params.origem_ambiente,
     confidence: params.confidence,
     needs_review: params.confidence < 0.7,
