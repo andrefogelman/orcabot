@@ -90,7 +90,6 @@ export function ImportQuantitativos({
     let l1Code: string;
 
     if (targetEtapa === "__new__") {
-      // Create new etapa
       const maxNum = level1Items.reduce((max, i) => {
         const num = parseInt(i.eap_code, 10);
         return num > max ? num : max;
@@ -104,89 +103,31 @@ export function ImportQuantitativos({
         quantidade: null,
         quantitativo_id: "",
       });
+    } else {
+      l1Code = targetEtapa;
+    }
 
-      // For new etapa, create a level-2 group and level-3 items
-      const l2Code = `${l1Code}.01`;
+    // Find existing L2 children to determine next code
+    const l2Children = existingItems.filter(
+      (i) => i.eap_level === 2 && i.eap_code.startsWith(l1Code + ".")
+    );
+    const maxL2 = l2Children.reduce((max, i) => {
+      const num = parseInt(i.eap_code.split(".")[1], 10);
+      return num > max ? num : max;
+    }, 0);
+
+    // Items go directly as L2 under the etapa
+    selectedItems.forEach((q, idx) => {
+      const l2Code = `${l1Code}.${String(maxL2 + idx + 1).padStart(2, "0")}`;
       toCreate.push({
         eap_code: l2Code,
         eap_level: 2,
-        descricao: "Itens Importados",
-        unidade: null,
-        quantidade: null,
-        quantitativo_id: "",
+        descricao: q.descricao,
+        unidade: q.unidade,
+        quantidade: q.quantidade,
+        quantitativo_id: q.id,
       });
-
-      selectedItems.forEach((q, idx) => {
-        const l3Code = `${l2Code}.${String(idx + 1).padStart(3, "0")}`;
-        toCreate.push({
-          eap_code: l3Code,
-          eap_level: 3,
-          descricao: q.descricao,
-          unidade: q.unidade,
-          quantidade: q.quantidade,
-          quantitativo_id: q.id,
-        });
-      });
-    } else {
-      l1Code = targetEtapa;
-
-      // Find existing level-2 children to determine the next code
-      const l2Children = existingItems.filter(
-        (i) => i.eap_level === 2 && i.eap_code.startsWith(l1Code + ".")
-      );
-
-      if (l2Children.length > 0) {
-        // Insert into the last existing level-2 group
-        const lastL2 = l2Children.sort((a, b) =>
-          a.eap_code.localeCompare(b.eap_code)
-        )[l2Children.length - 1];
-        const l2Code = lastL2.eap_code;
-
-        // Find next level-3 code under this group
-        const l3Children = existingItems.filter(
-          (i) => i.eap_level === 3 && i.eap_code.startsWith(l2Code + ".")
-        );
-        const maxL3 = l3Children.reduce((max, i) => {
-          const num = parseInt(i.eap_code.split(".")[2], 10);
-          return num > max ? num : max;
-        }, 0);
-
-        selectedItems.forEach((q, idx) => {
-          const l3Code = `${l2Code}.${String(maxL3 + idx + 1).padStart(3, "0")}`;
-          toCreate.push({
-            eap_code: l3Code,
-            eap_level: 3,
-            descricao: q.descricao,
-            unidade: q.unidade,
-            quantidade: q.quantidade,
-            quantitativo_id: q.id,
-          });
-        });
-      } else {
-        // No level-2 children — create one group
-        const l2Code = `${l1Code}.01`;
-        toCreate.push({
-          eap_code: l2Code,
-          eap_level: 2,
-          descricao: "Itens Importados",
-          unidade: null,
-          quantidade: null,
-          quantitativo_id: "",
-        });
-
-        selectedItems.forEach((q, idx) => {
-          const l3Code = `${l2Code}.${String(idx + 1).padStart(3, "0")}`;
-          toCreate.push({
-            eap_code: l3Code,
-            eap_level: 3,
-            descricao: q.descricao,
-            unidade: q.unidade,
-            quantidade: q.quantidade,
-            quantitativo_id: q.id,
-          });
-        });
-      }
-    }
+    });
 
     onImport(toCreate);
     setSelected(new Set());

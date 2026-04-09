@@ -91,94 +91,33 @@ export function ImportPropostas({
         custo_total: null,
         fonte: null,
       });
+    } else {
+      l1Code = targetEtapa;
+    }
 
-      const l2Code = `${l1Code}.01`;
+    // Find existing L2 children to determine next code
+    const l2Children = existingItems.filter(
+      (i) => i.eap_level === 2 && i.eap_code.startsWith(l1Code + ".")
+    );
+    const maxL2 = l2Children.reduce((max, i) => {
+      const num = parseInt(i.eap_code.split(".")[1], 10);
+      return num > max ? num : max;
+    }, 0);
+
+    // Items go directly as L2 under the etapa
+    propItems.forEach((item, idx) => {
+      const l2Code = `${l1Code}.${String(maxL2 + idx + 1).padStart(2, "0")}`;
       toCreate.push({
         eap_code: l2Code,
         eap_level: 2,
-        descricao: "Itens da Proposta",
-        unidade: null,
-        quantidade: null,
-        custo_unitario: null,
-        custo_total: null,
-        fonte: null,
+        descricao: item.descricao,
+        unidade: item.unidade,
+        quantidade: item.quantidade,
+        custo_unitario: item.preco_unitario,
+        custo_total: item.preco_total,
+        fonte: "cotacao",
       });
-
-      propItems.forEach((item, idx) => {
-        const l3Code = `${l2Code}.${String(idx + 1).padStart(3, "0")}`;
-        toCreate.push({
-          eap_code: l3Code,
-          eap_level: 3,
-          descricao: item.descricao,
-          unidade: item.unidade,
-          quantidade: item.quantidade,
-          custo_unitario: item.preco_unitario,
-          custo_total: item.preco_total,
-          fonte: "cotacao",
-        });
-      });
-    } else {
-      l1Code = targetEtapa;
-
-      const l2Children = existingItems.filter(
-        (i) => i.eap_level === 2 && i.eap_code.startsWith(l1Code + ".")
-      );
-
-      if (l2Children.length > 0) {
-        const lastL2 = l2Children.sort((a, b) =>
-          a.eap_code.localeCompare(b.eap_code)
-        )[l2Children.length - 1];
-        const l2Code = lastL2.eap_code;
-
-        const l3Children = existingItems.filter(
-          (i) => i.eap_level === 3 && i.eap_code.startsWith(l2Code + ".")
-        );
-        const maxL3 = l3Children.reduce((max, i) => {
-          const num = parseInt(i.eap_code.split(".")[2], 10);
-          return num > max ? num : max;
-        }, 0);
-
-        propItems.forEach((item, idx) => {
-          const l3Code = `${l2Code}.${String(maxL3 + idx + 1).padStart(3, "0")}`;
-          toCreate.push({
-            eap_code: l3Code,
-            eap_level: 3,
-            descricao: item.descricao,
-            unidade: item.unidade,
-            quantidade: item.quantidade,
-            custo_unitario: item.preco_unitario,
-            custo_total: item.preco_total,
-            fonte: "cotacao",
-          });
-        });
-      } else {
-        const l2Code = `${l1Code}.01`;
-        toCreate.push({
-          eap_code: l2Code,
-          eap_level: 2,
-          descricao: "Itens da Proposta",
-          unidade: null,
-          quantidade: null,
-          custo_unitario: null,
-          custo_total: null,
-          fonte: null,
-        });
-
-        propItems.forEach((item, idx) => {
-          const l3Code = `${l2Code}.${String(idx + 1).padStart(3, "0")}`;
-          toCreate.push({
-            eap_code: l3Code,
-            eap_level: 3,
-            descricao: item.descricao,
-            unidade: item.unidade,
-            quantidade: item.quantidade,
-            custo_unitario: item.preco_unitario,
-            custo_total: item.preco_total,
-            fonte: "cotacao",
-          });
-        });
-      }
-    }
+    });
 
     onImport(toCreate);
     setSelectedPropostaId(null);
