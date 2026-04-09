@@ -33,7 +33,7 @@ export function PropostasTab() {
       </div>
 
       {/* Right panel: items table */}
-      <div className="flex-1 p-4 overflow-auto">
+      <div className="flex-1 min-h-0 overflow-auto p-4">
         {selected ? (
           <PropostaItemsTable
             propostaId={selected.id}

@@ -118,8 +118,8 @@ export function PropostaItemsTable({ propostaId, propostaStatus, projectId, forn
   const total = items.reduce((sum, i) => sum + (i.preco_total ?? 0), 0);
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col h-full gap-3">
+      <div className="flex items-center justify-between shrink-0">
         <div>
           <h3 className="text-sm font-medium">{fornecedor}</h3>
           <p className="text-xs text-muted-foreground">
@@ -134,7 +134,7 @@ export function PropostaItemsTable({ propostaId, propostaStatus, projectId, forn
         )}
       </div>
 
-      <ScrollArea className="max-h-[500px]">
+      <ScrollArea className="flex-1 min-h-0">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b text-xs font-medium text-muted-foreground">
