@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { AlertTriangle, Trash2, Search, X } from "lucide-react";
 import { toast } from "sonner";
 import type { Quantitativo } from "@/types/orcamento";
@@ -84,6 +85,7 @@ export function QuantitativosTab() {
   const { project } = useProjectContext();
   const queryClient = useQueryClient();
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: quantitativos, isLoading } = useQuery({
@@ -129,6 +131,22 @@ export function QuantitativosTab() {
       toast.success("Item excluído");
     },
     onError: () => toast.error("Erro ao excluir"),
+  });
+
+  const deleteAll = useMutation({
+    mutationFn: async () => {
+      const { error } = await supabase
+        .from("ob_quantitativos")
+        .delete()
+        .eq("project_id", project!.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["quantitativos", project?.id] });
+      setConfirmDeleteAll(false);
+      toast.success("Todos os quantitativos excluídos");
+    },
+    onError: () => toast.error("Erro ao excluir quantitativos"),
   });
 
   const handleUpdate = useCallback(
@@ -184,6 +202,38 @@ export function QuantitativosTab() {
               </button>
             )}
           </div>
+          {quantitativos && quantitativos.length > 0 && (
+            confirmDeleteAll ? (
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-destructive">Excluir todos os {quantitativos.length} itens?</span>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => deleteAll.mutate()}
+                  disabled={deleteAll.isPending}
+                >
+                  {deleteAll.isPending ? "Excluindo..." : "Confirmar"}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setConfirmDeleteAll(false)}
+                >
+                  Cancelar
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-destructive hover:bg-destructive/10"
+                onClick={() => setConfirmDeleteAll(true)}
+              >
+                <Trash2 className="mr-1 h-3 w-3" />
+                Excluir Todos
+              </Button>
+            )
+          )}
         </div>
 
         {isLoading ? (
