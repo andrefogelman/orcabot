@@ -12,6 +12,14 @@ import type {
   ToolDef,
 } from './types.js';
 
+function safeJsonParse(text: string): Record<string, unknown> {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { result: text };
+  }
+}
+
 export class GeminiProvider implements LlmProvider {
   private client: GoogleGenAI;
 
@@ -133,7 +141,7 @@ export class GeminiProvider implements LlmProvider {
           parts.push({
             functionResponse: {
               name: block.name,
-              response: (block.content ? JSON.parse(block.content) : {}) as Record<string, unknown>,
+              response: (block.content ? safeJsonParse(block.content) : {}) as Record<string, unknown>,
             },
           });
         }
