@@ -4,20 +4,20 @@ import { routeMessage } from './router.js';
 import { getAgentTools } from './agent-registry.js';
 import { notifyAdmin } from './whatsapp.js';
 
-let lastProcessedAt: string | null = null;
+// On startup, only process messages created after this timestamp
+let lastProcessedAt: string = new Date().toISOString();
+// Deduplicate WhatsApp error notifications — only send once per unique error
+let lastNotifiedError: string | null = null;
 
 export async function processNewMessages(): Promise<void> {
-  // Fetch unprocessed admin messages
-  let query = supabase
+  // Fetch unprocessed admin messages (only new ones since startup or last processed)
+  const query = supabase
     .from('nano_messages')
     .select('*')
     .eq('role', 'admin')
+    .gt('created_at', lastProcessedAt)
     .order('created_at', { ascending: true })
-    .limit(10);
-
-  if (lastProcessedAt) {
-    query = query.gt('created_at', lastProcessedAt);
-  }
+    .limit(5);
 
   const { data: messages, error } = await query;
   if (error || !messages?.length) return;
@@ -95,11 +95,15 @@ export async function processNewMessages(): Promise<void> {
         `[chat] Error processing message for ${agentSlug}:`,
         err.message,
       );
-      // Don't spam WhatsApp with rate limit errors — the guard handles cooldown
-      if (!err.message?.includes('Rate limited')) {
-        await notifyAdmin(
-          `⚠️ Erro ao processar mensagem para ${agentSlug}: ${err.message}`,
-        );
+      // Never spam WhatsApp with errors — only notify once per unique error type
+      const errKey = `${agentSlug}:${err.message?.slice(0, 50)}`;
+      if (!lastNotifiedError || lastNotifiedError !== errKey) {
+        lastNotifiedError = errKey;
+        if (!err.message?.includes('Rate limited') && !err.message?.includes('cooldown')) {
+          await notifyAdmin(
+            `⚠️ Erro ao processar mensagem para ${agentSlug}: ${err.message?.slice(0, 200)}`,
+          );
+        }
       }
     }
   }

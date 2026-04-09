@@ -7,6 +7,7 @@ const EVENT_ROUTES: Record<string, Record<string, string>> = {
   lanca: { INSERT: 'financeiro', UPDATE: 'financeiro' },
   medicao: { INSERT: 'engenharia', UPDATE: 'engenharia' },
   obracada: { UPDATE: 'engenharia' },
+  ob_processing_runs: { UPDATE: 'orcamentista' },
 };
 
 const AGENT_KEYWORDS: Record<string, string[]> = {
@@ -25,7 +26,8 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
     'cotação',
     'fornecedor',
   ],
-  engenharia: ['engenharia', 'obra', 'medição', 'cronograma', 'orçamento'],
+  engenharia: ['engenharia', 'obra', 'medição', 'cronograma'],
+  orcamentista: ['orçamento', 'orcamento', 'quantitativo', 'sinapi', 'bdi', 'eap', 'planilha orçamentária'],
   orquestrador: ['orquestrador', 'geral', 'todos'],
 };
 

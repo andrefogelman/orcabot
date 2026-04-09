@@ -16,6 +16,10 @@ import {
   toolDefinitions as orquestradorDefs,
   toolHandlers as orquestradorHandlers,
 } from '../../agents/orquestrador/tools.js';
+import {
+  toolDefinitions as orcamentistaDefs,
+  toolHandlers as orcamentistaHandlers,
+} from '../../agents/orcamentista/tools.js';
 
 export interface AgentToolset {
   definitions: Anthropic.Tool[];
@@ -38,6 +42,10 @@ const registry: Record<string, AgentToolset> = {
   orquestrador: {
     definitions: orquestradorDefs as unknown as Anthropic.Tool[],
     handlers: orquestradorHandlers,
+  },
+  orcamentista: {
+    definitions: orcamentistaDefs as unknown as Anthropic.Tool[],
+    handlers: orcamentistaHandlers,
   },
 };
 

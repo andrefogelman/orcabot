@@ -28,6 +28,8 @@ export async function runAgent(
   const startTime = Date.now();
   const ctx = await buildAgentContext(slug, taskDescription);
 
+  console.log(`[agent-runner] Starting ${slug}: ${taskDescription.slice(0, 80)}`);
+
   const systemPrompt = [
     ctx.system_prompt,
     '',
@@ -56,20 +58,27 @@ export async function runAgent(
   let totalInputTokens = 0;
   let totalOutputTokens = 0;
 
+  const MAX_LLM_TIMEOUT_MS = 120_000; // 2 min per LLM call
+
   while (true) {
     // Circuit breaker: reject immediately if rate limited
     rateLimitGuard.checkOrThrow();
 
     let response: Anthropic.Message;
     try {
-      response = await anthropic.messages.create({
-        model: ctx.model,
-        max_tokens: 4096,
-        temperature: ctx.temperature,
-        system: systemPrompt,
-        tools: toolDefinitions,
-        messages,
-      });
+      response = await Promise.race([
+        anthropic.messages.create({
+          model: ctx.model,
+          max_tokens: 16384,
+          temperature: ctx.temperature,
+          system: systemPrompt,
+          tools: toolDefinitions,
+          messages,
+        }),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('LLM request timed out after 120s')), MAX_LLM_TIMEOUT_MS),
+        ),
+      ]);
     } catch (err: any) {
       if (err?.status === 429 || err?.error?.type === 'rate_limit_error') {
         const backoff = RateLimitGuard.extractBackoffSeconds(
@@ -80,11 +89,16 @@ export async function runAgent(
           `Rate limited — cooling down for ${backoff}s. Will resume automatically.`,
         );
       }
+      // Any other LLM error (502, timeout, network) → exponential backoff
+      rateLimitGuard.recordError();
       throw err;
     }
 
+    rateLimitGuard.recordSuccess();
     totalInputTokens += response.usage.input_tokens;
     totalOutputTokens += response.usage.output_tokens;
+
+    console.log(`[agent-runner] ${slug} response: stop_reason=${response.stop_reason}, tokens=${response.usage.input_tokens}+${response.usage.output_tokens}`);
 
     if (response.stop_reason === 'end_turn') {
       const textBlock = response.content.find((b) => b.type === 'text');
@@ -133,8 +147,10 @@ export async function runAgent(
           continue;
         }
 
+        console.log(`[agent-runner] ${slug} calling tool: ${block.name}`);
         try {
           const result = await handler(block.input as any);
+          console.log(`[agent-runner] ${slug} tool ${block.name}: OK`);
           toolCalls.push({
             name: block.name,
             input: block.input,
@@ -146,6 +162,7 @@ export async function runAgent(
             content: JSON.stringify(result),
           });
         } catch (err: any) {
+          console.error(`[agent-runner] ${slug} tool ${block.name}: FAILED — ${err.message}`);
           toolCalls.push({
             name: block.name,
             input: block.input,

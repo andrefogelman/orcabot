@@ -22,6 +22,8 @@ const SUBSCRIPTIONS = [
   { table: 'medicao', event: 'INSERT' as const },
   { table: 'medicao', event: 'UPDATE' as const },
   { table: 'obracada', event: 'UPDATE' as const },
+  // Orcamentista
+  { table: 'ob_processing_runs', event: 'UPDATE' as const },
 ] as const;
 
 export function startRealtimeListener(): void {
@@ -127,6 +129,8 @@ function buildTaskDescription(
       return `Medição ${record.id} atualizada (status: ${record.status}). Verifique ação necessária.`;
     case 'obracada':
       return `Obra ${record.id} atualizada (status: ${record.status}). Verifique cronograma e orçamento.`;
+    case 'ob_processing_runs':
+      return `Processamento de PDF concluído (run_id: ${record.id}, project_id: ${record.project_id}, status: ${record.status}). Use get_extraction_data para ler os dados extraídos e process_pdf_results para analisar as pranchas. Em seguida, crie quantitativos com create_quantitativo para cada item encontrado.`;
     default:
       return `Evento ${event} na tabela ${table}: ${JSON.stringify(record).slice(0, 200)}`;
   }
