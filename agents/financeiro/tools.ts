@@ -9,9 +9,9 @@ async function getAgentId(): Promise<string> {
 }
 
 // 1. query_lancamentos
-export async function query_lancamentos(params: { status?: string; tipo?: string; obra_id?: number; vencimento_ate?: string; limit?: number }): Promise<unknown> {
+export async function query_lancamentos(params: { status?: number; tipo?: string; obra_id?: number; vencimento_ate?: string; limit?: number }): Promise<unknown> {
   let query = supabase.from('lanca').select('*').order('data_vencimento', { ascending: true }).limit(params.limit || 30);
-  if (params.status) query = query.eq('status', params.status);
+  if (params.status != null) query = query.eq('status', Number(params.status));
   if (params.tipo) query = query.eq('tipo', params.tipo);
   if (params.obra_id) query = query.eq('id_obracada', params.obra_id);
   if (params.vencimento_ate) query = query.lte('data_vencimento', params.vencimento_ate);
@@ -64,7 +64,8 @@ export async function alertar_vencimento(params: { dias?: number }): Promise<unk
   const dias = params.dias || 7;
   const dataLimite = new Date();
   dataLimite.setDate(dataLimite.getDate() + dias);
-  const { data, error } = await supabase.from('lanca').select('*').lte('data_vencimento', dataLimite.toISOString().split('T')[0]).in('status', ['pendente', 'aberto']).order('data_vencimento', { ascending: true });
+  // status is integer — filter for non-null (all unpaid statuses)
+  const { data, error } = await supabase.from('lanca').select('*').lte('data_vencimento', dataLimite.toISOString().split('T')[0]).not('status', 'is', null).order('data_vencimento', { ascending: true });
   if (error) throw new Error(`alertar_vencimento: ${error.message}`);
   return { vencendo_em_dias: dias, lancamentos: data };
 }
@@ -167,7 +168,7 @@ export async function query_medicoes(params: { obra_id?: number; status?: string
 
 // Tool definitions for Claude Agent SDK
 export const toolDefinitions = [
-  { name: 'query_lancamentos', description: 'Consulta lançamentos financeiros (contas a pagar/receber) com filtros', input_schema: { type: 'object' as const, properties: { status: { type: 'string' }, tipo: { type: 'string' }, obra_id: { type: 'number' }, vencimento_ate: { type: 'string', description: 'Data limite YYYY-MM-DD' }, limit: { type: 'number' } } } },
+  { name: 'query_lancamentos', description: 'Consulta lançamentos financeiros (contas a pagar/receber) com filtros. Campo status é integer (não string).', input_schema: { type: 'object' as const, properties: { status: { type: 'number', description: 'Status numérico do lançamento' }, tipo: { type: 'string' }, obra_id: { type: 'number' }, vencimento_ate: { type: 'string', description: 'Data limite YYYY-MM-DD' }, limit: { type: 'number' } } } },
   { name: 'create_lancamento', description: 'Cria novo lançamento financeiro', input_schema: { type: 'object' as const, properties: { descricao: { type: 'string' }, valor: { type: 'number' }, tipo: { type: 'string', description: 'pagar ou receber' }, id_obracada: { type: 'number' }, data_vencimento: { type: 'string' } }, required: ['descricao', 'valor', 'tipo', 'data_vencimento'] } },
   { name: 'update_lancamento', description: 'Atualiza lançamento existente', input_schema: { type: 'object' as const, properties: { id: { type: 'number' }, status: { type: 'string' }, valor: { type: 'number' }, data_pagamento: { type: 'string' } }, required: ['id'] } },
   { name: 'query_contas_bancarias', description: 'Consulta contas bancárias e saldos', input_schema: { type: 'object' as const, properties: { limit: { type: 'number' } } } },

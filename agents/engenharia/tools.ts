@@ -62,7 +62,7 @@ export async function aprovar_medicao(params: { id: number; aprovado: boolean; j
 // 5. query_cronograma
 export async function query_cronograma(params: { obra_id: number }): Promise<unknown> {
   const { data, error } = await supabase
-    .from('cronograma_atividades')
+    .from('cronograma')
     .select('*')
     .eq('id_obracada', params.obra_id)
     .order('data_inicio', { ascending: true });
@@ -78,13 +78,13 @@ export async function update_cronograma(params: { id: number; status?: string; p
   if (params.percentual !== undefined) updates.percentual_concluido = params.percentual;
   if (params.observacao) updates.observacao = params.observacao;
   const { data, error } = await supabase
-    .from('cronograma_atividades')
+    .from('cronograma')
     .update(updates)
     .eq('id', params.id)
     .select()
     .single();
   if (error) throw new Error(`update_cronograma: ${error.message}`);
-  await logActivity({ agent_id: agentId, action: 'write', target_table: 'cronograma_atividades', target_id: String(params.id), description: `Atualizou atividade ${params.id}`, input: updates });
+  await logActivity({ agent_id: agentId, action: 'write', target_table: 'cronograma', target_id: String(params.id), description: `Atualizou atividade ${params.id}`, input: updates });
   return data;
 }
 
@@ -113,7 +113,7 @@ export async function alertar_prazo(params: { dias?: number }): Promise<unknown>
   const dataLimite = new Date();
   dataLimite.setDate(dataLimite.getDate() + dias);
   const { data, error } = await supabase
-    .from('cronograma_atividades')
+    .from('cronograma')
     .select('*, obracada(descricao)')
     .lte('data_fim', dataLimite.toISOString().split('T')[0])
     .neq('status', 'concluida');
