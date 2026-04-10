@@ -14,7 +14,11 @@ import type {
 
 function safeJsonParse(text: string): Record<string, unknown> {
   try {
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    // Gemini requires functionResponse.response to be an object, not an array
+    if (Array.isArray(parsed)) return { result: parsed };
+    if (typeof parsed !== 'object' || parsed === null) return { result: parsed };
+    return parsed;
   } catch {
     return { result: text };
   }
