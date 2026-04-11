@@ -12,12 +12,17 @@ import {
   useOrcamentoItems,
   useUpdateOrcamentoItem,
   useCreateOrcamentoItem,
-  useDeleteOrcamentoItem,
   useBulkDeleteOrcamentoItems,
   useBulkCreateOrcamentoItems,
 } from "@/hooks/useOrcamento";
-import { useUndoStack, type UndoAction } from "@/hooks/useUndoStack";
+import { useUndoStack } from "@/hooks/useUndoStack";
 import { exportBudgetToExcel } from "@/lib/excel-export";
+import { supabase } from "@/lib/supabase";
+import {
+  computeRenumberPatch,
+  snapshotAffected,
+  formatEapCode,
+} from "@/lib/eap";
 import type { OrcamentoItem, BudgetRow as BudgetRowType } from "@/types/orcamento";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,7 +44,6 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
   const { data: items, isLoading } = useOrcamentoItems(projectId);
   const updateItem = useUpdateOrcamentoItem();
   const createItem = useCreateOrcamentoItem();
-  const deleteItem = useDeleteOrcamentoItem();
   const bulkDelete = useBulkDeleteOrcamentoItems();
   const bulkCreate = useBulkCreateOrcamentoItems();
   const undoStack = useUndoStack();
@@ -203,43 +207,35 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
     [items, projectId, updateItem, undoStack, recalculateParentTotals]
   );
 
-  // ─── Add Item ──────────────────────────────────────────────────
-  const handleAddItem = useCallback(
-    (level: number) => {
+  // ─── Insert Item at Position ───────────────────────────────────
+  const handleInsertAt = useCallback(
+    async (level: 1 | 2 | 3, parentPrefix: string, atPosition: number) => {
       if (!items) return;
 
-      const sameLevel = items.filter((i) => i.eap_level === level);
-      let newCode: string;
+      // Compute renumber patch + snapshot for undo
+      const patch = computeRenumberPatch(items, {
+        kind: "insert",
+        level,
+        parentPrefix,
+        atPosition,
+      });
+      const snapshot = snapshotAffected(items, patch);
 
-      if (level === 1) {
-        const maxNum = sameLevel.reduce((max, i) => {
-          const num = parseInt(i.eap_code, 10);
-          return num > max ? num : max;
-        }, 0);
-        newCode = String(maxNum + 1).padStart(2, "0");
-      } else if (level === 2) {
-        const level1Codes = items.filter((i) => i.eap_level === 1).map((i) => i.eap_code);
-        const lastL1 = level1Codes[level1Codes.length - 1] ?? "01";
-        const childrenOfLast = sameLevel.filter((i) => i.eap_code.startsWith(lastL1 + "."));
-        const maxSub = childrenOfLast.reduce((max, i) => {
-          const parts = i.eap_code.split(".");
-          const num = parseInt(parts[1], 10);
-          return num > max ? num : max;
-        }, 0);
-        newCode = `${lastL1}.${String(maxSub + 1).padStart(2, "0")}`;
-      } else {
-        const level2Codes = items.filter((i) => i.eap_level === 2).map((i) => i.eap_code);
-        const lastL2 = level2Codes[level2Codes.length - 1] ?? "01.01";
-        const childrenOfLast = items.filter(
-          (i) => i.eap_level === 3 && i.eap_code.startsWith(lastL2 + ".")
-        );
-        const maxSub = childrenOfLast.reduce((max, i) => {
-          const parts = i.eap_code.split(".");
-          const num = parseInt(parts[2], 10);
-          return num > max ? num : max;
-        }, 0);
-        newCode = `${lastL2}.${String(maxSub + 1).padStart(3, "0")}`;
+      // Apply renumbering atomically (if any)
+      if (patch.length > 0) {
+        const { error } = await supabase.rpc("renumber_eap_items", {
+          p_project_id: projectId,
+          p_patches: patch,
+        });
+        if (error) {
+          toast.error("Erro ao renumerar");
+          console.error("renumber_eap_items failed:", error);
+          return;
+        }
       }
+
+      // Create the new item with the now-free eap_code
+      const newCode = formatEapCode(parentPrefix, atPosition, level);
 
       createItem.mutate(
         {
@@ -264,12 +260,21 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
         {
           onSuccess: (data) => {
             undoStack.push({
-              type: "create",
-              table: "ob_orcamento_items",
-              itemId: data.id,
+              type: "insert-with-renumber",
               projectId,
-              previousData: {},
+              createdItemId: data.id,
+              snapshot,
             });
+          },
+          onError: async (err) => {
+            console.error("createItem failed, reverting renumber", err);
+            if (snapshot.length > 0) {
+              await supabase.rpc("revert_renumber", {
+                p_project_id: projectId,
+                p_snapshot: snapshot,
+              });
+            }
+            toast.error("Erro ao criar item");
           },
         }
       );
@@ -277,56 +282,63 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
     [items, projectId, createItem, undoStack]
   );
 
-  // ─── Delete Item (called after inline Sim/Não confirmation in BudgetRow) ──
+  // ─── Delete Item with auto-renumber (inline Sim/Não in BudgetRow) ──
   const handleDeleteRequest = useCallback(
-    (item: OrcamentoItem) => {
+    async (item: OrcamentoItem) => {
       if (!items) return;
 
-      if (item.eap_level === 1) {
-        // Delete all children + the item itself
-        const toDelete = items.filter(
-          (i) => i.id === item.id || i.eap_code.startsWith(item.eap_code + ".")
-        );
+      // Determine what will be removed
+      const toDelete =
+        item.eap_level === 1
+          ? items.filter(
+              (i) => i.id === item.id || i.eap_code.startsWith(item.eap_code + ".")
+            )
+          : [item];
 
-        for (const d of toDelete) {
-          const { id: _id, ...rest } = d;
-          undoStack.push({
-            type: "delete",
-            table: "ob_orcamento_items",
-            itemId: d.id,
-            projectId,
-            previousData: { id: d.id, ...rest },
-          });
-        }
+      // Compute patch for subsequent sibling renumbering (+ descendants)
+      const patch = computeRenumberPatch(items, {
+        kind: "delete",
+        deletedCode: item.eap_code,
+        level: item.eap_level as 1 | 2 | 3,
+      });
+      const snapshot = snapshotAffected(items, patch);
 
-        bulkDelete.mutate(
-          { ids: toDelete.map((i) => i.id), projectId },
-          {
-            onSuccess: () => toast.success(`${toDelete.length} item(ns) excluído(s)`),
-            onError: () => toast.error("Erro ao excluir itens"),
-          }
-        );
-      } else {
-        // Single delete
-        const { id: _id, ...rest } = item;
-        undoStack.push({
-          type: "delete",
-          table: "ob_orcamento_items",
-          itemId: item.id,
+      // 1) Bulk delete
+      try {
+        await bulkDelete.mutateAsync({
+          ids: toDelete.map((i) => i.id),
           projectId,
-          previousData: { id: item.id, ...rest },
         });
-
-        deleteItem.mutate(
-          { id: item.id, projectId },
-          {
-            onSuccess: () => toast.success("Item excluído"),
-            onError: () => toast.error("Erro ao excluir item"),
-          }
-        );
+      } catch (err) {
+        console.error("bulkDelete failed:", err);
+        toast.error("Erro ao excluir");
+        return;
       }
+
+      // 2) Renumber subsequent siblings
+      if (patch.length > 0) {
+        const { error } = await supabase.rpc("renumber_eap_items", {
+          p_project_id: projectId,
+          p_patches: patch,
+        });
+        if (error) {
+          console.error("renumber_eap_items failed after delete:", error);
+          toast.error("Itens excluídos, mas renumeração falhou");
+          return;
+        }
+      }
+
+      // 3) Push composite entry to undoStack
+      undoStack.push({
+        type: "delete-with-renumber",
+        projectId,
+        deletedItems: toDelete,
+        snapshot,
+      });
+
+      toast.success(`${toDelete.length} item(ns) excluído(s)`);
     },
-    [items, projectId, deleteItem, bulkDelete, undoStack]
+    [items, projectId, bulkDelete, undoStack]
   );
 
   // ─── Context Menu ──────────────────────────────────────────────
@@ -338,102 +350,20 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
     []
   );
 
-  /** Insert a new sibling relative to the target item */
+  /** Insert a new sibling relative to the target item (used by context menu) */
   const insertRelative = useCallback(
     (target: OrcamentoItem, position: "above" | "below") => {
-      if (!items) return;
-
-      const level = target.eap_level;
+      const level = target.eap_level as 1 | 2 | 3;
       const parts = target.eap_code.split(".");
-
-      // Find the parent prefix
       const parentPrefix = parts.slice(0, -1).join(".");
+      const targetLastSeg = parseInt(parts[parts.length - 1], 10);
 
-      // Find siblings
-      const siblings = items.filter((i) => {
-        if (i.eap_level !== level) return false;
-        if (level === 1) return true;
-        return i.eap_code.startsWith(parentPrefix + ".");
-      }).sort((a, b) => a.eap_code.localeCompare(b.eap_code));
+      const atPosition =
+        position === "above" ? targetLastSeg : targetLastSeg + 1;
 
-      const targetIndex = siblings.findIndex((s) => s.id === target.id);
-
-      // Calculate the new code: take the target's last segment and shift
-      const lastSegment = parseInt(parts[parts.length - 1], 10);
-      const padLength = level === 3 ? 3 : 2;
-
-      let newCode: string;
-      if (position === "below") {
-        // Insert after this item, before the next sibling
-        const nextSibling = siblings[targetIndex + 1];
-        if (nextSibling) {
-          // Renumber from next sibling onwards
-          const itemsToRenumber = siblings.slice(targetIndex + 1);
-          for (const item of itemsToRenumber.reverse()) {
-            const itemParts = item.eap_code.split(".");
-            const currentNum = parseInt(itemParts[itemParts.length - 1], 10);
-            itemParts[itemParts.length - 1] = String(currentNum + 1).padStart(padLength, "0");
-            const newEapCode = itemParts.join(".");
-            updateItem.mutate({ id: item.id, projectId, eap_code: newEapCode });
-          }
-        }
-        const newNum = lastSegment + 1;
-        if (parentPrefix) {
-          newCode = `${parentPrefix}.${String(newNum).padStart(padLength, "0")}`;
-        } else {
-          newCode = String(newNum).padStart(padLength, "0");
-        }
-      } else {
-        // Insert before this item, renumber from this item onwards
-        const itemsToRenumber = siblings.slice(targetIndex);
-        for (const item of itemsToRenumber.reverse()) {
-          const itemParts = item.eap_code.split(".");
-          const currentNum = parseInt(itemParts[itemParts.length - 1], 10);
-          itemParts[itemParts.length - 1] = String(currentNum + 1).padStart(padLength, "0");
-          const newEapCode = itemParts.join(".");
-          updateItem.mutate({ id: item.id, projectId, eap_code: newEapCode });
-        }
-        if (parentPrefix) {
-          newCode = `${parentPrefix}.${String(lastSegment).padStart(padLength, "0")}`;
-        } else {
-          newCode = String(lastSegment).padStart(padLength, "0");
-        }
-      }
-
-      createItem.mutate(
-        {
-          project_id: projectId,
-          eap_code: newCode,
-          eap_level: level,
-          descricao: level === 1 ? "NOVA ETAPA" : "Novo item",
-          unidade: level === 1 ? null : "un",
-          quantidade: level === 1 ? null : 0,
-          fonte: null,
-          fonte_codigo: null,
-          fonte_data_base: null,
-          custo_unitario: null,
-          custo_material: level === 1 ? null : 0,
-          custo_mao_obra: level === 1 ? null : 0,
-          custo_total: level === 1 ? null : 0,
-          adm_percentual: 12,
-          peso_percentual: null,
-          curva_abc_classe: null,
-          quantitativo_id: null,
-        },
-        {
-          onSuccess: (data) => {
-            undoStack.push({
-              type: "create",
-              table: "ob_orcamento_items",
-              itemId: data.id,
-              projectId,
-              previousData: {},
-            });
-          },
-        }
-      );
+      handleInsertAt(level, parentPrefix, atPosition);
     },
-    [items, projectId, createItem, updateItem, undoStack]
+    [handleInsertAt]
   );
 
   /** Duplicate a row */
@@ -624,6 +554,8 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
                 type: "create",
                 table: "ob_orcamento_items",
                 itemId: created.id,
+                projectId,
+                previousData: {},
               });
             }
           },
@@ -681,7 +613,8 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
   return (
     <div className="flex flex-col h-full max-w-fit">
       <BudgetToolbar
-        onAddItem={handleAddItem}
+        items={items ?? []}
+        onInsertAt={handleInsertAt}
         onExportExcel={handleExportExcel}
         onSearch={setSearchQuery}
         filterDisciplina={filterDisciplina}

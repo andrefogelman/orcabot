@@ -9,9 +9,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Plus, Download, Filter, Search, Upload, Undo2, X } from "lucide-react";
 import { useState } from "react";
+import { InsertPositionPopover } from "./InsertPositionPopover";
+import type { OrcamentoItem } from "@/types/orcamento";
 
 interface BudgetToolbarProps {
-  onAddItem: (level: number) => void;
+  items: OrcamentoItem[];
+  onInsertAt: (level: 1 | 2 | 3, parentPrefix: string, atPosition: number) => void;
   onExportExcel: () => void;
   onSearch: (query: string) => void;
   filterDisciplina: string | null;
@@ -22,7 +25,8 @@ interface BudgetToolbarProps {
 }
 
 export function BudgetToolbar({
-  onAddItem,
+  items,
+  onInsertAt,
   onExportExcel,
   onSearch,
   filterDisciplina,
@@ -37,18 +41,36 @@ export function BudgetToolbar({
     <div className="flex items-center gap-3 border-b px-4 py-2">
       {/* Add item buttons */}
       <div className="flex items-center gap-1">
-        <Button variant="outline" size="sm" onClick={() => onAddItem(1)}>
-          <Plus className="mr-1 h-3 w-3" />
-          Etapa
-        </Button>
-        <Button variant="outline" size="sm" onClick={() => onAddItem(2)}>
-          <Plus className="mr-1 h-3 w-3" />
-          Item
-        </Button>
-        <Button variant="outline" size="sm" onClick={() => onAddItem(3)}>
-          <Plus className="mr-1 h-3 w-3" />
-          Subitem
-        </Button>
+        <InsertPositionPopover
+          level={1}
+          items={items}
+          onSelect={(prefix, pos) => onInsertAt(1, prefix, pos)}
+        >
+          <Button variant="outline" size="sm">
+            <Plus className="mr-1 h-3 w-3" />
+            Etapa
+          </Button>
+        </InsertPositionPopover>
+        <InsertPositionPopover
+          level={2}
+          items={items}
+          onSelect={(prefix, pos) => onInsertAt(2, prefix, pos)}
+        >
+          <Button variant="outline" size="sm">
+            <Plus className="mr-1 h-3 w-3" />
+            Item
+          </Button>
+        </InsertPositionPopover>
+        <InsertPositionPopover
+          level={3}
+          items={items}
+          onSelect={(prefix, pos) => onInsertAt(3, prefix, pos)}
+        >
+          <Button variant="outline" size="sm">
+            <Plus className="mr-1 h-3 w-3" />
+            Subitem
+          </Button>
+        </InsertPositionPopover>
       </div>
 
       {/* Separator */}

@@ -2,14 +2,43 @@ import { useCallback, useRef, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import type { OrcamentoItem } from "@/types/orcamento";
+import type { EapPatch } from "@/lib/eap";
 
-export interface UndoAction {
-  type: "update" | "create" | "delete";
-  table: string;
-  itemId: string;
-  projectId: string;
-  previousData: Record<string, unknown>;
-}
+export type UndoAction =
+  | {
+      type: "update";
+      table: string;
+      itemId: string;
+      projectId: string;
+      previousData: Record<string, unknown>;
+    }
+  | {
+      type: "create";
+      table: string;
+      itemId: string;
+      projectId: string;
+      previousData: Record<string, unknown>;
+    }
+  | {
+      type: "delete";
+      table: string;
+      itemId: string;
+      projectId: string;
+      previousData: Record<string, unknown>;
+    }
+  | {
+      type: "insert-with-renumber";
+      projectId: string;
+      createdItemId: string;
+      snapshot: EapPatch[];
+    }
+  | {
+      type: "delete-with-renumber";
+      projectId: string;
+      deletedItems: OrcamentoItem[];
+      snapshot: EapPatch[];
+    };
 
 const MAX_UNDO_STACK = 10;
 
@@ -34,7 +63,6 @@ export function useUndoStack() {
     try {
       switch (action.type) {
         case "update": {
-          // Revert fields to their previous values
           const { error } = await supabase
             .from(action.table)
             .update(action.previousData)
@@ -43,7 +71,6 @@ export function useUndoStack() {
           break;
         }
         case "create": {
-          // Undo a create = delete the row
           const { error } = await supabase
             .from(action.table)
             .delete()
@@ -52,11 +79,45 @@ export function useUndoStack() {
           break;
         }
         case "delete": {
-          // Undo a delete = re-insert with previous data
           const { error } = await supabase
             .from(action.table)
             .insert(action.previousData);
           if (error) throw error;
+          break;
+        }
+        case "insert-with-renumber": {
+          // 1. Delete the created item
+          const delRes = await supabase
+            .from("ob_orcamento_items")
+            .delete()
+            .eq("id", action.createdItemId);
+          if (delRes.error) throw delRes.error;
+          // 2. Revert the renumbering
+          if (action.snapshot.length > 0) {
+            const { error } = await supabase.rpc("revert_renumber", {
+              p_project_id: action.projectId,
+              p_snapshot: action.snapshot,
+            });
+            if (error) throw error;
+          }
+          break;
+        }
+        case "delete-with-renumber": {
+          // 1. Revert the renumbering (returns old codes to survivors)
+          if (action.snapshot.length > 0) {
+            const { error: rpcErr } = await supabase.rpc("revert_renumber", {
+              p_project_id: action.projectId,
+              p_snapshot: action.snapshot,
+            });
+            if (rpcErr) throw rpcErr;
+          }
+          // 2. Re-insert deleted items preserving their IDs
+          if (action.deletedItems.length > 0) {
+            const { error: insErr } = await supabase
+              .from("ob_orcamento_items")
+              .insert(action.deletedItems);
+            if (insErr) throw insErr;
+          }
           break;
         }
       }
