@@ -4,6 +4,8 @@ import {
   lastSegmentOf,
   padLengthForLevel,
   computeRenumberPatch,
+  snapshotAffected,
+  buildInsertPositionOptions,
   type InsertOperation,
   type DeleteOperation,
 } from "./eap";
@@ -283,5 +285,80 @@ describe("computeRenumberPatch - delete level 3", () => {
       { id: "01.01.002", eap_code: "01.01.001" },
       { id: "01.01.003", eap_code: "01.01.002" },
     ]);
+  });
+});
+
+describe("snapshotAffected", () => {
+  test("returns current eap_codes of items referenced in patch", () => {
+    const items = [item("01", 1), item("02", 1), item("03", 1)];
+    const patch = [
+      { id: "02", eap_code: "03" },
+      { id: "03", eap_code: "04" },
+    ];
+    const snapshot = snapshotAffected(items, patch);
+    expect(snapshot).toEqual([
+      { id: "02", eap_code: "02" },
+      { id: "03", eap_code: "03" },
+    ]);
+  });
+
+  test("empty patch returns empty snapshot", () => {
+    const items = [item("01", 1)];
+    expect(snapshotAffected(items, [])).toEqual([]);
+  });
+
+  test("ignores items in patch that are not in the list", () => {
+    const items = [item("01", 1)];
+    const patch = [{ id: "nonexistent", eap_code: "02" }];
+    expect(snapshotAffected(items, patch)).toEqual([]);
+  });
+});
+
+describe("buildInsertPositionOptions - level 1", () => {
+  test("empty list returns empty array", () => {
+    expect(buildInsertPositionOptions([], 1)).toEqual([]);
+  });
+
+  test("single etapa returns 'start' + 'end' only", () => {
+    const items = [item("01", 1)];
+    items[0].descricao = "Instalação";
+    const options = buildInsertPositionOptions(items, 1);
+    expect(options).toHaveLength(2);
+    expect(options[0]).toMatchObject({ parentPrefix: "", atPosition: 1, label: "No início" });
+    expect(options[options.length - 1]).toMatchObject({
+      parentPrefix: "",
+      atPosition: 2,
+      label: "No final",
+      highlighted: true,
+    });
+  });
+
+  test("multiple etapas return start + after each + end", () => {
+    const items = [item("01", 1), item("02", 1), item("03", 1)];
+    items[0].descricao = "Instalação";
+    items[1].descricao = "Despesas";
+    items[2].descricao = "Revestimentos";
+    const options = buildInsertPositionOptions(items, 1);
+    // No início + 2 "Depois de" (01 and 02) + No final = 4
+    // (The last "Depois de 03" becomes "No final")
+    expect(options).toHaveLength(4);
+    expect(options[0].label).toBe("No início");
+    expect(options[1].label).toContain("01");
+    expect(options[1].label).toContain("Instalação");
+    expect(options[1].atPosition).toBe(2);
+    expect(options[3].label).toBe("No final");
+    expect(options[3].highlighted).toBe(true);
+  });
+
+  test("ignores level 2/3 items", () => {
+    const items = [
+      item("01", 1),
+      item("01.01", 2),
+      item("01.01.001", 3),
+      item("02", 1),
+    ];
+    const options = buildInsertPositionOptions(items, 1);
+    // No início + depois de 01 + No final (after 02) = 3
+    expect(options).toHaveLength(3);
   });
 });

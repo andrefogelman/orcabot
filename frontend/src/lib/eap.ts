@@ -124,3 +124,168 @@ function computeDeletePatch(items: OrcamentoItem[], op: DeleteOperation): EapPat
 
   return patch;
 }
+
+/**
+ * Retorna um snapshot do estado atual (id → eap_code) dos items mencionados no patch.
+ * Usado para undo: reverter um patch = reaplicá-lo com este snapshot.
+ */
+export function snapshotAffected(items: OrcamentoItem[], patch: EapPatch[]): EapPatch[] {
+  const byId = new Map(items.map((i) => [i.id, i.eap_code]));
+  const result: EapPatch[] = [];
+  for (const p of patch) {
+    const current = byId.get(p.id);
+    if (current !== undefined) {
+      result.push({ id: p.id, eap_code: current });
+    }
+  }
+  return result;
+}
+
+export type InsertPositionOption = {
+  /** unique key for React */
+  id: string;
+  /** text shown in the popover item */
+  label: string;
+  /** group heading for level 2/3 — e.g., "01 — Instalação" */
+  group?: string;
+  /** subgroup for level 3 — e.g., "01.02 — Revestimentos" */
+  subgroup?: string;
+  parentPrefix: string;
+  atPosition: number;
+  /** default highlighted entry */
+  highlighted?: boolean;
+};
+
+/**
+ * Generate the list of options for the "Onde inserir?" popover.
+ * - Level 1: flat, "No início" + "Depois de X" + "No final" (highlighted)
+ * - Level 2: grouped by etapa
+ * - Level 3: grouped by etapa › item
+ */
+export function buildInsertPositionOptions(
+  items: OrcamentoItem[],
+  level: EapLevel
+): InsertPositionOption[] {
+  if (items.length === 0) return [];
+
+  if (level === 1) {
+    const etapas = items
+      .filter((i) => i.eap_level === 1)
+      .sort((a, b) => a.eap_code.localeCompare(b.eap_code));
+
+    if (etapas.length === 0) return [];
+
+    const options: InsertPositionOption[] = [
+      { id: "start", label: "No início", parentPrefix: "", atPosition: 1 },
+    ];
+    for (const e of etapas) {
+      const lastSeg = lastSegmentOf(e.eap_code);
+      options.push({
+        id: `after-${e.id}`,
+        label: `Depois de ${e.eap_code} — ${e.descricao}`,
+        parentPrefix: "",
+        atPosition: lastSeg + 1,
+      });
+    }
+    // The last "Depois de N" becomes "No final" + highlighted
+    const last = options[options.length - 1];
+    last.label = "No final";
+    last.highlighted = true;
+    last.id = "end";
+    return options;
+  }
+
+  if (level === 2) {
+    const etapas = items
+      .filter((i) => i.eap_level === 1)
+      .sort((a, b) => a.eap_code.localeCompare(b.eap_code));
+    if (etapas.length === 0) return [];
+
+    const options: InsertPositionOption[] = [];
+    for (let eIdx = 0; eIdx < etapas.length; eIdx++) {
+      const etapa = etapas[eIdx];
+      const prefix = etapa.eap_code;
+      const groupLabel = `${etapa.eap_code} — ${etapa.descricao}`;
+      const children = items
+        .filter((i) => i.eap_level === 2 && i.eap_code.startsWith(prefix + "."))
+        .sort((a, b) => a.eap_code.localeCompare(b.eap_code));
+
+      options.push({
+        id: `start-${etapa.id}`,
+        label: "No início da etapa",
+        group: groupLabel,
+        parentPrefix: prefix,
+        atPosition: 1,
+      });
+      for (const c of children) {
+        options.push({
+          id: `after-${c.id}`,
+          label: `Depois de ${c.eap_code} — ${c.descricao}`,
+          group: groupLabel,
+          parentPrefix: prefix,
+          atPosition: lastSegmentOf(c.eap_code) + 1,
+        });
+      }
+      if (children.length > 0) {
+        const last = options[options.length - 1];
+        last.label = "No final da etapa";
+        last.id = `end-${etapa.id}`;
+      }
+      if (eIdx === etapas.length - 1) {
+        options[options.length - 1].highlighted = true;
+      }
+    }
+    return options;
+  }
+
+  // level === 3
+  const etapas = items
+    .filter((i) => i.eap_level === 1)
+    .sort((a, b) => a.eap_code.localeCompare(b.eap_code));
+
+  const options: InsertPositionOption[] = [];
+  for (let eIdx = 0; eIdx < etapas.length; eIdx++) {
+    const etapa = etapas[eIdx];
+    const groupLabel = `${etapa.eap_code} — ${etapa.descricao}`;
+    const items2 = items
+      .filter((i) => i.eap_level === 2 && i.eap_code.startsWith(etapa.eap_code + "."))
+      .sort((a, b) => a.eap_code.localeCompare(b.eap_code));
+
+    for (let iIdx = 0; iIdx < items2.length; iIdx++) {
+      const it2 = items2[iIdx];
+      const subgroupLabel = `${it2.eap_code} — ${it2.descricao}`;
+      const prefix = it2.eap_code;
+      const children = items
+        .filter((i) => i.eap_level === 3 && i.eap_code.startsWith(prefix + "."))
+        .sort((a, b) => a.eap_code.localeCompare(b.eap_code));
+
+      options.push({
+        id: `start-${it2.id}`,
+        label: "No início do item",
+        group: groupLabel,
+        subgroup: subgroupLabel,
+        parentPrefix: prefix,
+        atPosition: 1,
+      });
+      for (const c of children) {
+        options.push({
+          id: `after-${c.id}`,
+          label: `Depois de ${c.eap_code} — ${c.descricao}`,
+          group: groupLabel,
+          subgroup: subgroupLabel,
+          parentPrefix: prefix,
+          atPosition: lastSegmentOf(c.eap_code) + 1,
+        });
+      }
+      if (children.length > 0) {
+        const last = options[options.length - 1];
+        last.label = "No final do item";
+        last.id = `end-${it2.id}`;
+      }
+      if (eIdx === etapas.length - 1 && iIdx === items2.length - 1) {
+        options[options.length - 1].highlighted = true;
+      }
+    }
+  }
+  return options;
+}
