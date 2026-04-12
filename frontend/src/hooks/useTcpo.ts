@@ -70,7 +70,13 @@ export function useTcpoSearch(query: string, category: string | null) {
       }
 
       if (query.trim()) {
-        q = q.ilike("search_term", `%${query.trim()}%`);
+        // Strip accents for search_term match, keep original for descricao match
+        const raw = query.trim();
+        const stripped = raw.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        // Use .or() with percent-encoded wildcards for PostgREST
+        const encRaw = encodeURIComponent(`%${raw}%`);
+        const encStripped = encodeURIComponent(`%${stripped}%`);
+        q = q.or(`descricao.ilike.${encRaw},search_term.ilike.${encStripped},codigo.ilike.${encStripped}`);
       }
 
       const { data, error } = await q.limit(100);

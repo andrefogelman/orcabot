@@ -168,21 +168,30 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
       const previousData: Record<string, unknown> = { [field]: item[field] };
       const updates: Record<string, string | number> = { [field]: value };
 
-      // Auto-recalculate custo_total
+      // Auto-recalculate custo_unitario and custo_total
       if (field === "custo_material" || field === "custo_mao_obra") {
         const material = field === "custo_material" ? Number(value) : (item.custo_material ?? 0);
         const maoObra = field === "custo_mao_obra" ? Number(value) : (item.custo_mao_obra ?? 0);
-        updates.custo_total = material + maoObra;
+        const custoUnitario = material + maoObra;
+        const quantidade = item.quantidade ?? 0;
+        updates.custo_unitario = custoUnitario;
+        updates.custo_total = custoUnitario * quantidade;
+        previousData.custo_unitario = item.custo_unitario;
         previousData.custo_total = item.custo_total;
       }
 
-      if (field === "quantidade" || field === "custo_unitario") {
-        const quantidade = field === "quantidade" ? Number(value) : (item.quantidade ?? 0);
-        const custoUnitario = field === "custo_unitario" ? Number(value) : (item.custo_unitario ?? 0);
-        if (quantidade && custoUnitario) {
-          updates.custo_total = quantidade * custoUnitario;
-          previousData.custo_total = item.custo_total;
-        }
+      if (field === "quantidade") {
+        const quantidade = Number(value);
+        const custoUnitario = item.custo_unitario ?? 0;
+        updates.custo_total = quantidade * custoUnitario;
+        previousData.custo_total = item.custo_total;
+      }
+
+      if (field === "custo_unitario") {
+        const custoUnitario = Number(value);
+        const quantidade = item.quantidade ?? 0;
+        updates.custo_total = custoUnitario * quantidade;
+        previousData.custo_total = item.custo_total;
       }
 
       undoStack.push({
