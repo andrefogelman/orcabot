@@ -42,7 +42,12 @@ describe('AnthropicProvider', () => {
     it('returns tool_use when model calls a tool', async () => {
       mockCreate.mockResolvedValue({
         content: [
-          { type: 'tool_use', id: 'tu_1', name: 'get_weather', input: { city: 'SP' } },
+          {
+            type: 'tool_use',
+            id: 'tu_1',
+            name: 'get_weather',
+            input: { city: 'SP' },
+          },
         ],
         stop_reason: 'tool_use',
         usage: { input_tokens: 20, output_tokens: 15 },
@@ -56,13 +61,20 @@ describe('AnthropicProvider', () => {
           {
             name: 'get_weather',
             description: 'Get weather',
-            parameters: { type: 'object', properties: { city: { type: 'string' } } },
+            parameters: {
+              type: 'object',
+              properties: { city: { type: 'string' } },
+            },
           },
         ],
       });
 
       expect(result.stopReason).toBe('tool_use');
-      expect(result.toolCalls[0]).toEqual({ id: 'tu_1', name: 'get_weather', input: { city: 'SP' } });
+      expect(result.toolCalls[0]).toEqual({
+        id: 'tu_1',
+        name: 'get_weather',
+        input: { city: 'SP' },
+      });
     });
 
     it('returns end when model responds with text', async () => {

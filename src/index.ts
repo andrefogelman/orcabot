@@ -593,7 +593,9 @@ async function main(): Promise<void> {
     startLlmProxy();
     logger.info('LLM proxy started (anthropic mode)');
   } else {
-    logger.info(`LLM provider: ${config.llmProvider}, model: ${config.llmModel} — proxy skipped`);
+    logger.info(
+      `LLM provider: ${config.llmProvider}, model: ${config.llmModel} — proxy skipped`,
+    );
   }
 
   // Ensure OneCLI agents exist for all registered groups.

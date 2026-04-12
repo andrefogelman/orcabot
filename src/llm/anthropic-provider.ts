@@ -67,7 +67,10 @@ export class AnthropicProvider implements LlmProvider {
       .filter((b): b is Anthropic.ToolUseBlock => b.type === 'tool_use')
       .map((b) => ({ id: b.id, name: b.name, input: b.input }));
 
-    const stopReason = response.stop_reason === 'tool_use' ? 'tool_use' as const : 'end' as const;
+    const stopReason =
+      response.stop_reason === 'tool_use'
+        ? ('tool_use' as const)
+        : ('end' as const);
 
     return {
       text,

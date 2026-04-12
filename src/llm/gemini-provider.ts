@@ -144,7 +144,10 @@ export class GeminiProvider implements LlmProvider {
           parts.push({ text: block.text });
         } else if (block.type === 'tool_use' && block.name) {
           parts.push({
-            functionCall: { name: block.name, args: (block.input ?? {}) as Record<string, unknown> },
+            functionCall: {
+              name: block.name,
+              args: (block.input ?? {}) as Record<string, unknown>,
+            },
           });
         } else if (block.type === 'tool_result' && block.name) {
           parts.push({

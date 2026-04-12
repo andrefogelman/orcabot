@@ -25,7 +25,13 @@ export interface AgentToolset {
 /**
  * Convert Anthropic-style tool defs (input_schema) to unified ToolDef (parameters).
  */
-function toUnifiedDefs(defs: Array<{ name: string; description: string; input_schema: Record<string, unknown> }>): ToolDef[] {
+function toUnifiedDefs(
+  defs: Array<{
+    name: string;
+    description: string;
+    input_schema: Record<string, unknown>;
+  }>,
+): ToolDef[] {
   return defs.map((d) => ({
     name: d.name,
     description: d.description,
