@@ -1,0 +1,2297 @@
+[
+  {
+    "codigo": "3R 03 42 00 00 00 00 00 07",
+    "descricao": "Demolição de alvenaria de tijolo comum, com reaproveitamento",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 85.88,
+    "bdi_percentual": 15.28,
+    "custo_sem_taxas": 66.97,
+    "custo_com_taxas": 168.13,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.6,
+        "preco_unitario": 12.12,
+        "total": 7.27,
+        "consumo": 0.6
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 6,
+        "preco_unitario": 9.95,
+        "total": 59.7,
+        "consumo": 6
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 00 15",
+    "descricao": "Demolição de alvenaria de tijolo comum, sem reaproveitamento",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 42.94,
+    "bdi_percentual": 7.64,
+    "custo_sem_taxas": 33.49,
+    "custo_com_taxas": 84.08,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.3,
+        "preco_unitario": 12.12,
+        "total": 3.64,
+        "consumo": 0.3
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 3,
+        "preco_unitario": 9.95,
+        "total": 29.85,
+        "consumo": 3
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 06 10",
+    "descricao": "Demolição de assoalho de madeira",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.89,
+    "bdi_percentual": 2.29,
+    "custo_sem_taxas": 10.05,
+    "custo_com_taxas": 25.23,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 15",
+        "descricao": "Carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.09,
+        "preco_unitario": 12.12,
+        "total": 1.09,
+        "consumo": 0.09
+      },
+      {
+        "codigo": "2N 36 16 25 15 04",
+        "descricao": "Ajudante de carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.9,
+        "preco_unitario": 9.95,
+        "total": 8.96,
+        "consumo": 0.9
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 01 07",
+    "descricao": "Demolição de cobertura de telha cerâmica - mão de obra",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 8.59,
+    "bdi_percentual": 1.53,
+    "custo_sem_taxas": 6.7,
+    "custo_com_taxas": 16.82,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.06,
+        "preco_unitario": 12.12,
+        "total": 0.73,
+        "consumo": 0.06
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.6,
+        "preco_unitario": 9.95,
+        "total": 5.97,
+        "consumo": 0.6
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 01 15",
+    "descricao": "Demolição de cobertura de telha ondulada de fibrocimento - mão de obra",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 3.58,
+    "bdi_percentual": 0.64,
+    "custo_sem_taxas": 2.79,
+    "custo_com_taxas": 7,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.25,
+        "preco_unitario": 9.95,
+        "total": 2.49,
+        "consumo": 0.25
+      },
+      {
+        "codigo": "2N 36 16 25 12 36",
+        "descricao": "Telhadista",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.025,
+        "preco_unitario": 12.12,
+        "total": 0.3,
+        "consumo": 0.025
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 02 15",
+    "descricao": "Demolição de concreto com ferramentas manuais",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 186.07,
+    "bdi_percentual": 33.12,
+    "custo_sem_taxas": 145.11,
+    "custo_com_taxas": 364.3,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.3,
+        "preco_unitario": 12.12,
+        "total": 15.76,
+        "consumo": 1.3
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 13,
+        "preco_unitario": 9.95,
+        "total": 129.35,
+        "consumo": 13
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 02 07",
+    "descricao": "Demolição de concreto com utilização de martelo rompedor pneumático",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 153.11,
+    "bdi_percentual": 93.91,
+    "custo_sem_taxas": 785.95,
+    "custo_com_taxas": 1032.96,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 6,
+        "preco_unitario": 9.95,
+        "total": 59.7,
+        "consumo": 6
+      },
+      {
+        "codigo": "2Q 50 30 34 33 17",
+        "descricao": "Ponteiro para rompedor Ø 32 mm x 16 cm",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.075,
+        "preco_unitario": 182,
+        "total": 13.65,
+        "consumo": 0.075
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 01",
+        "descricao": "Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 6,
+        "preco_unitario": 13.39,
+        "total": 80.32,
+        "consumo": 6
+      },
+      {
+        "codigo": "3R 50 10 30 98 10 00 02 01",
+        "descricao": "Compressor de ar 61 hp - 46 kW, capacidade 3,3 m³/min - 116 pcm",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 6,
+        "preco_unitario": 105.38,
+        "total": 632.28,
+        "consumo": 6
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 03 08",
+    "descricao": "Demolição de edificações simples de alvenaria",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 120.72,
+    "bdi_percentual": 21.49,
+    "custo_sem_taxas": 94.14,
+    "custo_com_taxas": 236.34,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.2,
+        "preco_unitario": 12.12,
+        "total": 14.54,
+        "consumo": 1.2
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 8,
+        "preco_unitario": 9.95,
+        "total": 79.6,
+        "consumo": 8
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 03 09",
+    "descricao": "Demolição de estrutura de madeira para telhado",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 18.62,
+    "bdi_percentual": 3.31,
+    "custo_sem_taxas": 14.52,
+    "custo_com_taxas": 36.45,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 15",
+        "descricao": "Carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.13,
+        "preco_unitario": 12.12,
+        "total": 1.58,
+        "consumo": 0.13
+      },
+      {
+        "codigo": "2N 36 16 25 15 04",
+        "descricao": "Ajudante de carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.3,
+        "preco_unitario": 9.95,
+        "total": 12.94,
+        "consumo": 1.3
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 01 10",
+    "descricao": "Demolição de forro de estuque ou gesso em placas",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 5.72,
+    "bdi_percentual": 1.02,
+    "custo_sem_taxas": 4.46,
+    "custo_com_taxas": 11.2,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 15",
+        "descricao": "Carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.04,
+        "preco_unitario": 12.12,
+        "total": 0.48,
+        "consumo": 0.04
+      },
+      {
+        "codigo": "2N 36 16 25 15 04",
+        "descricao": "Ajudante de carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.4,
+        "preco_unitario": 9.95,
+        "total": 3.98,
+        "consumo": 0.4
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 01 11",
+    "descricao": "Demolição de forro de ripas madeira",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 4.3,
+    "bdi_percentual": 0.76,
+    "custo_sem_taxas": 3.35,
+    "custo_com_taxas": 8.41,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 15",
+        "descricao": "Carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.03,
+        "preco_unitario": 12.12,
+        "total": 0.36,
+        "consumo": 0.03
+      },
+      {
+        "codigo": "2N 36 16 25 15 04",
+        "descricao": "Ajudante de carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.3,
+        "preco_unitario": 9.95,
+        "total": 2.99,
+        "consumo": 0.3
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 05 07",
+    "descricao": "Demolição de pavimentação asfáltica com utilização de martelo rompedor espessura até 15 cm",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 5.11,
+    "bdi_percentual": 2.09,
+    "custo_sem_taxas": 15.83,
+    "custo_com_taxas": 23.03,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.1,
+        "preco_unitario": 9.95,
+        "total": 1,
+        "consumo": 0.1
+      },
+      {
+        "codigo": "2Q 50 30 34 33 17",
+        "descricao": "Ponteiro para rompedor Ø 32 mm x 16 cm",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.0015,
+        "preco_unitario": 182,
+        "total": 0.27,
+        "consumo": 0.0015
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 01",
+        "descricao": "Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.3,
+        "preco_unitario": 13.39,
+        "total": 4.02,
+        "consumo": 0.3
+      },
+      {
+        "codigo": "3R 50 10 30 98 10 00 02 01",
+        "descricao": "Compressor de ar 61 hp - 46 kW, capacidade 3,3 m³/min - 116 pcm",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.1,
+        "preco_unitario": 105.38,
+        "total": 10.54,
+        "consumo": 0.1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 05 08",
+    "descricao": "Demolição de pavimentação com paralelepípedos",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 11.45,
+    "bdi_percentual": 2.04,
+    "custo_sem_taxas": 8.93,
+    "custo_com_taxas": 22.42,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.08,
+        "preco_unitario": 12.12,
+        "total": 0.97,
+        "consumo": 0.08
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.8,
+        "preco_unitario": 9.95,
+        "total": 7.96,
+        "consumo": 0.8
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 05 09",
+    "descricao": "Demolição de pavimentação com pré-moldado de concreto espessura até 10 cm",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 10.03,
+    "bdi_percentual": 1.78,
+    "custo_sem_taxas": 7.82,
+    "custo_com_taxas": 19.63,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.07,
+        "preco_unitario": 12.12,
+        "total": 0.85,
+        "consumo": 0.07
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.7,
+        "preco_unitario": 9.95,
+        "total": 6.97,
+        "consumo": 0.7
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 06 12",
+    "descricao": "Demolição de piso cerâmico",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 10.03,
+    "bdi_percentual": 1.78,
+    "custo_sem_taxas": 7.82,
+    "custo_com_taxas": 19.63,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.07,
+        "preco_unitario": 12.12,
+        "total": 0.85,
+        "consumo": 0.07
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.7,
+        "preco_unitario": 9.95,
+        "total": 6.97,
+        "consumo": 0.7
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 06 13",
+    "descricao": "Demolição de piso cerâmico inclusive retirada da camada de regularização sobre lastro de concreto com espessura até 3 cm",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 20.04,
+    "bdi_percentual": 3.57,
+    "custo_sem_taxas": 15.63,
+    "custo_com_taxas": 39.24,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.14,
+        "preco_unitario": 12.12,
+        "total": 1.7,
+        "consumo": 0.14
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.4,
+        "preco_unitario": 9.95,
+        "total": 13.93,
+        "consumo": 1.4
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 06 15",
+    "descricao": "Demolição de piso cimentado sobre lastro de concreto",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 18.62,
+    "bdi_percentual": 3.31,
+    "custo_sem_taxas": 14.52,
+    "custo_com_taxas": 36.45,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.13,
+        "preco_unitario": 12.12,
+        "total": 1.58,
+        "consumo": 0.13
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.3,
+        "preco_unitario": 9.95,
+        "total": 12.94,
+        "consumo": 1.3
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 06 11",
+    "descricao": "Demolição de piso de tacos de madeira",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 17.17,
+    "bdi_percentual": 3.06,
+    "custo_sem_taxas": 13.39,
+    "custo_com_taxas": 33.62,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 15",
+        "descricao": "Carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.12,
+        "preco_unitario": 12.12,
+        "total": 1.45,
+        "consumo": 0.12
+      },
+      {
+        "codigo": "2N 36 16 25 15 04",
+        "descricao": "Ajudante de carpinteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.2,
+        "preco_unitario": 9.95,
+        "total": 11.94,
+        "consumo": 1.2
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 06 14",
+    "descricao": "Demolição de piso revestido com granilite",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 20.04,
+    "bdi_percentual": 3.57,
+    "custo_sem_taxas": 15.63,
+    "custo_com_taxas": 39.24,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.14,
+        "preco_unitario": 12.12,
+        "total": 1.7,
+        "consumo": 0.14
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.4,
+        "preco_unitario": 9.95,
+        "total": 13.93,
+        "consumo": 1.4
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 09 14",
+    "descricao": "Demolição de revestimento com argamassa",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 7.17,
+    "bdi_percentual": 1.28,
+    "custo_sem_taxas": 5.59,
+    "custo_com_taxas": 14.03,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.05,
+        "preco_unitario": 12.12,
+        "total": 0.61,
+        "consumo": 0.05
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.5,
+        "preco_unitario": 9.95,
+        "total": 4.98,
+        "consumo": 0.5
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 09 15",
+    "descricao": "Demolição de revestimento de azulejo ou lambris",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 3.58,
+    "bdi_percentual": 0.64,
+    "custo_sem_taxas": 2.79,
+    "custo_com_taxas": 7,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.025,
+        "preco_unitario": 12.12,
+        "total": 0.3,
+        "consumo": 0.025
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.25,
+        "preco_unitario": 9.95,
+        "total": 2.49,
+        "consumo": 0.25
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "demolicao"
+  },
+  {
+    "codigo": "3R 32 24 00 00 00 00 10 10",
+    "descricao": "Escarificação, escavação e remoção de terra até 1 km",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 1.54,
+    "bdi_percentual": 4.43,
+    "custo_sem_taxas": 42.75,
+    "custo_com_taxas": 48.72,
+    "insumos": [
+      {
+        "codigo": "3R 50 50 15 13 00 00 12 01",
+        "descricao": "Caminhão basculante 5 m³ 182 hp - 136 kW, 4 x 2",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.06,
+        "preco_unitario": 256.23,
+        "total": 15.37,
+        "consumo": 0.06
+      },
+      {
+        "codigo": "3R 50 50 44 12 00 00 28 01",
+        "descricao": "Trator sobre esteiras com lâmina, capacidade 3,93 m³ 185 hp - 138 kW",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.019,
+        "preco_unitario": 907.7,
+        "total": 17.25,
+        "consumo": 0.019
+      },
+      {
+        "codigo": "3R 50 50 46 12 00 00 24 01",
+        "descricao": "Carregadeira sobre pneus 196 hp - 146 kW, capacidade 3,3 m³",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.02,
+        "preco_unitario": 506.34,
+        "total": 10.13,
+        "consumo": 0.02
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 53 65",
+    "descricao": "Limpeza do substrato para remoção de óleos e graxas impregnados superficialmente",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 3.19,
+    "bdi_percentual": 3.68,
+    "custo_sem_taxas": 33.58,
+    "custo_com_taxas": 40.45,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.25,
+        "preco_unitario": 9.95,
+        "total": 2.49,
+        "consumo": 0.25
+      },
+      {
+        "codigo": "2C 03 10 04 00 03",
+        "descricao": "Removedor de graxa a base de solvente não corrosivo",
+        "unidade": "l",
+        "classe": "MAT",
+        "coeficiente": 0.5,
+        "preco_unitario": 62.17,
+        "total": 31.09,
+        "consumo": 0.5
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 53 05",
+    "descricao": "Remoção de concreto com martelo rompedor até 5 cm de profundidade",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 28.71,
+    "bdi_percentual": 6.58,
+    "custo_sem_taxas": 37.12,
+    "custo_com_taxas": 72.42,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.5,
+        "preco_unitario": 9.95,
+        "total": 14.93,
+        "consumo": 1.5
+      },
+      {
+        "codigo": "2Q 50 30 34 33 43",
+        "descricao": "Ponteiro para rompedor Ø 28 mm x 40 cm",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.068,
+        "preco_unitario": 178.97,
+        "total": 12.17,
+        "consumo": 0.068
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 01",
+        "descricao": "Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.75,
+        "preco_unitario": 13.36,
+        "total": 10.02,
+        "consumo": 0.75
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 07 20",
+    "descricao": "Remoção de esquadria de madeira, inclusive batente",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 11.45,
+    "bdi_percentual": 2.04,
+    "custo_sem_taxas": 8.93,
+    "custo_com_taxas": 22.42,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.08,
+        "preco_unitario": 12.12,
+        "total": 0.97,
+        "consumo": 0.08
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.8,
+        "preco_unitario": 9.95,
+        "total": 7.96,
+        "consumo": 0.8
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 07 05",
+    "descricao": "Remoção de esquadria metálica sem reaproveitamento",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 7.17,
+    "bdi_percentual": 1.28,
+    "custo_sem_taxas": 5.59,
+    "custo_com_taxas": 14.03,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.05,
+        "preco_unitario": 12.12,
+        "total": 0.61,
+        "consumo": 0.05
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.5,
+        "preco_unitario": 9.95,
+        "total": 4.98,
+        "consumo": 0.5
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 05 16",
+    "descricao": "Remoção de guia pré-fabricada de concreto",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 7.17,
+    "bdi_percentual": 1.28,
+    "custo_sem_taxas": 5.59,
+    "custo_com_taxas": 14.03,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.05,
+        "preco_unitario": 12.12,
+        "total": 0.61,
+        "consumo": 0.05
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.5,
+        "preco_unitario": 9.95,
+        "total": 4.98,
+        "consumo": 0.5
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 08 10",
+    "descricao": "Remoção de pintura a cal",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 11.49,
+    "bdi_percentual": 2.04,
+    "custo_sem_taxas": 8.96,
+    "custo_com_taxas": 22.49,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.9,
+        "preco_unitario": 9.95,
+        "total": 8.96,
+        "consumo": 0.9
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 08 09",
+    "descricao": "Remoção de pintura a látex",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 15.31,
+    "bdi_percentual": 2.73,
+    "custo_sem_taxas": 11.94,
+    "custo_com_taxas": 29.98,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.2,
+        "preco_unitario": 9.95,
+        "total": 11.94,
+        "consumo": 1.2
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 08 11",
+    "descricao": "Remoção de pintura a óleo ou esmalte",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 21.06,
+    "bdi_percentual": 7.1,
+    "custo_sem_taxas": 49.9,
+    "custo_com_taxas": 78.05,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.65,
+        "preco_unitario": 9.95,
+        "total": 16.42,
+        "consumo": 1.65
+      },
+      {
+        "codigo": "2C 03 10 04 00 08",
+        "descricao": "Aguarrás mineral",
+        "unidade": "l",
+        "classe": "MAT",
+        "coeficiente": 1.1,
+        "preco_unitario": 30.44,
+        "total": 33.48,
+        "consumo": 1.1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 09 12",
+    "descricao": "Remoção de revestimento de piso de carpete têxtil",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 1.44,
+    "bdi_percentual": 0.26,
+    "custo_sem_taxas": 1.12,
+    "custo_com_taxas": 2.81,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.01,
+        "preco_unitario": 12.12,
+        "total": 0.12,
+        "consumo": 0.01
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.1,
+        "preco_unitario": 9.95,
+        "total": 1,
+        "consumo": 0.1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 09 13",
+    "descricao": "Remoção de revestimento de piso vinílico",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.89,
+    "bdi_percentual": 2.29,
+    "custo_sem_taxas": 10.05,
+    "custo_com_taxas": 25.23,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.09,
+        "preco_unitario": 12.12,
+        "total": 1.09,
+        "consumo": 0.09
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.9,
+        "preco_unitario": 9.95,
+        "total": 8.96,
+        "consumo": 0.9
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "remocao"
+  },
+  {
+    "codigo": "3R 33 15 00 00 00 00 15 08",
+    "descricao": "Paralelepípedo, retirada e reassentamento",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 32.35,
+    "bdi_percentual": 5.76,
+    "custo_sem_taxas": 25.23,
+    "custo_com_taxas": 63.34,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.5,
+        "preco_unitario": 9.95,
+        "total": 14.93,
+        "consumo": 1.5
+      },
+      {
+        "codigo": "2N 36 16 25 12 38",
+        "descricao": "Calceteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.85,
+        "preco_unitario": 12.12,
+        "total": 10.3,
+        "consumo": 0.85
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "retirada"
+  },
+  {
+    "codigo": "3R 33 15 00 00 00 00 15 07",
+    "descricao": "Paralelepípedo, retirada e reassentamento sobre coxim de areia",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 32.35,
+    "bdi_percentual": 7.98,
+    "custo_sem_taxas": 47.45,
+    "custo_com_taxas": 87.78,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.5,
+        "preco_unitario": 9.95,
+        "total": 14.93,
+        "consumo": 1.5
+      },
+      {
+        "codigo": "2N 36 16 25 12 38",
+        "descricao": "Calceteiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.85,
+        "preco_unitario": 12.12,
+        "total": 10.3,
+        "consumo": 0.85
+      },
+      {
+        "codigo": "2C 03 02 02 11 05",
+        "descricao": "Areia média lavada",
+        "unidade": "m³",
+        "classe": "MAT",
+        "coeficiente": 0.1,
+        "preco_unitario": 222.15,
+        "total": 22.22,
+        "consumo": 0.1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "retirada"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 09 10",
+    "descricao": "Retirada de peitoril de mármore ou granito (largura média de 25 cm)",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 5.1,
+    "bdi_percentual": 0.91,
+    "custo_sem_taxas": 3.98,
+    "custo_com_taxas": 9.99,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.4,
+        "preco_unitario": 9.95,
+        "total": 3.98,
+        "consumo": 0.4
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "retirada"
+  },
+  {
+    "codigo": "3R 03 42 00 00 00 00 09 11",
+    "descricao": "Retirada de soleira de mármore ou granito (largura média de 15 cm",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 7.01,
+    "bdi_percentual": 1.25,
+    "custo_sem_taxas": 5.47,
+    "custo_com_taxas": 13.73,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.55,
+        "preco_unitario": 9.95,
+        "total": 5.47,
+        "consumo": 0.55
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "retirada"
+  },
+  {
+    "codigo": "3R 32 24 00 00 00 00 10 36",
+    "descricao": "Desmonte de rocha branda incluindo perfuração, carga de explosivos e detonação com aplicação de malha convencional",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 7.13,
+    "bdi_percentual": 9.21,
+    "custo_sem_taxas": 84.96,
+    "custo_com_taxas": 101.3,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 12",
+        "descricao": "Cabo de fogo",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.03,
+        "preco_unitario": 12.12,
+        "total": 0.36,
+        "consumo": 0.03
+      },
+      {
+        "codigo": "2C 02 13 13 30 03",
+        "descricao": "Explosivo gelatinoso dinamite 40% Ø 1\" x 8\"",
+        "unidade": "kg",
+        "classe": "MAT",
+        "coeficiente": 0.28,
+        "preco_unitario": 41,
+        "total": 11.48,
+        "consumo": 0.28
+      },
+      {
+        "codigo": "2C 02 13 13 33 07",
+        "descricao": "Cordel detonante Ø 4,8 mm velocidade de detonação 6800 m/s",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.1,
+        "preco_unitario": 12.5,
+        "total": 1.25,
+        "consumo": 0.1
+      },
+      {
+        "codigo": "2C 02 13 13 33 09",
+        "descricao": "Espoleta elétrica",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.001,
+        "preco_unitario": 180.61,
+        "total": 0.18,
+        "consumo": 0.001
+      },
+      {
+        "codigo": "2C 02 13 13 33 11",
+        "descricao": "Espoleta simples",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.0007,
+        "preco_unitario": 12.9,
+        "total": 0.01,
+        "consumo": 0.0007
+      },
+      {
+        "codigo": "2C 02 13 13 33 13",
+        "descricao": "Estopim comum",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.006,
+        "preco_unitario": 16.5,
+        "total": 0.1,
+        "consumo": 0.006
+      },
+      {
+        "codigo": "2C 02 13 13 33 19",
+        "descricao": "Retardo para cordel 10 cm",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.007,
+        "preco_unitario": 133.98,
+        "total": 0.94,
+        "consumo": 0.007
+      },
+      {
+        "codigo": "2C 14 13 05 10 03",
+        "descricao": "Cabo elétrico trançado com 2 fios para cordel detonante 1 mm²",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.003,
+        "preco_unitario": 4.48,
+        "total": 0.01,
+        "consumo": 0.003
+      },
+      {
+        "codigo": "2Q 50 10 32 20 17",
+        "descricao": "Conjunto de brocas integrais série 11 Ø 800 mm",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.041,
+        "preco_unitario": 1096.17,
+        "total": 44.94,
+        "consumo": 0.041
+      },
+      {
+        "codigo": "3R 50 10 30 10 24 00 40 01",
+        "descricao": "Perfuratriz pneumática manual, furos Ø 27-40 mm",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.429,
+        "preco_unitario": 16.75,
+        "total": 7.18,
+        "consumo": 0.429
+      },
+      {
+        "codigo": "3R 50 10 30 98 10 00 06 01",
+        "descricao": "Compressor de ar 74 hp - 55 kW, capacidade 5,6 m³/min - 197 pcm",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.143,
+        "preco_unitario": 129.41,
+        "total": 18.51,
+        "consumo": 0.143
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "desmonte"
+  },
+  {
+    "codigo": "3R 32 24 00 00 00 00 10 37",
+    "descricao": "Desmonte de rocha dura incluindo perfuração, carga de explosivos e detonação com aplicação de malha convencional",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 9.13,
+    "bdi_percentual": 16.78,
+    "custo_sem_taxas": 158.71,
+    "custo_com_taxas": 184.63,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 12",
+        "descricao": "Cabo de fogo",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.03,
+        "preco_unitario": 12.12,
+        "total": 0.36,
+        "consumo": 0.03
+      },
+      {
+        "codigo": "2C 02 13 13 30 03",
+        "descricao": "Explosivo gelatinoso dinamite 40% Ø 1\" x 8\"",
+        "unidade": "kg",
+        "classe": "MAT",
+        "coeficiente": 0.42,
+        "preco_unitario": 41,
+        "total": 17.22,
+        "consumo": 0.42
+      },
+      {
+        "codigo": "2C 02 13 13 33 07",
+        "descricao": "Cordel detonante Ø 4,8 mm velocidade de detonação 6800 m/s",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.1,
+        "preco_unitario": 12.5,
+        "total": 1.25,
+        "consumo": 0.1
+      },
+      {
+        "codigo": "2C 02 13 13 33 09",
+        "descricao": "Espoleta elétrica",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.001,
+        "preco_unitario": 180.61,
+        "total": 0.18,
+        "consumo": 0.001
+      },
+      {
+        "codigo": "2C 02 13 13 33 11",
+        "descricao": "Espoleta simples",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.0007,
+        "preco_unitario": 12.9,
+        "total": 0.01,
+        "consumo": 0.0007
+      },
+      {
+        "codigo": "2C 02 13 13 33 13",
+        "descricao": "Estopim comum",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.006,
+        "preco_unitario": 16.5,
+        "total": 0.1,
+        "consumo": 0.006
+      },
+      {
+        "codigo": "2C 02 13 13 33 19",
+        "descricao": "Retardo para cordel 10 cm",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.007,
+        "preco_unitario": 133.98,
+        "total": 0.94,
+        "consumo": 0.007
+      },
+      {
+        "codigo": "2C 14 13 05 10 03",
+        "descricao": "Cabo elétrico trançado com 2 fios para cordel detonante 1 mm²",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.003,
+        "preco_unitario": 4.48,
+        "total": 0.01,
+        "consumo": 0.003
+      },
+      {
+        "codigo": "2Q 50 10 32 20 17",
+        "descricao": "Conjunto de brocas integrais série 11 Ø 800 mm",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.096,
+        "preco_unitario": 1096.17,
+        "total": 105.23,
+        "consumo": 0.096
+      },
+      {
+        "codigo": "3R 50 10 30 10 24 00 40 01",
+        "descricao": "Perfuratriz pneumática manual, furos Ø 27-40 mm",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.558,
+        "preco_unitario": 16.75,
+        "total": 9.34,
+        "consumo": 0.558
+      },
+      {
+        "codigo": "3R 50 10 30 98 10 00 06 01",
+        "descricao": "Compressor de ar 74 hp - 55 kW, capacidade 5,6 m³/min - 197 pcm",
+        "unidade": "h prod",
+        "classe": "EQH",
+        "coeficiente": 0.186,
+        "preco_unitario": 129.41,
+        "total": 24.07,
+        "consumo": 0.186
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "desmonte"
+  },
+  {
+    "codigo": "3R 32 24 00 00 00 00 10 31",
+    "descricao": "Escavação em rocha - 3ª categoria, desmonte com uso de explosivos e perfuração manual profundidade até 2 m",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 284.63,
+    "bdi_percentual": 60.3,
+    "custo_sem_taxas": 318.37,
+    "custo_com_taxas": 663.3,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 17",
+        "descricao": "Cavouqueiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 6,
+        "preco_unitario": 12.12,
+        "total": 72.72,
+        "consumo": 6
+      },
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 15,
+        "preco_unitario": 9.95,
+        "total": 149.25,
+        "consumo": 15
+      },
+      {
+        "codigo": "2C 02 13 13 30 03",
+        "descricao": "Explosivo gelatinoso dinamite 40% Ø 1\" x 8\"",
+        "unidade": "kg",
+        "classe": "MAT",
+        "coeficiente": 0.2,
+        "preco_unitario": 41,
+        "total": 8.2,
+        "consumo": 0.2
+      },
+      {
+        "codigo": "2C 02 13 13 33 11",
+        "descricao": "Espoleta simples",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 3,
+        "preco_unitario": 12.9,
+        "total": 38.7,
+        "consumo": 3
+      },
+      {
+        "codigo": "2C 02 13 13 33 13",
+        "descricao": "Estopim comum",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 3,
+        "preco_unitario": 16.5,
+        "total": 49.5,
+        "consumo": 3
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "desmonte"
+  },
+  {
+    "codigo": "3R 50 10 30 10 20 00 30 01",
+    "descricao": "Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+    "unidade": "h",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.76,
+    "bdi_percentual": 2.61,
+    "custo_sem_taxas": 13.36,
+    "custo_com_taxas": 28.73,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1,
+        "preco_unitario": 9.95,
+        "total": 9.95,
+        "consumo": 1
+      },
+      {
+        "codigo": "2Q 50 10 32 00 11",
+        "descricao": "Mangueira flexível para perfuratriz - Ø 3/4\"",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.05,
+        "preco_unitario": 39,
+        "total": 1.95,
+        "consumo": 0.05
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 05",
+        "descricao": "Taxa de manutenção do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "%",
+        "classe": "EQM",
+        "coeficiente": 0.008,
+        "preco_unitario": 6868.24,
+        "total": 0.549459,
+        "consumo": 0.008
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 10",
+        "descricao": "Taxa de depreciação do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "%",
+        "classe": "EQD",
+        "coeficiente": 0.0095,
+        "preco_unitario": 6868.24,
+        "total": 0.652483,
+        "consumo": 0.0095
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 15",
+        "descricao": "Taxa de juros sobre capital do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "%",
+        "classe": "EQJ",
+        "coeficiente": 0.00345,
+        "preco_unitario": 6868.24,
+        "total": 0.236954,
+        "consumo": 0.00345
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 20",
+        "descricao": "Taxa de seguro patrimonial do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "%",
+        "classe": "EQS",
+        "coeficiente": 0.0003,
+        "preco_unitario": 6868.24,
+        "total": 0.020605,
+        "consumo": 0.0003
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "rompedor pneumatico"
+  },
+  {
+    "codigo": "3R 50 10 30 10 20 00 30 02",
+    "descricao": "Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+    "unidade": "h",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.76,
+    "bdi_percentual": 2.36,
+    "custo_sem_taxas": 10.86,
+    "custo_com_taxas": 25.98,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1,
+        "preco_unitario": 9.95,
+        "total": 9.95,
+        "consumo": 1
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 10",
+        "descricao": "Taxa de depreciação do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "%",
+        "classe": "EQD",
+        "coeficiente": 0.0095,
+        "preco_unitario": 6868.24,
+        "total": 0.652483,
+        "consumo": 0.0095
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 15",
+        "descricao": "Taxa de juros sobre capital do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "%",
+        "classe": "EQJ",
+        "coeficiente": 0.00345,
+        "preco_unitario": 6868.24,
+        "total": 0.236954,
+        "consumo": 0.00345
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 30 20",
+        "descricao": "Taxa de seguro patrimonial do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 32 kg",
+        "unidade": "%",
+        "classe": "EQS",
+        "coeficiente": 0.0003,
+        "preco_unitario": 6868.24,
+        "total": 0.020605,
+        "consumo": 0.0003
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "rompedor pneumatico"
+  },
+  {
+    "codigo": "3R 50 10 30 10 20 00 32 01",
+    "descricao": "Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+    "unidade": "h",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.76,
+    "bdi_percentual": 2.61,
+    "custo_sem_taxas": 13.39,
+    "custo_com_taxas": 28.76,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1,
+        "preco_unitario": 9.95,
+        "total": 9.95,
+        "consumo": 1
+      },
+      {
+        "codigo": "2Q 50 10 32 00 11",
+        "descricao": "Mangueira flexível para perfuratriz - Ø 3/4\"",
+        "unidade": "m",
+        "classe": "MAT",
+        "coeficiente": 0.05,
+        "preco_unitario": 39,
+        "total": 1.95,
+        "consumo": 0.05
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 05",
+        "descricao": "Taxa de manutenção do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "%",
+        "classe": "EQM",
+        "coeficiente": 0.008,
+        "preco_unitario": 6995.13,
+        "total": 0.55961,
+        "consumo": 0.008
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 10",
+        "descricao": "Taxa de depreciação do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "%",
+        "classe": "EQD",
+        "coeficiente": 0.0095,
+        "preco_unitario": 6995.13,
+        "total": 0.664537,
+        "consumo": 0.0095
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 15",
+        "descricao": "Taxa de juros sobre capital do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "%",
+        "classe": "EQJ",
+        "coeficiente": 0.00345,
+        "preco_unitario": 6995.13,
+        "total": 0.241332,
+        "consumo": 0.00345
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 20",
+        "descricao": "Taxa de seguro patrimonial do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "%",
+        "classe": "EQS",
+        "coeficiente": 0.0003,
+        "preco_unitario": 6995.13,
+        "total": 0.020985,
+        "consumo": 0.0003
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "rompedor pneumatico"
+  },
+  {
+    "codigo": "3R 50 10 30 10 20 00 32 02",
+    "descricao": "Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+    "unidade": "h",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.76,
+    "bdi_percentual": 2.36,
+    "custo_sem_taxas": 10.88,
+    "custo_com_taxas": 26,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1,
+        "preco_unitario": 9.95,
+        "total": 9.95,
+        "consumo": 1
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 10",
+        "descricao": "Taxa de depreciação do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "%",
+        "classe": "EQD",
+        "coeficiente": 0.0095,
+        "preco_unitario": 6995.13,
+        "total": 0.664537,
+        "consumo": 0.0095
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 15",
+        "descricao": "Taxa de juros sobre capital do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "%",
+        "classe": "EQJ",
+        "coeficiente": 0.00345,
+        "preco_unitario": 6995.13,
+        "total": 0.241332,
+        "consumo": 0.00345
+      },
+      {
+        "codigo": "3R 50 10 30 10 20 00 32 20",
+        "descricao": "Taxa de seguro patrimonial do equipamento: Martelete rompedor pneumático, ponteira Ø 28-32 mm, peso 34 kg",
+        "unidade": "%",
+        "classe": "EQS",
+        "coeficiente": 0.0003,
+        "preco_unitario": 6995.13,
+        "total": 0.020985,
+        "consumo": 0.0003
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "rompedor pneumatico"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 18",
+    "descricao": "Corte em concreto de pisos e lajes, com discos diamantados, utilizando cortadora de piso espessura do corte 13 cm",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 0,
+    "bdi_percentual": 5.45,
+    "custo_sem_taxas": 54.54,
+    "custo_com_taxas": 59.99,
+    "insumos": [
+      {
+        "codigo": "3R 04 12 14 00 00 01 56 18",
+        "descricao": "Corte em concreto com discos diamantados para pisos e lajes profundidade de corte 13 cm",
+        "unidade": "m",
+        "classe": "SET",
+        "coeficiente": 1,
+        "preco_unitario": 54.54,
+        "total": 54.54,
+        "consumo": 1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 19",
+    "descricao": "Corte em concreto de pisos e lajes, com discos diamantados, utilizando cortadora de piso espessura do corte 20 cm",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 0,
+    "bdi_percentual": 14.34,
+    "custo_sem_taxas": 143.36,
+    "custo_com_taxas": 157.7,
+    "insumos": [
+      {
+        "codigo": "3R 04 12 14 00 00 01 56 19",
+        "descricao": "Corte em concreto com discos diamantados para pisos e lajes profundidade de corte 20 cm",
+        "unidade": "m",
+        "classe": "SET",
+        "coeficiente": 1,
+        "preco_unitario": 143.36,
+        "total": 143.36,
+        "consumo": 1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 20",
+    "descricao": "Corte em concreto de pisos e lajes, com discos diamantados, utilizando cortadora de piso espessura do corte 50 cm",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 0,
+    "bdi_percentual": 54.77,
+    "custo_sem_taxas": 547.7,
+    "custo_com_taxas": 602.47,
+    "insumos": [
+      {
+        "codigo": "3R 04 12 14 00 00 01 56 20",
+        "descricao": "Corte em concreto com discos diamantados para pisos e lajes profundidade de corte 50 cm",
+        "unidade": "m",
+        "classe": "SET",
+        "coeficiente": 1,
+        "preco_unitario": 547.7,
+        "total": 547.7,
+        "consumo": 1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 22",
+    "descricao": "Corte em concreto para estruturas, com fio diamantado",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 0,
+    "bdi_percentual": 438.66,
+    "custo_sem_taxas": 4386.61,
+    "custo_com_taxas": 4825.27,
+    "insumos": [
+      {
+        "codigo": "3R 04 12 14 00 00 01 56 22",
+        "descricao": "Corte em concreto com fio diamantada para estruturas de concreto",
+        "unidade": "m²",
+        "classe": "SET",
+        "coeficiente": 1,
+        "preco_unitario": 4386.61,
+        "total": 4386.61,
+        "consumo": 1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 21",
+    "descricao": "Corte em concreto para paredes e muros, com disco diamantado espessura do corte até 68 cm",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 0,
+    "bdi_percentual": 217.99,
+    "custo_sem_taxas": 2179.88,
+    "custo_com_taxas": 2397.87,
+    "insumos": [
+      {
+        "codigo": "3R 04 12 14 00 00 01 56 21",
+        "descricao": "Corte em concreto com discos diamantados para paredes e muros espessura até 68 cm",
+        "unidade": "m²",
+        "classe": "SET",
+        "coeficiente": 1,
+        "preco_unitario": 2179.88,
+        "total": 2179.88,
+        "consumo": 1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 23",
+    "descricao": "Corte em concreto para passagem de tubulação Ø 15 a 25 mm, com ferramentas manuais",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.18,
+    "bdi_percentual": 2.17,
+    "custo_sem_taxas": 9.5,
+    "custo_com_taxas": 23.85,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.25,
+        "preco_unitario": 12.12,
+        "total": 3.03,
+        "consumo": 0.25
+      },
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.65,
+        "preco_unitario": 9.95,
+        "total": 6.47,
+        "consumo": 0.65
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 24",
+    "descricao": "Corte em concreto para passagem de tubulação Ø 32 a 50 mm, com ferramentas manuais",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 18.98,
+    "bdi_percentual": 3.38,
+    "custo_sem_taxas": 14.8,
+    "custo_com_taxas": 37.16,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.4,
+        "preco_unitario": 12.12,
+        "total": 4.85,
+        "consumo": 0.4
+      },
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1,
+        "preco_unitario": 9.95,
+        "total": 9.95,
+        "consumo": 1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 25",
+    "descricao": "Corte em concreto para passagem de tubulação Ø 65 a 100 mm, com ferramentas manuais",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 26.92,
+    "bdi_percentual": 4.79,
+    "custo_sem_taxas": 20.99,
+    "custo_com_taxas": 52.7,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 29",
+        "descricao": "Pedreiro",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.5,
+        "preco_unitario": 12.12,
+        "total": 6.06,
+        "consumo": 0.5
+      },
+      {
+        "codigo": "2N 36 16 25 15 01",
+        "descricao": "Ajudante",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 1.5,
+        "preco_unitario": 9.95,
+        "total": 14.93,
+        "consumo": 1.5
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 10 61 10 00 00 00 10 26",
+    "descricao": "Corte em concreto para pisos e lajes, com discos diamantados, utilizando cortadora de piso, espessura de 5 cm",
+    "unidade": "m",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 0,
+    "bdi_percentual": 3.38,
+    "custo_sem_taxas": 33.77,
+    "custo_com_taxas": 37.15,
+    "insumos": [
+      {
+        "codigo": "3R 10 61 10 00 00 01 10 26",
+        "descricao": "Corte em concreto com discos diamantados para pisos e lajes profundidade de corte 5 cm",
+        "unidade": "m",
+        "classe": "SET",
+        "coeficiente": 1,
+        "preco_unitario": 33.77,
+        "total": 33.77,
+        "consumo": 1
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 53 11",
+    "descricao": "Escarificação manual, corte de concreto até 3 cm de profundidade",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 127.59,
+    "bdi_percentual": 22.71,
+    "custo_sem_taxas": 99.5,
+    "custo_com_taxas": 249.8,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 10,
+        "preco_unitario": 9.95,
+        "total": 99.5,
+        "consumo": 10
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 06",
+    "descricao": "Escarificação mecânica com disco de desbaste, corte de concreto até 0,5 cm de profundidade",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 6.39,
+    "bdi_percentual": 6.16,
+    "custo_sem_taxas": 55.26,
+    "custo_com_taxas": 67.81,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.5,
+        "preco_unitario": 9.95,
+        "total": 4.98,
+        "consumo": 0.5
+      },
+      {
+        "codigo": "2Q 50 10 32 13 05",
+        "descricao": "Disco de desbaste Ø 7\" x 1/4\"",
+        "unidade": "un",
+        "classe": "MAT",
+        "coeficiente": 0.26,
+        "preco_unitario": 20.3,
+        "total": 5.28,
+        "consumo": 0.26
+      },
+      {
+        "codigo": "2Q 50 10 30 20 13 60 01",
+        "descricao": "Lixadeira angular manual elétrica Ø 7\" 2200 W 6600 rpm",
+        "unidade": "loc/un/dia",
+        "classe": "EQL",
+        "coeficiente": 0.5,
+        "preco_unitario": 90,
+        "total": 45,
+        "consumo": 0.5
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 07",
+    "descricao": "Escarificação mecânica com rebarbador elétrico, corte de concreto até 3,0 cm de profundidade",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 31.9,
+    "bdi_percentual": 8.27,
+    "custo_sem_taxas": 50.83,
+    "custo_com_taxas": 91.01,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 2.5,
+        "preco_unitario": 9.95,
+        "total": 24.88,
+        "consumo": 2.5
+      },
+      {
+        "codigo": "2Q 50 10 30 20 13 60 02",
+        "descricao": "Rebarbador elétrico inclusive ponteiros",
+        "unidade": "loc/un/h",
+        "classe": "EQL",
+        "coeficiente": 5,
+        "preco_unitario": 5.19,
+        "total": 25.95,
+        "consumo": 5
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 04 12 14 00 00 00 56 08",
+    "descricao": "Escarificação mecânica com rebarbador elétrico, corte de concreto até 5 cm de profundidade",
+    "unidade": "m²",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 38.28,
+    "bdi_percentual": 9.93,
+    "custo_sem_taxas": 60.99,
+    "custo_com_taxas": 109.19,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 3,
+        "preco_unitario": 9.95,
+        "total": 29.85,
+        "consumo": 3
+      },
+      {
+        "codigo": "2Q 50 10 30 20 13 60 02",
+        "descricao": "Rebarbador elétrico inclusive ponteiros",
+        "unidade": "loc/un/h",
+        "classe": "EQL",
+        "coeficiente": 6,
+        "preco_unitario": 5.19,
+        "total": 31.14,
+        "consumo": 6
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "corte concreto"
+  },
+  {
+    "codigo": "3R 02 75 00 00 00 00 05 05",
+    "descricao": "Carga manual de entulho em caminhão basculante",
+    "unidade": "m³",
+    "regiao": "São Paulo",
+    "data_precos": "",
+    "ls_percentual": 12.91,
+    "bdi_percentual": 3.72,
+    "custo_sem_taxas": 24.27,
+    "custo_com_taxas": 40.9,
+    "insumos": [
+      {
+        "codigo": "2N 36 16 25 12 34",
+        "descricao": "Servente",
+        "unidade": "h",
+        "classe": "MOD",
+        "coeficiente": 0.72,
+        "preco_unitario": 9.95,
+        "total": 7.16,
+        "consumo": 0.72
+      },
+      {
+        "codigo": "3R 50 50 15 13 00 00 14 02",
+        "descricao": "Caminhão basculante 6 m³ 182 hp - 136 kW, 4 x 2",
+        "unidade": "h imp",
+        "classe": "EQI",
+        "coeficiente": 0.24,
+        "preco_unitario": 71.3,
+        "total": 17.11,
+        "consumo": 0.24
+      }
+    ],
+    "categoria": "03. Demolições",
+    "search_term": "carga entulho"
+  }
+]
