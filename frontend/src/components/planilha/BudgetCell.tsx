@@ -29,7 +29,7 @@ export function BudgetCell({
 }: BudgetCellProps) {
   const [editing, setEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
-  const [selectOnFocus, setSelectOnFocus] = useState(true);
+  const shouldSelectAll = useRef(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -38,16 +38,21 @@ export function BudgetCell({
   // Focus input when entering edit mode
   useEffect(() => {
     if (editing && inputRef.current) {
-      inputRef.current.focus();
-      if (selectOnFocus) {
-        inputRef.current.select();
-      } else {
-        // Move cursor to end (typed character already in editValue)
-        const len = inputRef.current.value.length;
-        inputRef.current.setSelectionRange(len, len);
-      }
+      const input = inputRef.current;
+      input.focus();
+      // Use rAF to ensure focus is settled before manipulating selection
+      requestAnimationFrame(() => {
+        if (!input) return;
+        if (shouldSelectAll.current) {
+          input.select();
+        } else {
+          // Cursor at end — user typed to start editing
+          const len = input.value.length;
+          input.setSelectionRange(len, len);
+        }
+      });
     }
-  }, [editing, selectOnFocus]);
+  }, [editing]);
 
   // Focus cell div when focused externally
   useEffect(() => {
@@ -76,9 +81,9 @@ export function BudgetCell({
 
   function startEditing() {
     if (isReadOnly) return;
-    setSelectOnFocus(true);
-    setEditing(true);
+    shouldSelectAll.current = true;
     setEditValue(value !== null && value !== undefined ? String(value) : "");
+    setEditing(true);
   }
 
   function commitValue() {
@@ -127,7 +132,7 @@ export function BudgetCell({
     // Any printable character starts editing (like Excel)
     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !isReadOnly) {
       e.preventDefault();
-      setSelectOnFocus(false);
+      shouldSelectAll.current = false;
       setEditValue(e.key);
       setEditing(true);
     }
@@ -135,7 +140,7 @@ export function BudgetCell({
     // Delete/Backspace clears the cell
     if ((e.key === "Delete" || e.key === "Backspace") && !isReadOnly) {
       e.preventDefault();
-      setSelectOnFocus(false);
+      shouldSelectAll.current = false;
       setEditValue("");
       setEditing(true);
     }
