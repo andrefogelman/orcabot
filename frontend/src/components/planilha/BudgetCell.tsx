@@ -29,6 +29,7 @@ export function BudgetCell({
 }: BudgetCellProps) {
   const [editing, setEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
+  const [selectOnFocus, setSelectOnFocus] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -38,9 +39,15 @@ export function BudgetCell({
   useEffect(() => {
     if (editing && inputRef.current) {
       inputRef.current.focus();
-      inputRef.current.select();
+      if (selectOnFocus) {
+        inputRef.current.select();
+      } else {
+        // Move cursor to end (typed character already in editValue)
+        const len = inputRef.current.value.length;
+        inputRef.current.setSelectionRange(len, len);
+      }
     }
-  }, [editing]);
+  }, [editing, selectOnFocus]);
 
   // Focus cell div when focused externally
   useEffect(() => {
@@ -69,6 +76,7 @@ export function BudgetCell({
 
   function startEditing() {
     if (isReadOnly) return;
+    setSelectOnFocus(true);
     setEditing(true);
     setEditValue(value !== null && value !== undefined ? String(value) : "");
   }
@@ -119,15 +127,17 @@ export function BudgetCell({
     // Any printable character starts editing (like Excel)
     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !isReadOnly) {
       e.preventDefault();
-      setEditing(true);
+      setSelectOnFocus(false);
       setEditValue(e.key);
+      setEditing(true);
     }
 
     // Delete/Backspace clears the cell
     if ((e.key === "Delete" || e.key === "Backspace") && !isReadOnly) {
       e.preventDefault();
-      setEditing(true);
+      setSelectOnFocus(false);
       setEditValue("");
+      setEditing(true);
     }
   }
 
