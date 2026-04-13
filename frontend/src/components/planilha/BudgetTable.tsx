@@ -377,7 +377,10 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
         }
       }
 
-      // 3) Push composite entry to undoStack
+      // 3) Invalidate cache to reflect renumbered items
+      queryClient.invalidateQueries({ queryKey: ["orcamento", projectId] });
+
+      // 4) Push composite entry to undoStack
       undoStack.push({
         type: "delete-with-renumber",
         projectId,
@@ -387,7 +390,7 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
 
       toast.success(`${toDelete.length} item(ns) excluído(s)`);
     },
-    [items, projectId, bulkDelete, undoStack]
+    [items, projectId, bulkDelete, undoStack, supabase, queryClient]
   );
 
   // ─── Context Menu ──────────────────────────────────────────────
