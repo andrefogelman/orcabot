@@ -47,7 +47,7 @@ export function NewProjectDialog() {
   const [areaM2, setAreaM2] = useState("");
   const [uf, setUf] = useState("SP");
   const [cidade, setCidade] = useState("");
-  const [admPadrao, setAdmPadrao] = useState("12");
+  const [admPadrao, setAdmPadrao] = useState("");
   const navigate = useNavigate();
   const createProject = useCreateProject();
   const { user } = useAuth();
@@ -82,7 +82,7 @@ export function NewProjectDialog() {
       bdi_percentual: null,
       status: "draft",
       premissas: {
-        adm_percentual_padrao: parseFloat(admPadrao),
+        adm_percentual_padrao: admPadrao ? parseFloat(admPadrao) : null,
       },
     });
 
@@ -96,7 +96,7 @@ export function NewProjectDialog() {
     setAreaM2("");
     setUf("SP");
     setCidade("");
-    setAdmPadrao("12");
+    setAdmPadrao("");
   }
 
   return (
@@ -178,14 +178,15 @@ export function NewProjectDialog() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="adm">Adm% Padrão</Label>
+              <Label htmlFor="adm">Adm% Padrão *</Label>
               <Input
                 id="adm"
                 type="number"
                 step="0.5"
                 value={admPadrao}
                 onChange={(e) => setAdmPadrao(e.target.value)}
-                placeholder="12"
+                placeholder="Ex: 13"
+                required
               />
             </div>
           </div>

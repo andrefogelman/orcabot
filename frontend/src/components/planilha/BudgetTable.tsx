@@ -20,6 +20,7 @@ import {
   useBulkCreateOrcamentoItems,
 } from "@/hooks/useOrcamento";
 import { useUndoStack } from "@/hooks/useUndoStack";
+import { useProjectContext } from "@/contexts/ProjectContext";
 import { exportBudgetToExcel } from "@/lib/excel-export";
 import { supabase } from "@/lib/supabase";
 import {
@@ -45,6 +46,8 @@ interface ContextMenuState {
 }
 
 export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
+  const { project } = useProjectContext();
+  const admPadrao = (project?.premissas as Record<string, unknown>)?.adm_percentual_padrao as number ?? 0;
   const { data: items, isLoading } = useOrcamentoItems(projectId);
   const updateItem = useUpdateOrcamentoItem();
   const createItem = useCreateOrcamentoItem();
@@ -375,7 +378,7 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
           custo_material: level === 1 ? null : 0,
           custo_mao_obra: level === 1 ? null : 0,
           custo_total: level === 1 ? null : 0,
-          adm_percentual: 12,
+          adm_percentual: admPadrao,
           peso_percentual: null,
           curva_abc_classe: null,
           quantitativo_id: null,
@@ -607,7 +610,7 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
         custo_material: item.eap_level === 1 ? null : 0,
         custo_mao_obra: item.eap_level === 1 ? null : 0,
         custo_total: item.eap_level === 1 ? null : 0,
-        adm_percentual: 12,
+        adm_percentual: admPadrao,
         peso_percentual: null,
         curva_abc_classe: null,
         quantitativo_id: item.quantitativo_id || null,
@@ -662,7 +665,7 @@ export function BudgetTable({ projectId, projectName }: BudgetTableProps) {
         custo_material: item.eap_level === 1 ? null : (item.custo_total ?? 0),
         custo_mao_obra: item.eap_level === 1 ? null : 0,
         custo_total: item.eap_level === 1 ? null : (item.custo_total ?? 0),
-        adm_percentual: 12,
+        adm_percentual: admPadrao,
         peso_percentual: null,
         curva_abc_classe: null,
         quantitativo_id: null,

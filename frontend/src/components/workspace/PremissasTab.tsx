@@ -20,7 +20,7 @@ export function PremissasTab() {
   const [areaM2, setAreaM2] = useState("");
   const [uf, setUf] = useState("");
   const [cidade, setCidade] = useState("");
-  const [admPadrao, setAdmPadrao] = useState("12");
+  const [admPadrao, setAdmPadrao] = useState("");
   const [dataBaseSinapi, setDataBaseSinapi] = useState("");
   const [bdiPercentual, setBdiPercentual] = useState("");
 
@@ -33,7 +33,7 @@ export function PremissasTab() {
       setUf(project.uf);
       setCidade(project.cidade ?? "");
       setAdmPadrao(
-        ((project.premissas as Record<string, unknown>)?.adm_percentual_padrao as number)?.toString() ?? "12"
+        ((project.premissas as Record<string, unknown>)?.adm_percentual_padrao as number)?.toString() ?? ""
       );
       setDataBaseSinapi(project.data_base_sinapi ?? "");
       setBdiPercentual(project.bdi_percentual?.toString() ?? "");
@@ -139,7 +139,7 @@ export function PremissasTab() {
                   onChange={(e) => setAdmPadrao(e.target.value)}
                 />
                 <p className="text-xs text-muted-foreground">
-                  12% padrão, 8% material fornecido, 5-6% admin
+                  Definir nas premissas de cada projeto
                 </p>
               </div>
               <div className="space-y-2">
